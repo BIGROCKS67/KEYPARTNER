@@ -13,6 +13,11 @@ function formatDate(iso) {
   return isNaN(d) ? null : d.toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' })
 }
 
+function stripHtml(html) {
+  if (!html) return ''
+  return html.replace(/<[^>]*>/g, '').replace(/&nbsp;/g, ' ').replace(/\s+/g, ' ').trim()
+}
+
 gsap.registerPlugin(ScrollTrigger)
 
 const JOBS_HERO_VIDEOS_DESKTOP = [
@@ -212,7 +217,7 @@ export function Jobs() {
                   </div>
                   <h3 className="job-listing-card__title">{j.title}</h3>
                   {j.description && (
-                    <p className="job-listing-card__desc">{j.description}</p>
+                    <p className="job-listing-card__desc">{stripHtml(j.description)}</p>
                   )}
                 </div>
                 <div className="job-listing-card__mid">

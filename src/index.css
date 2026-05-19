@@ -2137,12 +2137,16 @@ a.job-listing-card:hover {
 .job-desc-rendered { line-height: 1.8; color: var(--text-body); }
 .job-desc-rendered p { margin-bottom: 14px; font-size: 0.98rem; }
 .job-desc-rendered p:last-child { margin-bottom: 0; }
+.job-desc-rendered h2 { font-family: var(--font-display); font-size: 1.2rem; font-weight: 800; color: var(--text-primary); margin: 24px 0 10px; letter-spacing: -0.02em; }
+.job-desc-rendered h3 { font-family: var(--font-display); font-size: 1.05rem; font-weight: 700; color: var(--text-primary); margin: 20px 0 8px; }
 .job-desc-rendered strong { font-weight: 700; color: var(--green-900); }
 .job-desc-rendered em { font-style: italic; }
-.job-desc-rendered ul {
-  list-style: none; padding: 0; margin: 0 0 16px;
-  display: flex; flex-direction: column; gap: 8px;
+.job-desc-rendered u { text-decoration: underline; }
+.job-desc-rendered ul, .job-desc-rendered ol {
+  padding-left: 20px; margin: 0 0 16px;
+  display: flex; flex-direction: column; gap: 6px;
 }
+.job-desc-rendered ul { list-style: none; padding: 0; }
 .job-desc-rendered ul li {
   padding-left: 18px; position: relative; font-size: 0.96rem;
 }
@@ -2150,6 +2154,7 @@ a.job-listing-card:hover {
   content: '•'; position: absolute; left: 0;
   color: var(--brand-green); font-weight: 700;
 }
+.job-desc-rendered ol li { font-size: 0.96rem; }
 .job-desc-rendered br { display: block; margin-bottom: 6px; }
 
 /* Benefits list */
@@ -2258,19 +2263,62 @@ a.job-listing-card:hover {
   font-size: 0.72rem; font-weight: 700; text-transform: uppercase;
   letter-spacing: 0.1em; color: var(--text-muted); margin-bottom: 12px;
 }
-.admin-editor-desc {
-  width: 100%; height: 520px; min-height: 320px; max-height: 80vh;
+/* ── Rich Text Editor (WYSIWYG) ── */
+.rte-wrap {
   border: 1.5px solid var(--border);
-  border-radius: 0 0 8px 8px; border-top: none;
-  padding: 16px; font-family: 'Georgia', serif;
-  font-size: 0.96rem; line-height: 1.85; color: var(--text-body);
-  outline: none; resize: vertical;
-  overflow-y: scroll;
-  background: #fafafa;
+  border-radius: 8px;
+  overflow: hidden;
+  background: #fff;
   transition: border-color 0.2s;
-  box-sizing: border-box;
 }
-.admin-editor-desc:focus { border-color: var(--brand-green); background: #fff; }
+.rte-wrap:focus-within { border-color: var(--brand-green); }
+
+.rte-toolbar {
+  display: flex; align-items: center; gap: 2px; flex-wrap: wrap;
+  padding: 8px 10px;
+  background: var(--surface-muted);
+  border-bottom: 1px solid var(--border);
+}
+.rte-btn {
+  width: 32px; height: 32px; border-radius: 6px;
+  display: flex; align-items: center; justify-content: center;
+  background: none; border: 1px solid transparent;
+  color: var(--green-900); cursor: pointer;
+  transition: background 0.12s, border-color 0.12s;
+  font-family: inherit;
+}
+.rte-btn:hover { background: #fff; border-color: var(--border); }
+.rte-btn--on { background: var(--green-100); border-color: var(--brand-green); color: var(--brand-green); }
+.rte-divider {
+  width: 1px; height: 20px; background: var(--border);
+  margin: 0 4px; flex-shrink: 0;
+}
+
+.rte-body {
+  min-height: 480px; max-height: 75vh;
+  padding: 20px 24px;
+  font-family: 'Georgia', serif;
+  font-size: 1rem; line-height: 1.85; color: var(--text-body);
+  outline: none;
+  overflow-y: auto;
+  background: #fafafa;
+  cursor: text;
+}
+.rte-body:focus { background: #fff; }
+.rte-body[data-placeholder]:empty::before {
+  content: attr(data-placeholder);
+  color: rgba(0,0,0,0.3);
+  pointer-events: none;
+}
+/* Styles for content inside the WYSIWYG editor */
+.rte-body h2 { font-family: var(--font-display); font-size: 1.25rem; font-weight: 800; color: var(--text-primary); margin: 20px 0 8px; }
+.rte-body h3 { font-family: var(--font-display); font-size: 1.05rem; font-weight: 700; color: var(--text-primary); margin: 16px 0 6px; }
+.rte-body p { margin: 0 0 12px; }
+.rte-body ul, .rte-body ol { padding-left: 22px; margin: 8px 0 12px; }
+.rte-body li { margin-bottom: 5px; }
+.rte-body strong { font-weight: 700; color: var(--text-primary); }
+.rte-body em { font-style: italic; }
+
 
 /* Sidebar cards */
 .admin-editor-sidebar { display: flex; flex-direction: column; gap: 16px; }
@@ -2288,25 +2336,6 @@ a.job-listing-card:hover {
 
 @media (max-width: 860px) {
   .admin-editor-body { grid-template-columns: 1fr; }
-}
-
-/* ── Admin formatting toolbar ── */
-.af-desc-toolbar {
-  display: flex; align-items: center; gap: 4px;
-  padding: 6px 8px; background: var(--surface-muted);
-  border: 1.5px solid var(--border); border-bottom: none;
-  border-radius: 8px 8px 0 0;
-}
-.af-desc-toolbar + textarea { border-radius: 0 0 8px 8px !important; border-top: none !important; }
-.af-fmt-btn {
-  width: 28px; height: 28px; border-radius: 6px;
-  display: flex; align-items: center; justify-content: center;
-  background: none; border: 1px solid transparent;
-  color: var(--green-900); cursor: pointer; transition: background 0.15s;
-}
-.af-fmt-btn:hover { background: #fff; border-color: var(--border); }
-.af-fmt-hint {
-  margin-left: 8px; font-size: 0.72rem; color: var(--text-muted); opacity: 0.7;
 }
 
 /* ---- Specialism page ---- */

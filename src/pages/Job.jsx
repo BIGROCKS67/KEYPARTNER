@@ -11,6 +11,11 @@ gsap.registerPlugin(ScrollTrigger)
 const JOB_HERO_VIDEO = 'https://assets.mixkit.co/videos/6779/6779-720.mp4'
 
 /* ── description renderer ── */
+// Detect whether description is HTML (from new WYSIWYG editor) or legacy plain text
+function isHtml(str) {
+  return str && /<[a-z][\s\S]*>/i.test(str)
+}
+
 function parseInline(text) {
   const parts = []
   const regex = /(\*\*(.+?)\*\*)|(\*(.+?)\*)/g
@@ -27,6 +32,11 @@ function parseInline(text) {
 
 function renderDesc(text) {
   if (!text) return null
+  // New jobs: render HTML from WYSIWYG editor
+  if (isHtml(text)) {
+    return <div dangerouslySetInnerHTML={{ __html: text }} />
+  }
+  // Legacy: parse markdown-style plain text
   const lines = text.split('\n')
   const result = []
   let bullets = []

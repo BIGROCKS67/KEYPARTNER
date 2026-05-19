@@ -1,5 +1,5 @@
-import { useState, useEffect, useRef } from 'react'
-import { Plus, Edit2, Trash2, Eye, EyeOff, X, Check, LogOut, MapPin, ChevronLeft, Bold, Italic, List, Save } from 'lucide-react'
+import { useState, useEffect, useRef, useCallback } from 'react'
+import { Plus, Edit2, Trash2, Eye, EyeOff, X, Check, LogOut, MapPin, ChevronLeft, Bold, Italic, List, ListOrdered, Save, Type, Heading2 } from 'lucide-react'
 import { supabase } from '../lib/supabase'
 
 const base = import.meta.env.BASE_URL
@@ -20,32 +20,98 @@ function formatDate(iso) {
   return new Date(iso).toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' })
 }
 
+/* ── WYSIWYG Rich Text Editor ── */
+function RichTextEditor({ value, onChange }) {
+  const editorRef = useRef(null)
+  const suppressSync = useRef(false)
+
+  // Populate editor when value changes externally (e.g. opening a saved job)
+  useEffect(() => {
+    const el = editorRef.current
+    if (!el || suppressSync.current) return
+    if (el.innerHTML !== (value || '')) {
+      el.innerHTML = value || ''
+    }
+  }, [value])
+
+  const exec = useCallback((cmd, arg = null) => {
+    editorRef.current?.focus()
+    document.execCommand(cmd, false, arg)
+    suppressSync.current = true
+    onChange(editorRef.current.innerHTML)
+    setTimeout(() => { suppressSync.current = false }, 0)
+  }, [onChange])
+
+  const handleInput = () => {
+    suppressSync.current = true
+    onChange(editorRef.current.innerHTML)
+    setTimeout(() => { suppressSync.current = false }, 0)
+  }
+
+  const isActive = (cmd) => {
+    try { return document.queryCommandState(cmd) } catch { return false }
+  }
+
+  return (
+    <div className="rte-wrap">
+      <div className="rte-toolbar">
+        <button type="button" className={`rte-btn${isActive('bold') ? ' rte-btn--on' : ''}`} onMouseDown={e => { e.preventDefault(); exec('bold') }} title="Bold">
+          <Bold size={14} />
+        </button>
+        <button type="button" className={`rte-btn${isActive('italic') ? ' rte-btn--on' : ''}`} onMouseDown={e => { e.preventDefault(); exec('italic') }} title="Italic">
+          <Italic size={14} />
+        </button>
+        <button type="button" className={`rte-btn${isActive('underline') ? ' rte-btn--on' : ''}`} onMouseDown={e => { e.preventDefault(); exec('underline') }} title="Underline">
+          <span style={{ fontWeight: 600, fontSize: 13, textDecoration: 'underline', lineHeight: 1 }}>U</span>
+        </button>
+
+        <div className="rte-divider" />
+
+        <button type="button" className="rte-btn" onMouseDown={e => { e.preventDefault(); exec('formatBlock', 'h2') }} title="Heading">
+          <Heading2 size={14} />
+        </button>
+        <button type="button" className="rte-btn" onMouseDown={e => { e.preventDefault(); exec('formatBlock', 'h3') }} title="Sub-heading">
+          <span style={{ fontWeight: 700, fontSize: 11, lineHeight: 1 }}>H3</span>
+        </button>
+        <button type="button" className="rte-btn" onMouseDown={e => { e.preventDefault(); exec('formatBlock', 'p') }} title="Normal text">
+          <Type size={14} />
+        </button>
+
+        <div className="rte-divider" />
+
+        <button type="button" className="rte-btn" onMouseDown={e => { e.preventDefault(); exec('insertUnorderedList') }} title="Bullet list">
+          <List size={14} />
+        </button>
+        <button type="button" className="rte-btn" onMouseDown={e => { e.preventDefault(); exec('insertOrderedList') }} title="Numbered list">
+          <ListOrdered size={14} />
+        </button>
+
+        <div className="rte-divider" />
+
+        <button type="button" className="rte-btn" onMouseDown={e => { e.preventDefault(); exec('removeFormat') }} title="Clear formatting">
+          <span style={{ fontSize: 11, fontWeight: 600, lineHeight: 1 }}>Tx</span>
+        </button>
+      </div>
+
+      <div
+        ref={editorRef}
+        contentEditable
+        suppressContentEditableWarning
+        onInput={handleInput}
+        onKeyDown={e => {
+          // Ctrl/Cmd+B = bold, Ctrl/Cmd+I = italic
+          if ((e.ctrlKey || e.metaKey) && e.key === 'b') { e.preventDefault(); exec('bold') }
+          if ((e.ctrlKey || e.metaKey) && e.key === 'i') { e.preventDefault(); exec('italic') }
+        }}
+        className="rte-body"
+        data-placeholder="Write the full job description here…"
+      />
+    </div>
+  )
+}
+
 /* ── Full-page document editor ── */
 function JobEditor({ form, setForm, editing, saving, saveErr, onSave, onCancel }) {
-  const descRef = useRef(null)
-
-  const wrapDesc = (marker) => {
-    const el = descRef.current
-    if (!el) return
-    const s = el.selectionStart, e = el.selectionEnd
-    const selected = form.description.slice(s, e) || 'text'
-    const next = form.description.slice(0, s) + marker + selected + marker + form.description.slice(e)
-    setForm(f => ({ ...f, description: next }))
-    setTimeout(() => { el.focus(); el.setSelectionRange(s + marker.length, s + marker.length + selected.length) }, 0)
-  }
-
-  const insertBullet = () => {
-    const el = descRef.current
-    if (!el) return
-    const s = el.selectionStart
-    const before = form.description.slice(0, s)
-    const after = form.description.slice(s)
-    const prefix = before.length === 0 || before.endsWith('\n') ? '• ' : '\n• '
-    const next = before + prefix + after
-    setForm(f => ({ ...f, description: next }))
-    setTimeout(() => { el.focus(); el.setSelectionRange(s + prefix.length, s + prefix.length) }, 0)
-  }
-
   const setBenefit = (i, val) => {
     const b = [...form.benefits]; b[i] = val
     setForm(f => ({ ...f, benefits: b }))
@@ -89,21 +155,12 @@ function JobEditor({ form, setForm, editing, saving, saveErr, onSave, onCancel }
             />
           </div>
 
-          {/* Description */}
+          {/* Description — WYSIWYG */}
           <div className="admin-editor-section">
             <div className="admin-editor-section__label">Job Description</div>
-            <div className="af-desc-toolbar">
-              <button type="button" className="af-fmt-btn" onClick={() => wrapDesc('**')} title="Bold"><Bold size={13} /></button>
-              <button type="button" className="af-fmt-btn" onClick={() => wrapDesc('*')} title="Italic"><Italic size={13} /></button>
-              <button type="button" className="af-fmt-btn" onClick={insertBullet} title="Bullet"><List size={13} /></button>
-              <span className="af-fmt-hint">Select text → Bold / Italic · or insert bullet</span>
-            </div>
-            <textarea
-              ref={descRef}
-              className="admin-editor-desc"
+            <RichTextEditor
               value={form.description}
-              onChange={e => setForm(f => ({ ...f, description: e.target.value }))}
-              placeholder="Write the full job description here. Use • for bullet points, **bold**, *italic*..."
+              onChange={val => setForm(f => ({ ...f, description: val }))}
             />
           </div>
         </div>
