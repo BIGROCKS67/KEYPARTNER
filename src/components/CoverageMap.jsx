@@ -118,7 +118,7 @@ export function CoverageMap() {
 
           <g style={{ userSelect: 'none' }}>
             <path
-              d="M -14 0 L 8 -5 L 12 0 L 8 5 Z M -6 -9 L 2 0 L -6 9 L -5 0 Z M -12 -5 L -7 0 L -12 5 L -11 0 Z"
+              d="M 12 0 L 4 -3 L -2 -10 L -5 -2 L -9 -3 L -11 -1 L -9 0 L -11 1 L -9 3 L -5 2 L -2 10 L 4 3 Z"
               fill="#fff"
               stroke="rgba(255,255,255,0.3)"
               strokeWidth="0.5"
