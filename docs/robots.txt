@@ -1,0 +1,7 @@
+# Search engines and AI search assistants are welcome.
+User-agent: *
+Allow: /
+Disallow: /admin
+Disallow: /applied
+
+Sitemap: https://ourkeypartnership.co.uk/sitemap.xml
