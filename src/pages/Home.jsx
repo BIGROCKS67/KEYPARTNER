@@ -29,15 +29,19 @@ const CYCLE_WORDS = ['Relationships', 'Trust', 'Experience', 'Success']
 
 function CyclingText() {
   const [wordIdx, setWordIdx] = useState(0)
-  const [displayed, setDisplayed] = useState('')
-  const [phase, setPhase] = useState('typing')
+  // Starts with the first word already written, so the headline arrives
+  // whole while it fades in; cycling begins once it has settled.
+  const [displayed, setDisplayed] = useState(CYCLE_WORDS[0])
+  const [phase, setPhase] = useState('intro')
 
   useEffect(() => {
     // Reduced motion: the first word stays put (shown by the hidden text below).
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return
     const word = CYCLE_WORDS[wordIdx]
     let t
-    if (phase === 'typing') {
+    if (phase === 'intro') {
+      t = setTimeout(() => setPhase('deleting'), 3200)
+    } else if (phase === 'typing') {
       if (displayed.length < word.length) {
         t = setTimeout(() => setDisplayed(word.slice(0, displayed.length + 1)), 80)
       } else {

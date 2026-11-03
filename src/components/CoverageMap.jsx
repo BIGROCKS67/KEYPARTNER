@@ -1,4 +1,5 @@
-import { ComposableMap, Geographies, Geography, Marker, Line } from 'react-simple-maps'
+import { useEffect, useRef } from 'react'
+import { ComposableMap, Geographies, Geography, Marker } from 'react-simple-maps'
 import { geoNaturalEarth1 } from 'd3-geo'
 
 const GEO_URL = 'https://cdn.jsdelivr.net/npm/world-atlas@2/countries-110m.json'
@@ -25,13 +26,6 @@ const MARKERS = [
   { name: 'Auckland',  coordinates: [174.8, -36.9],  label: 'Auckland',       anchor: 'start',  dy: -13 },
 ]
 
-const FLIGHT_PATHS = [
-  { from: [-1.5,  52.5], to: [55.3,  25.2] },
-  { from: [55.3,  25.2], to: [103.8,  1.3] },
-  { from: [103.8,  1.3], to: [151.2, -33.9] },
-  { from: [151.2, -33.9],to: [174.8, -36.9] },
-]
-
 const proj = geoNaturalEarth1()
   .scale(PROJ_SCALE)
   .center(PROJ_CENTER)
@@ -49,7 +43,52 @@ for (let i = 1; i < pts.length; i++) {
   PLANE_PATH += ` C ${cpx},${p.y} ${cpx},${c.y} ${c.x},${c.y}`
 }
 
+const PLANE_SHAPE = 'M 12 0 L 4 -3 L -2 -10 L -5 -2 L -9 -3 L -11 -1 L -9 0 L -11 1 L -9 3 L -5 2 L -2 10 L 4 3 Z'
+const FLIGHT_MS = 9000
+const easeInOut = (t) => (t < 0.5 ? 2 * t * t : 1 - Math.pow(-2 * t + 2, 2) / 2)
+
+// Flies the plane along the same path the dashed route is drawn on, using
+// getPointAtLength so it behaves the same in every browser (Safari included).
+function usePlane(routeRef, planeRef) {
+  useEffect(() => {
+    const route = routeRef.current
+    const plane = planeRef.current
+    if (!route || !plane) return
+    const len = route.getTotalLength()
+    const place = (d, alpha) => {
+      const p = route.getPointAtLength(d)
+      const q = route.getPointAtLength(Math.min(d + 1, len))
+      const back = route.getPointAtLength(Math.max(d - 1, 0))
+      const angle = Math.atan2(q.y - back.y, q.x - back.x) * 180 / Math.PI
+      plane.setAttribute('transform', `translate(${p.x.toFixed(2)} ${p.y.toFixed(2)}) rotate(${angle.toFixed(1)}) scale(0.85)`)
+      plane.style.opacity = alpha
+    }
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) { place(0, 1); return }
+
+    let frame = 0, start = 0, visible = false
+    const tick = (now) => {
+      if (!start) start = now
+      const t = ((now - start) % FLIGHT_MS) / FLIGHT_MS
+      // fade in at take-off and out on landing
+      const alpha = Math.min(1, t / 0.05, (1 - t) / 0.05)
+      place(easeInOut(t) * len, alpha.toFixed(3))
+      if (visible) frame = requestAnimationFrame(tick)
+    }
+    const io = new IntersectionObserver(([e]) => {
+      visible = e.isIntersecting
+      cancelAnimationFrame(frame)
+      if (visible) frame = requestAnimationFrame(tick)
+    })
+    io.observe(route)
+    return () => { io.disconnect(); cancelAnimationFrame(frame) }
+  }, [routeRef, planeRef])
+}
+
 export function CoverageMap() {
+  const routeRef = useRef(null)
+  const planeRef = useRef(null)
+  usePlane(routeRef, planeRef)
+
   return (
     <section className="coverage-section">
       <div className="coverage-video-bg" aria-hidden>
@@ -98,35 +137,28 @@ export function CoverageMap() {
             }
           </Geographies>
 
-          {FLIGHT_PATHS.map(({ from, to }, i) => (
-            <Line
-              key={i}
-              from={from}
-              to={to}
-              stroke="rgba(93,198,138,0.55)"
-              strokeWidth={1.4}
-              strokeDasharray="5 4"
-              strokeLinecap="round"
-              className="coverage-arc"
-              style={{ animationDelay: `${i * 0.4}s` }}
-            />
-          ))}
+          {/* One path for both the dashed route and the plane's flight */}
+          <path
+            ref={routeRef}
+            d={PLANE_PATH}
+            fill="none"
+            stroke="rgba(93,198,138,0.55)"
+            strokeWidth={1.4}
+            strokeDasharray="5 4"
+            strokeLinecap="round"
+            className="coverage-arc"
+          />
 
-          <defs>
-            <path id="planePath" d={PLANE_PATH} />
-          </defs>
-
-          <g style={{ userSelect: 'none' }}>
-            <path
-              d="M 12 0 L 4 -3 L -2 -10 L -5 -2 L -9 -3 L -11 -1 L -9 0 L -11 1 L -9 3 L -5 2 L -2 10 L 4 3 Z"
-              fill="#fff"
-              stroke="rgba(255,255,255,0.3)"
-              strokeWidth="0.5"
-            />
-            <animateMotion dur="9s" repeatCount="indefinite" rotate="auto">
-              <mpath href="#planePath" />
-            </animateMotion>
-          </g>
+          <path
+            ref={planeRef}
+            d={PLANE_SHAPE}
+            fill="#fff"
+            stroke="rgba(10,46,26,0.6)"
+            strokeWidth="0.6"
+            className="coverage-plane"
+            transform={`translate(${pts[0].x} ${pts[0].y}) scale(0.85)`}
+            style={{ opacity: 0 }}
+          />
 
           {MARKERS.map(({ name, coordinates, label, anchor, dy }) => (
             <Marker key={name} coordinates={coordinates}>
