@@ -5,6 +5,9 @@ import { ArrowRight, MapPin, Calendar, Briefcase, Mail, Check, Banknote, Search,
 import { Link } from 'react-router-dom'
 import { HeroSpotlight } from '../components/HeroSpotlight'
 import { HeroWords } from '../components/HeroWords'
+import { HeroVideo } from '../components/HeroVideo'
+
+const JOBS_CTA_VIDEO = 'https://assets.mixkit.co/videos/49470/49470-720.mp4'
 import { useJobs } from '../data/jobs-context'
 import { formatDate as fmtDate, plainText } from '../lib/jobs'
 import { JobCardSkeleton } from '../components/Skeleton'
@@ -199,6 +202,7 @@ export function Jobs() {
 
       {/* ── BOTTOM CTA ── */}
       <section className="jobs-cta-section">
+        <HeroVideo src={JOBS_CTA_VIDEO} preload="none" className="jobs-cta-video-bg" vidClass="jobs-cta-vid" overlayClass="jobs-cta-overlay" />
         <div className="container jobs-cta-content">
           <p className="eyebrow jobs-cta-eyebrow" data-reveal>Don't see your role?</p>
           <h2 className="jobs-cta-title" data-reveal>

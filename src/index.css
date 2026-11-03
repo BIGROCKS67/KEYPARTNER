@@ -3180,3 +3180,6 @@ input:focus-visible, select:focus-visible, textarea:focus-visible { outline: 2px
 .jobs-cta-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 12px 22px; }
 .jobs-cta-call { color: rgba(255,255,255,0.8); font-weight: 600; text-decoration: underline; text-underline-offset: 4px; text-decoration-color: rgba(255,255,255,0.3); }
 .jobs-cta-call:hover { color: #fff; }
+
+/* Contact content sits above the background video */
+.contact-strip .talk { z-index: 1; }

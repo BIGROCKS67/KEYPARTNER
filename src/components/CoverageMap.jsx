@@ -1,6 +1,9 @@
 import { useEffect, useRef } from 'react'
 import { ComposableMap, Geographies, Geography, Marker } from 'react-simple-maps'
 import { geoNaturalEarth1 } from 'd3-geo'
+import { HeroVideo } from './HeroVideo'
+
+const MAP_VIDEO = 'https://assets.mixkit.co/videos/49878/49878-720.mp4'
 
 const GEO_URL = 'https://cdn.jsdelivr.net/npm/world-atlas@2/countries-110m.json'
 
@@ -90,6 +93,7 @@ export function CoverageMap() {
 
   return (
     <section className="coverage-section">
+      <HeroVideo src={MAP_VIDEO} preload="none" className="coverage-video-bg" vidClass="coverage-video-bg__vid" overlayClass="coverage-video-bg__overlay" />
 
       <div className="container coverage-header">
         <div className="section-divider white" data-reveal />

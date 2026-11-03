@@ -12,6 +12,7 @@ import { shortLocation, formatDate } from '../lib/jobs'
 import { HeroWords } from '../components/HeroWords'
 import { HeroSpotlight } from '../components/HeroSpotlight'
 import { TalkToMatt } from '../components/TalkToMatt'
+import { HeroVideo } from '../components/HeroVideo'
 import { testimonials } from '../data/content'
 import { CountUp } from '../components/CountUp'
 import { SkeletonLine } from '../components/Skeleton'
@@ -20,6 +21,11 @@ gsap.registerPlugin(ScrollTrigger)
 
 
 const CYCLE_WORDS = ['Relationships', 'Trust', 'Experience', 'Success']
+
+// Mixkit stock footage behind the lower green sections (Matt likes them)
+const VIDEO_BREAK_SRC = 'https://assets.mixkit.co/videos/46078/46078-720.mp4'
+const EXCEL_VIDEO_SRC = 'https://assets.mixkit.co/videos/11001/11001-720.mp4'
+const CONTACT_VIDEO_SRC = 'https://assets.mixkit.co/videos/15795/15795-720.mp4'
 
 // One client's own account, given the whole band. Trimmed with an ellipsis, words unchanged.
 const PROOF = testimonials.clients.find(t => t.company === 'Hospitality Tech Business')
@@ -259,6 +265,7 @@ export function Home() {
       {/* ── 3. VIDEO BREAK ── */}
       <div className="stack-card" style={{zIndex: 3}}>
         <section className="video-break" aria-label="Our approach">
+          <HeroVideo src={VIDEO_BREAK_SRC} preload="none" className="video-break__media" vidClass="video-break__vid" overlayClass="video-break__overlay" />
           <div className="container video-break__content">
             <h2 className="video-break__heading" data-reveal>
               Recruitment done<br />the <em>right way.</em>
@@ -303,6 +310,7 @@ export function Home() {
       {/* ── 5. WHERE WE EXCEL ── */}
       <div className="stack-card" style={{zIndex: 5}}>
         <section className="excel-section">
+          <HeroVideo src={EXCEL_VIDEO_SRC} preload="none" className="excel-video-bg" vidClass="excel-video-bg__vid" overlayClass="excel-video-bg__overlay" />
           <div className="container">
             <div className="section-divider white" data-reveal />
             <p className="eyebrow excel-eyebrow" data-reveal>Specialisms</p>
@@ -382,6 +390,7 @@ export function Home() {
       {/* ── CTA / CONTACT ── */}
       <div className="stack-card" style={{zIndex: 9}} id="contact">
         <section className="contact-strip">
+          <HeroVideo src={CONTACT_VIDEO_SRC} preload="none" className="contact-video-bg" vidClass="contact-video-bg__vid" overlayClass="contact-video-bg__overlay" />
           <TalkToMatt
             eyebrow="Get in touch"
             title="Talk to Matt."
