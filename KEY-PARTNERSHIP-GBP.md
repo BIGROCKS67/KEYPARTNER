@@ -14,6 +14,14 @@ Keep these **identical** everywhere (site, Google, Bing, Apple, LinkedIn, direct
 
 ---
 
+## Done on the profile (3 Nov 2026, Jack's OK)
+
+- **Categories:** added Employment consultant and Executive search firm (Recruiter stays primary). Live. The UK list has **no** "Employment agency" category.
+- **Description:** Matt's text kept; "based in Stony Stratford, Milton Keynes," added into "We are network-driven, relationship-focused recruiters ... operating mostly within the Technology Sector." Live.
+- **Services:** added Technology recruitment, Data and AI recruitment, Commercial recruitment for tech businesses, Retained and fixed-fee recruitment, Contingent recruitment. Descriptions (from the site's own copy) on those five plus Software Recruitment, IT Specialist Recruitment and Business Intelligence & Data.
+- **Not done:** opening date. Google asks for the date he opened *at this address*; we only know the company date (10 July 2020). Ask Matt.
+- **Flag for Matt:** Google itself added 9 services from "user feedback" (Business Intelligence & Data, Data Visualisation, Fixed Term Contract, Front End Development, Onsite Support, Partnership Recruitment, Practice Interviews, Software Recruitment, Technology Support). Left in place. Matt to say if any (Onsite Support, Technology Support, Practice Interviews?) aren't things he offers.
+
 ## Where it stands (3 Nov 2026)
 
 **Google profile already exists and is verified.** Jack is manager (business.google.com, profile id `17920806411130684495`, editor at `https://www.google.com/local/business/17920806411130684495/editprofile/info`). Read 3 Nov 2026:
@@ -49,7 +57,7 @@ Keep these **identical** everywhere (site, Google, Bing, Apple, LinkedIn, direct
 
 ## Profile edits, ready to paste
 
-**Categories.** Keep **Recruiter** as primary. Add (check each exists in the UK list as you type): Employment agency, Executive search firm, Employment consultant. Nothing else fits honestly.
+**Categories.** Keep **Recruiter** as primary. Added Employment consultant and Executive search firm (done 3 Nov). No "Employment agency" in the UK list.
 
 **Service area.** Keep the office address showing. Add: Milton Keynes, Northampton, Bedford, Buckingham, Oxford, and United Kingdom. *CONFIRM with Matt which towns his clients and candidates really are in.*
 
@@ -63,7 +71,7 @@ Full rewrite kept as a fallback if Matt wants one (697 characters, from site cop
 
 > Key Partnership Recruitment is a tech recruitment agency in Stony Stratford, Milton Keynes, founded by Matt Stimpson. We recruit for technology businesses across Technology, Data & AI and Commercial roles, from graduate level through to CTO, in the UK and internationally, including the UAE, Australia and New Zealand. We work with a select group of clients on contingent, retained and fixed-fee terms. Most of our time is spent headhunting: identifying and engaging the right people, not just the available ones. Clients can expect three candidates per role and CVs within seven days. Candidates get regular contact and interview preparation, with consistent, honest communication at every stage.
 
-**Opening date:** 10 July 2020 (incorporation date, shown in the site footer).
+**Opening date:** ask Matt when he opened at 76 High Street (company date is 10 July 2020).
 
 **Services.** Keep his 12. Add the ones missing (Technology recruitment, Data and AI recruitment, Commercial recruitment for tech businesses, Retained and fixed-fee recruitment, Contingent recruitment) and put descriptions on the main ones, all from the site:
 
@@ -114,7 +122,9 @@ Never delete his existing 3 photos without his say-so.
 > 1. Thanks for the access, I'm in.
 > 2. Which towns your clients and candidates are mostly in (I've put Milton Keynes, Northampton, Bedford, Buckingham, Oxford and UK-wide).
 > 3. 4 to 6 photos: you at your desk, the office front, inside the office, you with a client or candidate if they're happy.
-> 4. I'm keeping your description and just adding "based in Stony Stratford, Milton Keynes" so Google ties you to the area. Shout if you'd rather I didn't.
+> 4. I've kept your description and just added "based in Stony Stratford, Milton Keynes" so Google ties you to the area, added two more categories (Employment consultant, Executive search firm) and some services with descriptions from your site.
+> 5. When did you move into the Stony Stratford office? Google wants an opening date for that address.
+> 6. Google added some services itself: Onsite Support, Technology Support, Practice Interviews, Front End Development, Data Visualisation, Fixed Term Contract. Any you don't do, tell me and I'll take them off.
 >
 > Once the new site is live I'll get it into Google Search Console and Bing so the job pages start showing in Google, then sort the profile, and give you a review link to send to clients and candidates you've placed recently.
 
@@ -122,10 +132,11 @@ Never delete his existing 3 photos without his say-so.
 
 ## CONFIRM list for Matt
 
-1. Adding the town to his description.
+1. The town added to his description (done; reverse if he objects).
 2. Service-area towns.
-3. Categories: Employment agency, Executive search firm, Employment consultant.
-4. The favicon on the new site is a "KP" monogram, not his head-profile mark. Google shows the favicon beside the name in results. Send the logo file if he wants the real mark.
+3. Opening date at 76 High Street.
+4. Google's auto-added services.
+5. The favicon on the new site is a "KP" monogram, not his head-profile mark. Google shows the favicon beside the name in results. Send the logo file if he wants the real mark.
 
 ## Monthly check
 
