@@ -3,20 +3,10 @@ import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import { ArrowRight, MapPin, Calendar, Briefcase, Mail, Check, Banknote, Search, X } from 'lucide-react'
 import { Link } from 'react-router-dom'
-import { jobs as hardcodedJobs } from '../data/content'
-import { supabase } from '../lib/supabase'
+import { useJobs } from '../data/jobs-context'
+import { formatDate as fmtDate, plainText } from '../lib/jobs'
+import { JobCardSkeleton } from '../components/Skeleton'
 import { useIsMobile } from '../hooks/useIsMobile'
-
-function formatDate(iso) {
-  if (!iso) return null
-  const d = new Date(iso)
-  return isNaN(d) ? null : d.toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' })
-}
-
-function stripHtml(html) {
-  if (!html) return ''
-  return html.replace(/<[^>]*>/g, '').replace(/&nbsp;/g, ' ').replace(/\s+/g, ' ').trim()
-}
 
 gsap.registerPlugin(ScrollTrigger)
 
@@ -39,7 +29,6 @@ export function Jobs() {
   const isMobile = useIsMobile()
   const JOBS_HERO_VIDEOS = isMobile ? JOBS_HERO_VIDEOS_MOBILE : JOBS_HERO_VIDEOS_DESKTOP
   const [activeVid, setActiveVid] = useState(0)
-  const [liveJobs, setLiveJobs] = useState(null)
   const [search, setSearch] = useState('')
   const [filterLocation, setFilterLocation] = useState('')
   const [filterType, setFilterType] = useState('')
@@ -49,17 +38,7 @@ export function Jobs() {
     return () => clearInterval(id)
   }, [JOBS_HERO_VIDEOS.length])
 
-  useEffect(() => {
-    if (!supabase) return
-    supabase
-      .from('jobs')
-      .select('*')
-      .eq('is_active', true)
-      .order('created_at', { ascending: false })
-      .then(({ data }) => { if (data) setLiveJobs(data) })
-  }, [])
-
-  const displayJobs = liveJobs ?? hardcodedJobs
+  const { jobs: displayJobs, fresh } = useJobs()
 
   const locations = useMemo(() => {
     const raw = displayJobs.map(j => j.location).filter(Boolean)
@@ -161,7 +140,9 @@ export function Jobs() {
               <div className="jobs-filter-search">
                 <Search size={15} className="jobs-filter-search-icon" />
                 <input
-                  type="text"
+                  type="search"
+                  aria-label="Search roles"
+                  enterKeyHint="search"
                   placeholder="Search roles, skills, keywords…"
                   value={search}
                   onChange={e => setSearch(e.target.value)}
@@ -175,6 +156,7 @@ export function Jobs() {
               </div>
               <select
                 className="jobs-filter-select"
+                aria-label="Filter by location"
                 value={filterLocation}
                 onChange={e => setFilterLocation(e.target.value)}
               >
@@ -183,6 +165,7 @@ export function Jobs() {
               </select>
               <select
                 className="jobs-filter-select"
+                aria-label="Filter by work type"
                 value={filterType}
                 onChange={e => setFilterType(e.target.value)}
               >
@@ -200,12 +183,13 @@ export function Jobs() {
           <div className="jobs-list">
             {filteredJobs.length === 0 && displayJobs.length > 0 && (
               <div className="jobs-empty" data-reveal>
-                <p>No roles match your filters — <button className="jobs-filter-reset" onClick={() => { setSearch(''); setFilterLocation(''); setFilterType('') }}>clear filters</button> to see all.</p>
+                <p>No roles match your filters. <button className="jobs-filter-reset" onClick={() => { setSearch(''); setFilterLocation(''); setFilterType('') }}>clear filters</button> to see all.</p>
               </div>
             )}
-            {displayJobs.length === 0 && (
+            {displayJobs.length === 0 && !fresh && [0, 1, 2].map(i => <JobCardSkeleton key={i} />)}
+            {displayJobs.length === 0 && fresh && (
               <div className="jobs-empty" data-reveal>
-                <p>No roles live right now — check back soon, or <a href="mailto:info@ourkeypartnership.co.uk?subject=CV Submission">submit your CV</a> for future opportunities.</p>
+                <p>No roles live right now. Check back soon, or <a href="mailto:info@ourkeypartnership.co.uk?subject=CV Submission">submit your CV</a> for future opportunities.</p>
               </div>
             )}
             {filteredJobs.map(j => (
@@ -217,14 +201,14 @@ export function Jobs() {
                   </div>
                   <h3 className="job-listing-card__title">{j.title}</h3>
                   {j.description && (
-                    <p className="job-listing-card__desc">{stripHtml(j.description)}</p>
+                    <p className="job-listing-card__desc">{plainText(j.description, 220)}</p>
                   )}
                 </div>
                 <div className="job-listing-card__mid">
                   <div className="job-listing-card__meta">
                     {j.location && <span><MapPin size={13} />{j.location}</span>}
-                    {j.salary && <span><Banknote size={13} />{j.salary}</span>}
-                    <span><Calendar size={13} />{j.posted ?? formatDate(j.created_at)}</span>
+                    {j.salary && <span className="tnum"><Banknote size={13} aria-hidden />{j.salary}</span>}
+                    <span><Calendar size={13} aria-hidden />{fmtDate(j.created_at, { day: 'numeric', month: 'short', year: 'numeric' })}</span>
                   </div>
                   {j.benefits?.filter(Boolean).length > 0 && (
                     <div className="job-listing-card__benefits">
@@ -236,7 +220,7 @@ export function Jobs() {
                 </div>
                 <div className="job-listing-card__apply-row">
                   <span className="btn btn-green job-listing-card__apply">
-                    View & Apply <ArrowRight size={14} />
+                    View and apply <ArrowRight size={14} />
                   </span>
                 </div>
               </Link>

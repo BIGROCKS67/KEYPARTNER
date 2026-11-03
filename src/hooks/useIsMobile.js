@@ -1,14 +1,16 @@
-import { useState, useEffect } from 'react'
+import { useSyncExternalStore } from 'react'
 
+// Reads the viewport after hydration so prerendered HTML (desktop) and the
+// first client render match; phones switch on the next render.
 export function useIsMobile(breakpoint = 768) {
-  const [mobile, setMobile] = useState(() =>
-    typeof window !== 'undefined' && window.innerWidth <= breakpoint
+  const query = `(max-width: ${breakpoint}px)`
+  return useSyncExternalStore(
+    (cb) => {
+      const mq = window.matchMedia(query)
+      mq.addEventListener('change', cb)
+      return () => mq.removeEventListener('change', cb)
+    },
+    () => window.matchMedia(query).matches,
+    () => false,
   )
-  useEffect(() => {
-    const mq = window.matchMedia(`(max-width: ${breakpoint}px)`)
-    const handler = e => setMobile(e.matches)
-    mq.addEventListener('change', handler)
-    return () => mq.removeEventListener('change', handler)
-  }, [breakpoint])
-  return mobile
 }

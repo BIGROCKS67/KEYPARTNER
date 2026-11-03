@@ -1,81 +1,107 @@
-import { useState, useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { useParams, Link } from 'react-router-dom'
 import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
-import { MapPin, Briefcase, Calendar, ArrowLeft, Mail, Check, Banknote } from 'lucide-react'
-import { supabase } from '../lib/supabase'
-import { jobs as hardcodedJobs } from '../data/content'
+import { MapPin, Briefcase, Calendar, ArrowLeft, Mail, Check, Banknote, Share2, Phone, ArrowRight } from 'lucide-react'
+import { useJobs } from '../data/jobs-context'
+import { hasSupabase, loadSupabase } from '../lib/supabase-lazy'
+import { cleanDescription, formatDate, isoDay, jobPath, jobRef, normaliseJob, shortLocation } from '../lib/jobs'
+import { EMAIL, PHONE_DISPLAY, PHONE_TEL, SITE_URL } from '../lib/site'
+import { ApplyForm } from '../components/ApplyForm'
+import { MapEmbed } from '../components/MapEmbed'
+import { SkeletonLine } from '../components/Skeleton'
+import { HeroVideo } from '../components/HeroVideo'
 
 gsap.registerPlugin(ScrollTrigger)
 
 const JOB_HERO_VIDEO = 'https://assets.mixkit.co/videos/6779/6779-720.mp4'
 
-/* ── description renderer ── */
-// Detect whether description is HTML (from new WYSIWYG editor) or legacy plain text
-function isHtml(str) {
-  return str && /<[a-z][\s\S]*>/i.test(str)
+function ShareButton({ job }) {
+  const [copied, setCopied] = useState(false)
+  const url = `${SITE_URL}${jobPath(job)}`
+  const onClick = async (e) => {
+    if (navigator.share) {
+      e.preventDefault()
+      try { await navigator.share({ title: job.title, url }) } catch { /* closed */ }
+    } else if (navigator.clipboard) {
+      e.preventDefault()
+      await navigator.clipboard.writeText(url)
+      setCopied(true)
+      setTimeout(() => setCopied(false), 4000)
+    }
+  }
+  return (
+    <a
+      href={`mailto:?subject=${encodeURIComponent(job.title)}&body=${encodeURIComponent(url)}`}
+      onClick={onClick}
+      className="btn btn-dark-outline job-share-btn"
+    >
+      <Share2 size={14} aria-hidden /> <span aria-live="polite">{copied ? 'Link copied' : 'Share role'}</span>
+    </a>
+  )
 }
 
-function parseInline(text) {
-  const parts = []
-  const regex = /(\*\*(.+?)\*\*)|(\*(.+?)\*)/g
-  let last = 0, m
-  while ((m = regex.exec(text)) !== null) {
-    if (m.index > last) parts.push(text.slice(last, m.index))
-    if (m[1]) parts.push(<strong key={m.index}>{m[2]}</strong>)
-    else if (m[3]) parts.push(<em key={m.index}>{m[4]}</em>)
-    last = m.index + m[0].length
-  }
-  if (last < text.length) parts.push(text.slice(last))
-  return parts
+function JobSkeleton() {
+  return (
+    <div aria-busy="true" aria-label="Loading role">
+      <section className="job-page-hero-banner job-page-hero-banner--skeleton">
+        <div className="container job-page-banner-content">
+          <SkeletonLine width={90} height={14} style={{ marginBottom: 20 }} />
+          <SkeletonLine width="55%" height={44} style={{ marginBottom: 18 }} />
+          <SkeletonLine width="40%" height={16} />
+        </div>
+      </section>
+      <section className="job-page-body">
+        <div className="container job-page-grid">
+          <div className="job-page-main" style={{ gap: 14 }}>
+            {[96, 88, 92, 70, 84, 60].map((w, i) => <SkeletonLine key={i} width={`${w}%`} height={16} />)}
+          </div>
+          <div className="job-apply-card job-apply-card--skeleton">
+            <SkeletonLine width="70%" height={22} style={{ marginBottom: 14 }} />
+            <SkeletonLine width="100%" height={44} />
+          </div>
+        </div>
+      </section>
+    </div>
+  )
 }
 
-function renderDesc(text) {
-  if (!text) return null
-  // New jobs: render HTML from WYSIWYG editor
-  if (isHtml(text)) {
-    return <div dangerouslySetInnerHTML={{ __html: text }} />
-  }
-  // Legacy: parse markdown-style plain text
-  const lines = text.split('\n')
-  const result = []
-  let bullets = []
-  const flush = (key) => {
-    if (bullets.length) { result.push(<ul key={key}>{bullets}</ul>); bullets = [] }
-  }
-  lines.forEach((raw, i) => {
-    const t = raw.trim()
-    if (!t) { flush(`br${i}`); return }
-    const isBullet = t.startsWith('•') || t.startsWith('-')
-    const content = isBullet ? t.replace(/^[•\-]\s*/, '') : t
-    const inline = parseInline(content)
-    if (isBullet) bullets.push(<li key={i}>{inline}</li>)
-    else { flush(`ul${i}`); result.push(<p key={i}>{inline}</p>) }
-  })
-  flush('last')
-  return result
+function Closed() {
+  return (
+    <section className="page-hero">
+      <div className="container">
+        <p className="eyebrow">Role closed</p>
+        <h1>This role has been filled or closed</h1>
+        <p>We have other live roles, and we work on briefs that are never advertised. Send us your CV and we'll be in touch when the right one lands.</p>
+        <div className="page-hero-actions">
+          <Link to="/jobs" className="btn btn-green">View live roles</Link>
+          <a href={`mailto:${EMAIL}?subject=CV Submission`} className="btn btn-dark-outline">Submit your CV</a>
+        </div>
+      </div>
+    </section>
+  )
 }
 
 export function Job() {
   const { id } = useParams()
-  const [job, setJob] = useState(null)
-  const [loading, setLoading] = useState(true)
+  const { jobs, fresh } = useJobs()
+  const listed = jobs.find(j => String(j.id) === id)
+  const [fetched, setFetched] = useState(undefined)
 
+  // A role added after the last site build is not in the baked-in list yet.
   useEffect(() => {
-    if (supabase) {
-      supabase.from('jobs').select('*').eq('id', id).eq('is_active', true).single()
-        .then(({ data }) => { setJob(data || null); setLoading(false) })
-    } else {
-      setJob(hardcodedJobs.find(j => String(j.id) === id) || null)
-      setLoading(false)
-    }
-  }, [id])
+    if (listed || !fresh || !hasSupabase) return
+    loadSupabase()
+      .then(sb => sb.from('jobs').select('*').eq('id', id).eq('is_active', true).maybeSingle())
+      .then(({ data }) => setFetched(data ? normaliseJob(data) : null))
+      .catch(() => setFetched(null))
+  }, [id, listed, fresh])
+
+  const job = listed || fetched
 
   useEffect(() => {
     if (!job) return
-    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-      gsap.set('[data-reveal]', { opacity: 1, y: 0 }); return
-    }
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return
     const els = gsap.utils.toArray('[data-reveal]')
     els.forEach(el => {
       gsap.from(el, {
@@ -87,123 +113,138 @@ export function Job() {
     return () => ScrollTrigger.getAll().forEach(t => t.kill())
   }, [job])
 
-  if (loading) return (
-    <div className="job-page-loading">Loading role...</div>
-  )
+  if (!job) {
+    if (!fresh || (hasSupabase && fetched === undefined)) return <JobSkeleton />
+    return <Closed />
+  }
 
-  if (!job) return (
-    <div className="job-page-loading">
-      <p style={{ marginBottom: 16, color: 'var(--text-muted)' }}>This role is no longer available.</p>
-      <Link to="/jobs" className="btn btn-green">View all roles</Link>
-    </div>
-  )
-
-  const applyHref = `mailto:info@ourkeypartnership.co.uk?subject=Application: ${encodeURIComponent(job.title)}&body=Hi Matt,%0D%0A%0D%0AI'd like to apply for the ${encodeURIComponent(job.title)} role.%0D%0A%0D%0APlease find my CV attached.%0D%0A%0D%0AKind regards`
-  const mapQuery = encodeURIComponent(job.location || 'Milton Keynes, UK')
-  const rawDate = job.created_at ? new Date(job.created_at) : null
-  const postedDate = job.posted ?? (rawDate && !isNaN(rawDate) ? rawDate.toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' }) : null)
+  const ref = jobRef(job)
+  const posted = formatDate(job.created_at)
+  const related = jobs.filter(j => j.id !== job.id && j.discipline === job.discipline).slice(0, 3)
+  const emailHref = `mailto:${EMAIL}?subject=${encodeURIComponent(`Question about ${job.title} (${ref})`)}`
 
   return (
     <>
-      {/* ── HERO — compact banner ── */}
+      {/* ── HERO ── */}
       <section className="job-page-hero-banner">
-        <div className="hero-video-bg" aria-hidden>
-          <video autoPlay muted loop playsInline preload="auto" className="hero-video-bg__vid">
-            <source src={JOB_HERO_VIDEO} type="video/mp4" />
-          </video>
-          <div className="hero-video-bg__overlay" />
-        </div>
+        <HeroVideo src={JOB_HERO_VIDEO} />
         <div className="hero-dark-grain" aria-hidden />
 
         <div className="container job-page-banner-content">
           <Link to="/jobs" className="job-page-back hero-ani-1">
-            <ArrowLeft size={14} /> All roles
+            <ArrowLeft size={14} aria-hidden /> All roles
           </Link>
           <div className="job-page-badges hero-ani-1">
-            <span className="job-badge"><Briefcase size={11} />{job.discipline}</span>
-            <span className="job-listing-type">{job.type}</span>
+            {job.discipline && <span className="job-badge"><Briefcase size={11} aria-hidden />{job.discipline}</span>}
+            {job.type && <span className="job-listing-type">{job.type}</span>}
           </div>
           <h1 className="job-page-banner-title hero-ani-2">{job.title}</h1>
           <div className="job-page-meta hero-ani-3">
-            {job.location && <span><MapPin size={13} />{job.location}</span>}
-            {job.salary && <span><Banknote size={13} />{job.salary}</span>}
-            <span><Calendar size={13} />{postedDate}</span>
+            {job.location && <span><MapPin size={13} aria-hidden />{job.location}</span>}
+            {job.salary && <span className="tnum"><Banknote size={13} aria-hidden />{job.salary}</span>}
+            {posted && <span><Calendar size={13} aria-hidden /><time dateTime={isoDay(job.created_at)}>{posted}</time></span>}
+          </div>
+          <div className="job-page-hero-actions hero-ani-4">
+            <a href="#apply" className="btn btn-green">Apply for this role <ArrowRight size={14} aria-hidden /></a>
+            <ShareButton job={job} />
           </div>
         </div>
       </section>
 
       {/* ── BODY ── */}
-      <section style={{ padding: 'var(--section-pad) 0', background: 'var(--brand-white)' }}>
+      <section className="job-page-body">
         <div className="container job-page-grid">
-
-          {/* ── LEFT: description + benefits ── */}
           <div className="job-page-main">
+            <div data-reveal>
+              <div className="section-divider" />
+              <h2 className="section-title" style={{ marginBottom: 28 }}>About the role</h2>
+              <div className="job-desc-rendered" dangerouslySetInnerHTML={{ __html: cleanDescription(job.description) }} />
+            </div>
 
-            {job.description && (
+            {job.benefits?.length > 0 && (
               <div data-reveal>
-                <div className="section-divider" />
-                <h2 className="section-title" style={{ marginBottom: 28 }}>About the Role</h2>
-                <div className="job-desc-rendered">
-                  {renderDesc(job.description)}
-                </div>
-              </div>
-            )}
-
-            {job.benefits?.filter(Boolean).length > 0 && (
-              <div data-reveal style={{ marginTop: 48 }}>
                 <div className="section-divider" />
                 <h2 className="section-title" style={{ marginBottom: 28 }}>Benefits</h2>
                 <ul className="job-page-benefits-list">
-                  {job.benefits.filter(Boolean).map((b, i) => (
-                    <li key={i}><Check size={14} />{b}</li>
-                  ))}
+                  {job.benefits.map(b => <li key={b}><Check size={14} aria-hidden />{b}</li>)}
                 </ul>
               </div>
             )}
 
-            <div data-reveal style={{ marginTop: 48, padding: '32px', background: 'var(--green-100)', borderRadius: 'var(--radius-lg)', display: 'flex', alignItems: 'center', gap: 24, flexWrap: 'wrap' }}>
-              <p style={{ fontWeight: 700, color: 'var(--green-900)', fontSize: '1.05rem', flex: 1, margin: 0 }}>
-                Sound like the right fit?
-              </p>
-              <a href={applyHref} className="btn btn-green">
-                <Mail size={14} /> Apply for this Role
-              </a>
+            <div className="job-apply-section" id="apply" data-reveal>
+              <div className="section-divider" />
+              <h2 className="section-title" style={{ marginBottom: 12 }}>Apply for this role</h2>
+              <p className="job-apply-section__intro">Send your CV and we'll be in touch within 24 hours. It takes about a minute.</p>
+              <ApplyForm job={job} />
             </div>
+
+            <p className="job-legal">
+              Advertised by Key Partnership Recruitment Ltd, acting as an employment agency. Ref <span className="tnum">{ref}</span>.
+            </p>
           </div>
 
-          {/* ── RIGHT: apply card + map ── */}
+          {/* ── SIDEBAR ── */}
           <aside className="job-page-sidebar">
             <div className="job-apply-card" data-reveal>
-              <p className="eyebrow" style={{ color: 'var(--green-300)', marginBottom: 8 }}>Ready to apply?</p>
-              <h3>Interested in this role?</h3>
-              <p>Send your CV and we'll be in touch within 24 hours.</p>
-              <a href={applyHref} className="btn btn-green job-apply-card__btn">
-                <Mail size={14} /> Apply Now
-              </a>
+              <p className="eyebrow" style={{ color: 'var(--green-300)', marginBottom: 8 }}>Your recruiter</p>
+              <div className="job-recruiter">
+                <img src="/matt.jpg" alt="" width="56" height="56" loading="lazy" decoding="async" />
+                <div>
+                  <h3>Matt Stimpson</h3>
+                  <p>Founder, Key Partnership</p>
+                </div>
+              </div>
+              <a href="#apply" className="btn btn-green job-apply-card__btn">Apply now</a>
+              <div className="job-apply-card__links">
+                <a href={`tel:${PHONE_TEL}`}><Phone size={13} aria-hidden /> {PHONE_DISPLAY}</a>
+                <a href={emailHref}><Mail size={13} aria-hidden /> Ask about this role</a>
+              </div>
               <div className="job-apply-card__details">
                 {job.location && <div><span>Location</span><strong>{job.location}</strong></div>}
-                {job.salary && <div><span>Salary</span><strong>{job.salary}</strong></div>}
-                {job.type && <div><span>Work Type</span><strong>{job.type}</strong></div>}
+                {job.salary && <div><span>Salary</span><strong className="tnum">{job.salary}</strong></div>}
+                {job.type && <div><span>Work type</span><strong>{job.type}</strong></div>}
                 {job.discipline && <div><span>Discipline</span><strong>{job.discipline}</strong></div>}
-                <div><span>Posted</span><strong>{postedDate}</strong></div>
+                {posted && <div><span>Posted</span><strong>{posted}</strong></div>}
+                <div><span>Reference</span><strong className="tnum">{ref}</strong></div>
               </div>
             </div>
 
             {job.location && (
               <div className="job-page-map" data-reveal>
-                <iframe
-                  title={`Map for ${job.location}`}
-                  src={`https://maps.google.com/maps?q=${mapQuery}&output=embed&z=12`}
-                  width="100%" height="220"
-                  style={{ border: 0, display: 'block' }}
-                  loading="lazy"
-                  referrerPolicy="no-referrer-when-downgrade"
-                />
+                <MapEmbed query={job.location} title={`Map for ${job.location}`} />
               </div>
             )}
           </aside>
         </div>
       </section>
+
+      {related.length > 0 && (
+        <section className="job-related">
+          <div className="container">
+            <div className="section-divider" />
+            <h2 className="section-title" style={{ marginBottom: 28 }}>More {job.discipline.toLowerCase()} roles</h2>
+            <div className="job-related__grid">
+              {related.map(j => (
+                <Link key={j.id} to={jobPath(j)} className="job-card job-card--link">
+                  <div className="job-badge"><Briefcase size={11} aria-hidden />{j.discipline}</div>
+                  <div className="job-title">{j.title}</div>
+                  <div className="job-meta">
+                    <span><MapPin size={12} aria-hidden />{shortLocation(j.location)}</span>
+                    <span>{j.type}</span>
+                  </div>
+                  <div className="job-salary tnum">{j.salary}</div>
+                  <span className="job-cta">View role <ArrowRight size={14} aria-hidden /></span>
+                </Link>
+              ))}
+            </div>
+          </div>
+        </section>
+      )}
+
+      <div className="mobile-apply-bar">
+        <a href="#apply" className="btn btn-green">Apply now</a>
+        <a href={`tel:${PHONE_TEL}`} className="btn btn-outline">Call</a>
+      </div>
     </>
   )
 }

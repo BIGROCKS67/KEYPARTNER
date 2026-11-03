@@ -41,10 +41,10 @@ export function Testimonials() {
         <h2 className="section-title" data-reveal>What Do Our Partners Say?</h2>
 
         <div className="tabs" data-reveal>
-          <button className={`tab-btn${active === 'clients' ? ' active' : ''}`} onClick={() => setActive('clients')}>
+          <button type="button" aria-pressed={active === 'clients'} className={`tab-btn${active === 'clients' ? ' active' : ''}`} onClick={() => setActive('clients')}>
             Clients
           </button>
-          <button className={`tab-btn${active === 'candidates' ? ' active' : ''}`} onClick={() => setActive('candidates')}>
+          <button type="button" aria-pressed={active === 'candidates'} className={`tab-btn${active === 'candidates' ? ' active' : ''}`} onClick={() => setActive('candidates')}>
             Candidates
           </button>
         </div>
@@ -54,7 +54,7 @@ export function Testimonials() {
             {items.map((t, i) => (
               <div key={i} className="embla__slide">
                 <div className="testimonial-card">
-                  <div className="testimonial-quote">"</div>
+                  <div className="testimonial-quote" aria-hidden>“</div>
                   <p className="testimonial-text">{t.quote}</p>
                   <div className="testimonial-author">
                     <strong>{t.author}</strong>
@@ -69,7 +69,9 @@ export function Testimonials() {
         <div className="embla-dots">
           {scrollSnaps.map((_, i) => (
             <button
+              type="button"
               key={i}
+              aria-current={i === selectedIndex ? 'true' : undefined}
               className={`embla-dot${i === selectedIndex ? ' active' : ''}`}
               onClick={() => emblaApi?.scrollTo(i)}
               aria-label={`Go to testimonial ${i + 1}`}
@@ -78,9 +80,9 @@ export function Testimonials() {
         </div>
 
         <div className="testimonials-cta" data-reveal>
-          <Link to={active === 'clients' ? '/hire' : '/candidates'} className="btn btn-testimonial-cta">
+          <Link to={active === 'clients' ? '/hire' : '/jobs'} className="btn btn-testimonial-cta">
             {active === 'clients' ? 'Work with us' : 'Find your next role'}
-            <ArrowRight size={16} strokeWidth={2.25} />
+            <ArrowRight size={16} strokeWidth={2.25} aria-hidden />
           </Link>
         </div>
       </div>

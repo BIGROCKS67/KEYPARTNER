@@ -2,6 +2,7 @@ import { useEffect } from 'react'
 import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import { Mail, Phone, MapPin } from 'lucide-react'
+import { MapEmbed } from '../components/MapEmbed'
 
 gsap.registerPlugin(ScrollTrigger)
 
@@ -24,7 +25,7 @@ export function Contact() {
         <div className="container">
           <p className="eyebrow">Get In Touch</p>
           <h1>Let's start a conversation</h1>
-          <p>Whether you're looking to hire, exploring your next move, or just want to find out more — we'd love to hear from you.</p>
+          <p>Whether you're looking to hire, exploring your next move, or just want to find out more, we'd love to hear from you.</p>
         </div>
       </section>
 
@@ -57,8 +58,8 @@ export function Contact() {
                   </div>
                   <div>
                     <p style={{ fontWeight: 700, marginBottom: 4 }}>Phone</p>
-                    <a href="tel:01327493143" style={{ color: 'var(--brand-green)', fontWeight: 500, fontSize: '1.05rem' }}>
-                      01327 493 143
+                    <a href="tel:+441327493143" style={{ color: 'var(--brand-green)', fontWeight: 500, fontSize: '1.05rem' }}>
+                      01327 493143
                     </a>
                   </div>
                 </div>
@@ -81,16 +82,7 @@ export function Contact() {
 
             {/* Google Map */}
             <div data-reveal style={{ borderRadius: 'var(--radius-lg)', overflow: 'hidden', border: '1px solid var(--border)', boxShadow: '0 8px 32px rgba(0,0,0,0.08)' }}>
-              <iframe
-                title="Key Partnership Recruitment Office"
-                src="https://maps.google.com/maps?q=76+High+Street+Stony+Stratford+Milton+Keynes+MK11+1AH&output=embed&z=16"
-                width="100%"
-                height="420"
-                style={{ border: 0, display: 'block' }}
-                allowFullScreen=""
-                loading="lazy"
-                referrerPolicy="no-referrer-when-downgrade"
-              />
+              <MapEmbed query="76 High Street, Stony Stratford, Milton Keynes MK11 1AH" zoom={16} height={420} title="Key Partnership Recruitment office" />
             </div>
           </div>
         </div>

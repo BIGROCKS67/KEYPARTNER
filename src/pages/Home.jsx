@@ -6,8 +6,11 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import { ArrowRight, ArrowDown, Cpu, TrendingUp, Database, MapPin, Clock, Briefcase, Heart, Users, Award, ChevronLeft, ChevronRight } from 'lucide-react'
 import { Testimonials } from '../components/Testimonials'
 import { CoverageMap } from '../components/CoverageMap'
-import { jobs as hardcodedJobs, pillars } from '../data/content'
-import { supabase } from '../lib/supabase'
+import { pillars } from '../data/content'
+import { useJobs } from '../data/jobs-context'
+import { shortLocation, formatDate } from '../lib/jobs'
+import { HeroVideo } from '../components/HeroVideo'
+import { SkeletonLine } from '../components/Skeleton'
 import { useIsMobile } from '../hooks/useIsMobile'
 
 gsap.registerPlugin(ScrollTrigger)
@@ -28,6 +31,8 @@ function CyclingText() {
   const [phase, setPhase] = useState('typing')
 
   useEffect(() => {
+    // Reduced motion: the first word stays put (shown by the hidden text below).
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return
     const word = CYCLE_WORDS[wordIdx]
     let t
     if (phase === 'typing') {
@@ -49,9 +54,11 @@ function CyclingText() {
 
   return (
     <span className="hero-cycle-word">
+      <span className="visually-hidden">Relationships</span>
       <span className="hero-cycle-sizer" aria-hidden>Relationships</span>
-      <span className="hero-cycle-visible">
-        {displayed}<span className="type-cursor" aria-hidden>|</span>
+      <span className="hero-cycle-visible" aria-hidden>
+        <span className="hero-cycle-static">Relationships</span>
+        <span className="hero-cycle-anim">{displayed}<span className="type-cursor">|</span></span>
       </span>
     </span>
   )
@@ -59,19 +66,40 @@ function CyclingText() {
 
 function JobsCarousel() {
   const [emblaRef, emblaApi] = useEmblaCarousel({ loop: false, align: 'start', dragFree: true })
-  const [liveJobs, setLiveJobs] = useState(null)
+  const { jobs: displayJobs, fresh } = useJobs()
+  const [canPrev, setCanPrev] = useState(false)
+  const [canNext, setCanNext] = useState(false)
 
   useEffect(() => {
-    if (!supabase) return
-    supabase
-      .from('jobs')
-      .select('*')
-      .eq('is_active', true)
-      .order('created_at', { ascending: false })
-      .then(({ data }) => { if (data) setLiveJobs(data) })
-  }, [])
+    if (!emblaApi) return
+    const update = () => { setCanPrev(emblaApi.canScrollPrev()); setCanNext(emblaApi.canScrollNext()) }
+    update()
+    emblaApi.on('select', update).on('reInit', update)
+    return () => { emblaApi.off('select', update).off('reInit', update) }
+  }, [emblaApi])
 
-  const displayJobs = liveJobs ?? hardcodedJobs
+  if (displayJobs.length === 0 && !fresh) return (
+    <section className="jobs-carousel-section" aria-busy="true">
+      <div className="container">
+        <div className="jobs-carousel-header">
+          <div>
+            <h2 className="section-title">Latest Vacancies</h2>
+            <p className="section-subtitle">Find your next role, updated regularly with our latest vacancies.</p>
+          </div>
+        </div>
+        <div className="jobs-skeleton-row" aria-label="Loading roles">
+          {[0, 1, 2].map(i => (
+            <div key={i} className="job-card job-card--skeleton" aria-hidden>
+              <SkeletonLine width="40%" height={20} />
+              <SkeletonLine width="80%" height={22} />
+              <SkeletonLine width="60%" />
+              <SkeletonLine width="45%" height={18} />
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  )
 
   if (displayJobs.length === 0) return (
     <section className="jobs-carousel-section">
@@ -84,7 +112,7 @@ function JobsCarousel() {
           <Link to="/jobs" className="btn btn-outline" data-reveal>View all</Link>
         </div>
         <div style={{ padding: '48px 0', textAlign: 'center', color: 'var(--text-muted)', fontSize: '0.95rem' }} data-reveal>
-          No roles live right now — <a href="mailto:info@ourkeypartnership.co.uk?subject=CV%20Submission" style={{ color: 'var(--brand-green)' }}>submit your CV</a> and we'll be in touch when the right role lands.
+          No roles live right now. <a href="mailto:info@ourkeypartnership.co.uk?subject=CV%20Submission" style={{ color: 'var(--brand-green)' }}>submit your CV</a> and we'll be in touch when the right role lands.
         </div>
       </div>
     </section>
@@ -99,11 +127,11 @@ function JobsCarousel() {
             <p className="section-subtitle" data-reveal>Find your next role, updated regularly with our latest vacancies.</p>
           </div>
           <div className="jobs-carousel-controls">
-            <button className="carousel-btn" onClick={() => emblaApi?.scrollPrev()} aria-label="Previous">
-              <ChevronLeft size={20} />
+            <button type="button" className="carousel-btn" onClick={() => emblaApi?.scrollPrev()} disabled={!canPrev} aria-label="Previous roles">
+              <ChevronLeft size={20} aria-hidden />
             </button>
-            <button className="carousel-btn" onClick={() => emblaApi?.scrollNext()} aria-label="Next">
-              <ChevronRight size={20} />
+            <button type="button" className="carousel-btn" onClick={() => emblaApi?.scrollNext()} disabled={!canNext} aria-label="Next roles">
+              <ChevronRight size={20} aria-hidden />
             </button>
             <Link to="/jobs" className="btn btn-outline" data-reveal>View all</Link>
           </div>
@@ -116,11 +144,11 @@ function JobsCarousel() {
                   <div className="job-badge"><Briefcase size={11} />{j.discipline}</div>
                   <div className="job-title">{j.title}</div>
                   <div className="job-meta">
-                    <span><MapPin size={12} />{j.location}</span>
-                    <span><Clock size={12} />{j.posted ?? new Date(j.created_at).toLocaleDateString('en-GB', { day: 'numeric', month: 'short' })}</span>
+                    <span><MapPin size={12} aria-hidden />{shortLocation(j.location)}</span>
+                    <span><Clock size={12} aria-hidden />{formatDate(j.created_at, { day: 'numeric', month: 'short' })}</span>
                     <span>{j.type}</span>
                   </div>
-                  <div className="job-salary">{j.salary}</div>
+                  <div className="job-salary tnum">{j.salary}</div>
                   <span className="job-cta">View role <ArrowRight size={14} /></span>
                 </Link>
               </div>
@@ -182,13 +210,7 @@ export function Home() {
     <>
       {/* ── 1. HERO ── */}
       <section className="hero hero--dark">
-        <div className="hero-video-bg" aria-hidden>
-          <video key={isMobile ? 'hero-mob' : 'hero-desk'} autoPlay muted loop playsInline preload="auto" className="hero-video-bg__vid">
-            <source src={isMobile ? HERO_VIDEO_MOBILE : HERO_VIDEO} type="video/mp4" />
-            {!isMobile && <source src={HERO_VIDEO_FALLBACK} type="video/mp4" />}
-          </video>
-          <div className="hero-video-bg__overlay" />
-        </div>
+        <HeroVideo key={isMobile ? 'hero-mob' : 'hero-desk'} sources={isMobile ? [HERO_VIDEO_MOBILE] : [HERO_VIDEO, HERO_VIDEO_FALLBACK]} />
 
         <div className="hero-dark-grain" aria-hidden />
 
@@ -326,7 +348,7 @@ export function Home() {
           <div className="container meet-grid">
             <div className="meet-photo-col" data-reveal>
               <div className="meet-photo-frame">
-                <img src={`${import.meta.env.BASE_URL}matt.jpg`} alt="Matt Stimpson, Founder, Key Partnership Recruitment" />
+                <img src="/matt.jpg" alt="Matt Stimpson, Founder, Key Partnership Recruitment" width="807" height="1024" loading="lazy" decoding="async" />
               </div>
             </div>
             <div className="meet-text-col">
@@ -341,7 +363,7 @@ export function Home() {
                 He entered the industry at 16, quickly establishing himself as one of the UK's top-performing early careers recruiters, earning recognition as UK Recruitment Apprentice of the Year by the Recruitment &amp; Employment Confederation (REC).
               </p>
               <p className="meet-bio" data-reveal>
-                Matt founded Key Partnership with a clear belief: recruitment delivers better outcomes when built on genuine relationships, not volume. That philosophy continues to define the business today — a selective client base, a headhunting-led approach, and a focus on delivering the right hires, not just the most available candidates.
+                Matt founded Key Partnership with a clear belief: recruitment delivers better outcomes when built on genuine relationships, not volume. That philosophy continues to define the business today: a selective client base, a headhunting-led approach, and a focus on delivering the right hires, not just the most available candidates.
               </p>
               <div className="meet-actions" data-reveal>
                 <a href="mailto:info@ourkeypartnership.co.uk" className="btn btn-green">
@@ -398,7 +420,7 @@ export function Home() {
               <p className="eyebrow contact-eyebrow">Just talk</p>
               <h3 className="contact-col-title">Pick up the phone</h3>
               <p className="contact-col-body">Prefer a conversation? So do we.</p>
-              <a href="tel:01327493143" className="btn btn-cta-primary">01327 493 143</a>
+              <a href="tel:+441327493143" className="btn btn-cta-primary">01327 493143</a>
             </div>
           </div>
         </section>

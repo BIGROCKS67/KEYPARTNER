@@ -91,7 +91,7 @@ export function Hire() {
               Based in Milton Keynes, at the heart of the UK's tech corridor.
             </p>
             <p style={{ color: 'rgba(255,255,255,0.72)', lineHeight: 1.7, flex: '1 1 280px', fontSize: '1rem' }}>
-              Our clients span the UK and internationally — including the UAE, Australia and New Zealand. We work wherever the right hires need to be made.
+              Our clients span the UK and internationally, including the UAE, Australia and New Zealand. We work wherever the right hires need to be made.
             </p>
           </div>
         </div>
@@ -105,7 +105,7 @@ export function Hire() {
               <div className="section-divider" />
               <h2 className="section-title">How We Work</h2>
               <p style={{ color: 'var(--text-muted)', lineHeight: 1.8, marginBottom: 0 }}>
-                We don't rely on job boards or inbound applications. Our time is spent identifying and engaging the right people directly — proactively, not reactively.
+                We don't rely on job boards or inbound applications. Our time is spent identifying and engaging the right people directly, and we go to them first.
               </p>
               <p style={{ color: 'var(--brand-green)', fontWeight: 700, marginTop: 32, fontSize: '1rem', fontStyle: 'italic' }}>
                 We operate as an extension of your team, not an external supplier.
@@ -113,10 +113,10 @@ export function Hire() {
             </div>
             <div style={{ display: 'flex', flexDirection: 'column', gap: 0, borderTop: '1px solid var(--border)' }} data-reveal>
               {[
-                { icon: Search, title: 'Headhunting-led', body: 'Every role is worked proactively — we go and find the right people.' },
+                { icon: Search, title: 'Headhunting-led', body: 'Every role is worked proactively: we go and find the right people.' },
                 { icon: BarChart2, title: 'No job board reliance', body: 'We don\'t post and wait. Our networks are built, not bought.' },
                 { icon: Users, title: 'Deep market networks', body: 'Built across Tech, AI and Commercial markets over years of relationship-led work.' },
-                { icon: Handshake, title: 'Proper representation', body: 'We represent your business correctly in the market — as if we were part of your team.' },
+                { icon: Handshake, title: 'Proper representation', body: 'We represent your business correctly in the market, as if we were part of your team.' },
               ].map((item, i) => (
                 <div key={i} style={{ display: 'flex', gap: 20, padding: '24px 0', borderBottom: '1px solid var(--border)', alignItems: 'flex-start' }}>
                   <div style={{ width: 36, height: 36, minWidth: 36, background: 'var(--green-100)', borderRadius: 8, display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'var(--brand-green)', marginTop: 2 }}>
@@ -142,7 +142,7 @@ export function Hire() {
           </div>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 24 }}>
             {[
-              { icon: Users, title: '3 candidates per role', body: 'Three of the best suited individuals — not a long list to filter through.' },
+              { icon: Users, title: '3 candidates per role', body: 'Three of the best-suited people, so there is no long list to filter through.' },
               { icon: Clock, title: '7-day CV delivery SLA', body: 'Qualified, engaged candidates within the first week.' },
               { icon: Star, title: 'High-quality shortlists', body: 'Less noise, more relevance.' },
               { icon: Handshake, title: 'On-site time with clients', body: 'We spend time understanding your teams, culture and environment.' },
@@ -167,7 +167,7 @@ export function Hire() {
             <div className="section-divider" />
             <h2 className="section-title">Partnership Models</h2>
             <p style={{ color: 'var(--text-muted)', lineHeight: 1.8, fontSize: '1.05rem' }}>
-              We support clients on both contingent and retained models. For clients hiring regularly or building teams, we also offer fixed-fee retainers — a more cost-effective and consistent approach to hiring.
+              We support clients on both contingent and retained models. For clients hiring regularly or building teams, we also offer fixed-fee retainers: a more cost-effective and consistent approach to hiring.
             </p>
           </div>
           <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 24 }}>
@@ -180,7 +180,7 @@ export function Hire() {
             <div style={{ padding: '36px 40px', background: 'var(--brand-white)', borderRadius: 'var(--radius-lg)', border: '1px solid var(--border)' }} data-reveal>
               <p style={{ fontWeight: 700, fontSize: '1.05rem', marginBottom: 12 }}>Retained & Fixed-Fee</p>
               <p style={{ color: 'var(--text-muted)', lineHeight: 1.7, fontSize: '0.95rem' }}>
-                For clients hiring regularly or building teams. More cost-effective, more consistent. Our model is lean by design — you're not paying for volume or overhead.
+                For clients hiring regularly or building teams. More cost-effective, more consistent. Our model is lean by design, so you're not paying for volume or overhead.
               </p>
             </div>
           </div>

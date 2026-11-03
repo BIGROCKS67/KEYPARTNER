@@ -164,7 +164,7 @@ We have built Industry Accredited Technology Teams for Fortune 500 companies and
     slug: 'bi-data',
     title: 'BI & Data',
     short: 'BI developers, DBAs, data architects and visualisation specialists.',
-    description: `Companies make decisions through data. Key Partnership recruits across the full data stack: visualisation, warehousing, database management, and data integration — so your stakeholders can make the right calls quickly.`,
+    description: `Companies make decisions through data. Key Partnership recruits across the full data stack: visualisation, warehousing, database management, and data integration, so your stakeholders can make the right calls quickly.`,
     signs: [
       'Unclear how much budget you have available',
       'Competitors edging closer in sales performance',

@@ -1,7 +1,6 @@
 # Builds the site and commits the output to docs/ on main.
 # GitHub Pages: Settings → Pages → Deploy from a branch → main /docs
-# https://eagleaibot.github.io/KEYPARTNER/
-name: Pages — build into docs/
+name: Pages, build into docs/
 
 on:
   push:
@@ -9,6 +8,10 @@ on:
     paths-ignore:
       - 'docs/**'
   workflow_dispatch:
+  # Rebuild every hour so roles added or closed in /admin get their own
+  # static page and sitemap entry. Nothing is committed if no role changed.
+  schedule:
+    - cron: '17 * * * *'
 
 permissions:
   contents: write
