@@ -7,7 +7,7 @@ import { ArrowRight, CheckCircle2, Users, Search, Star, Clock, BarChart2, Handsh
 import { Testimonials } from '../components/Testimonials'
 import { CountUp } from '../components/CountUp'
 import { WorldTimes } from '../components/WorldTimes'
-import { BandArt } from '../components/BandArt'
+import { TalkToMatt } from '../components/TalkToMatt'
 
 gsap.registerPlugin(ScrollTrigger)
 
@@ -84,8 +84,7 @@ export function Hire() {
       </section>
 
       {/* ── OUR REACH ── */}
-      <section className="glow-band" style={{ padding: 'clamp(40px, 6vw, 72px) 0', background: 'var(--brand-green)' }}>
-        <BandArt />
+      <section style={{ padding: 'clamp(40px, 6vw, 72px) 0', background: 'var(--brand-green)' }}>
         <div className="container" data-reveal>
           <div style={{ display: 'flex', alignItems: 'center', gap: 48, flexWrap: 'wrap' }}>
             <p style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(1.4rem, 2.5vw, 2rem)', fontWeight: 700, color: 'var(--brand-white)', lineHeight: 1.3, flex: '1 1 320px', letterSpacing: '-0.02em' }}>
@@ -220,20 +219,13 @@ export function Hire() {
       <Testimonials />
 
       {/* ── LET'S TALK ── */}
-      <section className="glow-band" style={{ padding: 'var(--section-pad) 0', background: 'var(--brand-green)' }}>
-        <BandArt />
-        <div className="container" style={{ textAlign: 'center', maxWidth: 600, margin: '0 auto' }}>
-          <p className="eyebrow" style={{ color: 'var(--green-300)' }} data-reveal>Let's Talk</p>
-          <h2 style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(2rem, 4vw, 3rem)', fontWeight: 800, color: 'var(--brand-white)', letterSpacing: '-0.03em', lineHeight: 1.1, margin: '16px 0 20px' }} data-reveal>
-            Looking for a more focused approach to hiring?
-          </h2>
-          <p style={{ color: 'rgba(255,255,255,0.72)', lineHeight: 1.7, marginBottom: 36 }} data-reveal>
-            If you're looking for a partnership-led approach that delivers consistently, we should speak.
-          </p>
-          <a href="mailto:info@ourkeypartnership.co.uk?subject=New Vacancy Enquiry" className="btn btn-hero-primary" data-reveal>
-            Discuss your hiring needs <ArrowRight size={16} />
-          </a>
-        </div>
+      <section className="contact-strip">
+        <TalkToMatt
+          eyebrow="Let's talk"
+          title="Looking for a more focused approach to hiring?"
+          body="If you're looking for a partnership-led approach that delivers consistently, we should speak."
+          links={[{ label: 'Email a vacancy', href: 'mailto:info@ourkeypartnership.co.uk?subject=New Vacancy Enquiry' }]}
+        />
       </section>
     </>
   )

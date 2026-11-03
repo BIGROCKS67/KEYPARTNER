@@ -2992,12 +2992,6 @@ input:focus-visible, select:focus-visible, textarea:focus-visible { outline: 2px
 .count-up__sizer { visibility: hidden; }
 .count-up__value { position: absolute; left: 0; top: 0; }
 
-/* Spotlight also on the large video bands further down the home page */
-.has-spotlight .video-break__overlay,
-.has-spotlight .contact-video-bg__overlay {
-  -webkit-mask-image: radial-gradient(circle calc(380px * var(--spot-on, 0)) at var(--spot-x, -999px) var(--spot-y, -999px), rgba(0,0,0,0.35) 0%, rgba(0,0,0,0.7) 45%, #000 100%);
-          mask-image: radial-gradient(circle calc(380px * var(--spot-on, 0)) at var(--spot-x, -999px) var(--spot-y, -999px), rgba(0,0,0,0.35) 0%, rgba(0,0,0,0.7) 45%, #000 100%);
-}
 
 /* What we're known for: open columns on a rule, like the hero stats */
 .known-for-grid { gap: 40px; }
@@ -3110,26 +3104,6 @@ input:focus-visible, select:focus-visible, textarea:focus-visible { outline: 2px
 .hero:has(.hero-words) .hero-dark-content { text-shadow: 0 2px 30px rgba(10,46,26,0.95), 0 0 2px rgba(10,46,26,0.6); }
 
 
-/* ════════════════════════════════════════
-   Quieter touches for the other green bands
-   ════════════════════════════════════════ */
-
-/* One faint line of words behind "Recruitment done the right way" */
-.hero-words--band {
-  justify-content: flex-start; padding: clamp(84px, 9vw, 110px) 0 0;
-  font-size: clamp(2.6rem, 7vw, 6rem);
-}
-.hero-words--band .hero-words__row { animation-duration: 120s; }
-.hero-words--band.hero-words--lit {
-  -webkit-mask-image: radial-gradient(circle 260px at var(--spot-x, -999px) var(--spot-y, -999px), #000 0%, rgba(0,0,0,0.3) 50%, transparent 100%);
-          mask-image: radial-gradient(circle 260px at var(--spot-x, -999px) var(--spot-y, -999px), #000 0%, rgba(0,0,0,0.3) 50%, transparent 100%);
-  color: rgba(232,247,238,0.35);
-}
-
-/* Green bands hold BandArt (pattern + spotlight glow) under the content */
-.glow-band { position: relative; overflow: hidden; }
-.glow-band > .container { position: relative; z-index: 1; }
-
 /* Local times on the hire page */
 .world-times {
   list-style: none; margin: clamp(28px, 4vw, 40px) 0 0; padding: 20px 0 0;
@@ -3144,63 +3118,6 @@ input:focus-visible, select:focus-visible, textarea:focus-visible { outline: 2px
 }
 @media (max-width: 640px) { .world-times { grid-template-columns: repeat(2, 1fr); row-gap: 20px; } }
 
-/* ════════════════════════════════════════
-   Green band backgrounds (dots / radar / colour shift / words)
-   No data-band attribute means the default, dots.
-   ════════════════════════════════════════ */
-
-.band-art { position: absolute; inset: 0; z-index: 0; pointer-events: none; overflow: hidden; }
-.band-art > * { display: none; }
-
-/* Dots: a fine grid; the dots near the light brighten */
-.band-dots {
-  position: absolute; inset: 0;
-  background-image: radial-gradient(circle, rgba(255,255,255,0.16) 1.1px, transparent 1.7px);
-  background-size: 22px 22px; background-position: center;
-}
-.band-dots--lit {
-  background-image: radial-gradient(circle, rgba(170,240,200,0.9) 1.3px, transparent 1.9px);
-  opacity: var(--spot-on, 0);
-  -webkit-mask-image: radial-gradient(circle 300px at var(--spot-x, -999px) var(--spot-y, -999px), #000 0%, rgba(0,0,0,0.25) 55%, transparent 100%);
-          mask-image: radial-gradient(circle 300px at var(--spot-x, -999px) var(--spot-y, -999px), #000 0%, rgba(0,0,0,0.25) 55%, transparent 100%);
-}
-:root:not([data-band]) .band-dots, :root[data-band='dots'] .band-dots { display: block; }
-
-/* Radar: rings from the bottom right corner, one slow pulse outwards */
-.band-rings { position: absolute; inset: 0; width: 100%; height: 100%; }
-.band-rings circle { fill: none; stroke: rgba(255,255,255,0.14); stroke-width: 1; vector-effect: non-scaling-stroke; }
-.band-rings .band-rings__pulse {
-  stroke: rgba(150,230,185,0.75); stroke-width: 1.5; transform-origin: 1000px 1000px;
-  animation: bandPulse 5s cubic-bezier(.3,.6,.4,1) infinite;
-}
-@keyframes bandPulse { from { transform: scale(0.1); opacity: 1; } to { transform: scale(1.05); opacity: 0; } }
-:root[data-band='rings'] .band-rings { display: block; }
-
-/* Colour shift: the band arrives a brighter green and settles darker as it comes into view */
-.band-shift { position: absolute; inset: 0; background: #3c9a64; transition: opacity 1.8s cubic-bezier(.2,.7,.2,1); }
-.band-shift.is-in { opacity: 0; }
-:root[data-band='shift'] .band-shift { display: block; }
-
-/* Words: only in this mode */
-:root:not([data-band='words']) .hero-words--band { display: none; }
-
-@media (prefers-reduced-motion: reduce) {
-  .band-rings .band-rings__pulse { animation: none; opacity: 0; }
-  .band-shift { transition: none; opacity: 0; }
-}
-
-/* Preview-only switcher */
-.hero-switcher {
-  position: fixed; left: 16px; bottom: 16px; z-index: 200;
-  display: flex; align-items: center; gap: 4px; padding: 6px;
-  background: rgba(255,255,255,0.96); border: 1px solid var(--border); border-radius: 999px;
-  box-shadow: 0 10px 30px rgba(10,46,26,0.2); font-size: 0.8rem;
-}
-.hero-switcher__label { padding: 0 8px 0 10px; font-weight: 700; color: var(--text-muted); }
-.hero-switcher button { padding: 8px 12px; border-radius: 999px; font-weight: 700; color: var(--green-900); }
-.hero-switcher button[aria-pressed='true'] { background: var(--brand-green); color: #fff; }
-@media (max-width: 900px) { .hero-switcher { bottom: 84px; left: 8px; right: 8px; justify-content: center; } .hero-switcher__label { display: none; } }
-
 /* Main button on the plain green page heroes (404, application sent, role filled): white so it stands out */
 .page-hero .btn-green { background: #fff; color: var(--green-900); border-color: #fff; }
 .page-hero .btn-green:hover { background: var(--green-50, #eef7f1); }
@@ -3209,3 +3126,57 @@ input:focus-visible, select:focus-visible, textarea:focus-visible { outline: 2px
 .why-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0; }
 @media (max-width: 900px) { .why-grid { grid-template-columns: repeat(2, 1fr); } }
 @media (max-width: 600px) { .why-grid { grid-template-columns: 1fr; } .why-grid > div { padding: 28px 24px !important; } }
+
+/* ════════════════════════════════════════
+   Green bands carry real proof, not decoration
+   ════════════════════════════════════════ */
+
+/* Home: one client's own words under "Recruitment done the right way" */
+.proof { margin: 8px 0 0; max-width: 40em; padding-left: 20px; border-left: 2px solid var(--green-300); }
+.proof blockquote { margin: 0; }
+.proof p {
+  font-size: clamp(1.1rem, 1.8vw, 1.4rem); line-height: 1.45; color: rgba(255,255,255,0.88);
+  text-wrap: pretty; letter-spacing: -0.01em;
+}
+.proof figcaption { margin-top: 12px; font-size: 0.82rem; color: rgba(255,255,255,0.6); }
+
+/* Talk to Matt: the closing contact on home and hire */
+.talk {
+  position: relative; display: grid; grid-template-columns: 1.15fr 1fr; gap: clamp(32px, 6vw, 96px); align-items: end;
+}
+.talk__eyebrow { color: var(--green-300); }
+.talk__title {
+  font-family: var(--font-display); font-weight: 800; color: var(--brand-white);
+  font-size: clamp(2.2rem, 4.4vw, 3.6rem); letter-spacing: -0.04em; line-height: 1.02; margin: 14px 0 18px;
+  text-wrap: balance;
+}
+.talk__body { color: rgba(255,255,255,0.7); line-height: 1.65; max-width: 34em; }
+.talk__card { border-top: 1px solid rgba(255,255,255,0.22); padding-top: 24px; }
+.talk__who { display: flex; align-items: center; gap: 14px; }
+.talk__who img { width: 56px; height: 56px; border-radius: 50%; object-fit: cover; object-position: center 20%; }
+.talk__name { color: var(--brand-white); font-weight: 700; }
+.talk__role { color: rgba(255,255,255,0.6); font-size: 0.85rem; }
+.talk__phone {
+  display: inline-block; margin: 22px 0 10px; color: var(--brand-white);
+  font-family: var(--font-display); font-weight: 800; letter-spacing: -0.03em;
+  font-size: clamp(2rem, 4vw, 3rem); line-height: 1; font-variant-numeric: tabular-nums;
+  text-decoration: underline; text-decoration-thickness: 2px; text-underline-offset: 8px;
+  text-decoration-color: rgba(255,255,255,0.25); transition: text-decoration-color 0.15s ease-out;
+}
+.talk__phone:hover { text-decoration-color: var(--green-300); }
+.talk__meta { color: rgba(255,255,255,0.6); font-size: 0.88rem; font-variant-numeric: tabular-nums; }
+.talk__meta a { color: rgba(255,255,255,0.85); }
+.talk__meta a:hover { color: #fff; text-decoration: underline; }
+.talk__links { list-style: none; display: flex; flex-wrap: wrap; gap: 10px; margin: 22px 0 0; padding: 0; }
+.talk__links a {
+  display: inline-block; padding: 11px 20px; border-radius: var(--radius-pill);
+  border: 1px solid rgba(255,255,255,0.3); color: var(--brand-white); font-weight: 700; font-size: 0.88rem;
+  transition: background-color 0.15s ease-out, color 0.15s ease-out;
+}
+.talk__links a:hover { background: #fff; color: var(--green-900); }
+@media (max-width: 900px) { .talk { grid-template-columns: 1fr; align-items: start; } }
+
+/* Jobs: the closing band's direct call line */
+.jobs-cta-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 12px 22px; }
+.jobs-cta-call { color: rgba(255,255,255,0.8); font-weight: 600; text-decoration: underline; text-underline-offset: 4px; text-decoration-color: rgba(255,255,255,0.3); }
+.jobs-cta-call:hover { color: #fff; }

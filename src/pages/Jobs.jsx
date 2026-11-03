@@ -5,7 +5,6 @@ import { ArrowRight, MapPin, Calendar, Briefcase, Mail, Check, Banknote, Search,
 import { Link } from 'react-router-dom'
 import { HeroSpotlight } from '../components/HeroSpotlight'
 import { HeroWords } from '../components/HeroWords'
-import { BandArt } from '../components/BandArt'
 import { useJobs } from '../data/jobs-context'
 import { formatDate as fmtDate, plainText } from '../lib/jobs'
 import { JobCardSkeleton } from '../components/Skeleton'
@@ -199,8 +198,7 @@ export function Jobs() {
       </section>
 
       {/* ── BOTTOM CTA ── */}
-      <section className="jobs-cta-section glow-band">
-        <BandArt />
+      <section className="jobs-cta-section">
         <div className="container jobs-cta-content">
           <p className="eyebrow jobs-cta-eyebrow" data-reveal>Don't see your role?</p>
           <h2 className="jobs-cta-title" data-reveal>
@@ -213,7 +211,9 @@ export function Jobs() {
             <a href="mailto:info@ourkeypartnership.co.uk?subject=CV Submission" className="btn btn-hero-primary">
               <Mail size={15} /> Submit your CV
             </a>
+            <a href="tel:+441327493143" className="jobs-cta-call">or call Matt on 01327 493143</a>
           </div>
+
         </div>
       </section>
     </>

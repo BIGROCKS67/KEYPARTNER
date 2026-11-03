@@ -11,7 +11,8 @@ import { useJobs } from '../data/jobs-context'
 import { shortLocation, formatDate } from '../lib/jobs'
 import { HeroWords } from '../components/HeroWords'
 import { HeroSpotlight } from '../components/HeroSpotlight'
-import { BandArt } from '../components/BandArt'
+import { TalkToMatt } from '../components/TalkToMatt'
+import { testimonials } from '../data/content'
 import { CountUp } from '../components/CountUp'
 import { SkeletonLine } from '../components/Skeleton'
 
@@ -20,8 +21,8 @@ gsap.registerPlugin(ScrollTrigger)
 
 const CYCLE_WORDS = ['Relationships', 'Trust', 'Experience', 'Success']
 
-// The faint line behind "Recruitment done the right way"
-const APPROACH_WORDS = ['Partnership', 'The right hire', 'Long term', 'Honest advice', 'Shortlists', 'Culture fit', 'Follow-up', 'Repeat clients']
+// One client's own account, given the whole band. Trimmed with an ellipsis, words unchanged.
+const PROOF = testimonials.clients.find(t => t.company === 'Hospitality Tech Business')
 
 function CyclingText() {
   const [wordIdx, setWordIdx] = useState(0)
@@ -257,16 +258,17 @@ export function Home() {
 
       {/* ── 3. VIDEO BREAK ── */}
       <div className="stack-card" style={{zIndex: 3}}>
-        <section className="video-break glow-band" aria-label="Our approach">
-          <HeroWords words={APPROACH_WORDS} rows={1} live={false} className="hero-words--band" />
-          <BandArt />
+        <section className="video-break" aria-label="Our approach">
           <div className="container video-break__content">
             <h2 className="video-break__heading" data-reveal>
               Recruitment done<br />the <em>right way.</em>
             </h2>
-            <p className="video-break__sub" data-reveal>
-              Five years of delivering the right hires for our Clients, with long-term relationships at the core.
-            </p>
+            <figure className="proof" data-reveal>
+              <blockquote>
+                <p>“Matt responded the same day with 2 candidates who were both an excellent fit… we had this vacancy filled within 5 days.”</p>
+              </blockquote>
+              <figcaption>{PROOF.author}, {PROOF.company}</figcaption>
+            </figure>
           </div>
           <div className="video-break__scroll-hint" aria-hidden>
             <ArrowDown size={18} />
@@ -379,34 +381,16 @@ export function Home() {
 
       {/* ── CTA / CONTACT ── */}
       <div className="stack-card" style={{zIndex: 9}} id="contact">
-        <section className="contact-strip glow-band">
-          <BandArt />
-          <div className="container contact-strip__grid">
-            <div className="contact-strip__col">
-              <p className="eyebrow contact-eyebrow">Hiring?</p>
-              <h3 className="contact-col-title">Submit a vacancy</h3>
-              <p className="contact-col-body">Tell us what you need. We'll respond the same day.</p>
-              <a href="mailto:info@ourkeypartnership.co.uk?subject=New Vacancy" className="btn btn-cta-primary">
-                Email us
-              </a>
-            </div>
-            <div className="contact-strip__divider" aria-hidden />
-            <div className="contact-strip__col">
-              <p className="eyebrow contact-eyebrow">Looking for work?</p>
-              <h3 className="contact-col-title">Send your CV</h3>
-              <p className="contact-col-body">We'll match you when the right brief lands. No spam, ever.</p>
-              <a href="mailto:info@ourkeypartnership.co.uk?subject=CV Submission" className="btn btn-cta-primary">
-                Submit your CV
-              </a>
-            </div>
-            <div className="contact-strip__divider" aria-hidden />
-            <div className="contact-strip__col">
-              <p className="eyebrow contact-eyebrow">Just talk</p>
-              <h3 className="contact-col-title">Pick up the phone</h3>
-              <p className="contact-col-body">Prefer a conversation? So do we.</p>
-              <a href="tel:+441327493143" className="btn btn-cta-primary">01327 493143</a>
-            </div>
-          </div>
+        <section className="contact-strip">
+          <TalkToMatt
+            eyebrow="Get in touch"
+            title="Talk to Matt."
+            body="Hiring, or looking for your next role? The first call is with Matt. Tell him what you need."
+            links={[
+              { label: 'Submit a vacancy', href: 'mailto:info@ourkeypartnership.co.uk?subject=New Vacancy' },
+              { label: 'Send your CV', href: 'mailto:info@ourkeypartnership.co.uk?subject=CV Submission' },
+            ]}
+          />
         </section>
       </div>
     </>

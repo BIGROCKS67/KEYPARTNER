@@ -25,8 +25,6 @@ export function LenisProvider({ children }) {
       anchors: { offset: -96 },
     })
 
-    window.__kpLenis = lenis
-
     const tickerFn = (time) => {
       lenis.raf(time * 1000)
     }
@@ -41,7 +39,6 @@ export function LenisProvider({ children }) {
 
     return () => {
       gsap.ticker.remove(tickerFn)
-      if (window.__kpLenis === lenis) delete window.__kpLenis
       lenis.destroy()
       ScrollTrigger.getAll().forEach(t => t.kill())
     }
