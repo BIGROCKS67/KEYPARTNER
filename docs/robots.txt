@@ -2,6 +2,5 @@
 User-agent: *
 Allow: /
 Disallow: /admin
-Disallow: /applied
 
 Sitemap: https://ourkeypartnership.co.uk/sitemap.xml
