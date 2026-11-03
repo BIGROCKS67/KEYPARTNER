@@ -3158,3 +3158,7 @@ input:focus-visible, select:focus-visible, textarea:focus-visible { outline: 2px
 
 /* Contact content sits above the background video */
 .contact-strip .talk { z-index: 1; }
+
+/* Shown when FormSubmit doesn't answer */
+.form-down p { margin: 8px 0 0; }
+.form-down a.btn { display: inline-flex; margin-top: 4px; color: #fff; text-decoration: none; }
