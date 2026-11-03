@@ -97,19 +97,24 @@ export function Job() {
 
   const job = listed || fetched
 
+  // Keyed on the id, not the record: the jobs list refreshes from Supabase
+  // after load, and restarting mid-fade used to leave sections invisible.
+  // revert() puts every element back to its real styles before a rerun.
+  const jobId = job?.id
   useEffect(() => {
-    if (!job) return
+    if (!jobId) return
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return
-    const els = gsap.utils.toArray('[data-reveal]')
-    els.forEach(el => {
-      gsap.from(el, {
-        opacity: 0, y: 28, duration: 0.75, ease: 'power3.out',
-        immediateRender: false,
-        scrollTrigger: { trigger: el, start: 'top 88%', toggleActions: 'play none none none' },
+    const ctx = gsap.context(() => {
+      gsap.utils.toArray('[data-reveal]').forEach(el => {
+        gsap.from(el, {
+          opacity: 0, y: 28, duration: 0.75, ease: 'power3.out',
+          immediateRender: false,
+          scrollTrigger: { trigger: el, start: 'top 88%', toggleActions: 'play none none none' },
+        })
       })
     })
-    return () => ScrollTrigger.getAll().forEach(t => t.kill())
-  }, [job])
+    return () => ctx.revert()
+  }, [jobId])
 
   if (!job) {
     if (!fresh || (hasSupabase && fetched === undefined)) return <JobSkeleton />

@@ -322,7 +322,7 @@ export function Admin() {
             onChange={e => { setPw(e.target.value); setPwErr(false) }}
             autoFocus
           />
-          {pwErr && <p className="admin-login__error">Incorrect password — try again.</p>}
+          {pwErr && <p className="admin-login__error">Incorrect password. Try again.</p>}
           <button type="submit" className="btn btn-green admin-login__btn">Sign In</button>
         </form>
       </div>

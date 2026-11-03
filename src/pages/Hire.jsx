@@ -199,7 +199,7 @@ export function Hire() {
             <div className="section-divider" />
             <h2 className="section-title">Why Clients Work With Us</h2>
           </div>
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '0', borderTop: '1px solid var(--border)', borderLeft: '1px solid var(--border)' }}>
+          <div className="why-grid" style={{ borderTop: '1px solid var(--border)', borderLeft: '1px solid var(--border)' }}>
             {[
               { num: '01', title: 'Headhunting-led', body: 'Every search is driven by proactive outreach, not job board posting.' },
               { num: '02', title: 'Select portfolio', body: 'We keep our client base small so every client gets our full attention.' },

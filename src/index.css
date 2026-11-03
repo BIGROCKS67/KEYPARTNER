@@ -3200,3 +3200,12 @@ input:focus-visible, select:focus-visible, textarea:focus-visible { outline: 2px
 .hero-switcher button { padding: 8px 12px; border-radius: 999px; font-weight: 700; color: var(--green-900); }
 .hero-switcher button[aria-pressed='true'] { background: var(--brand-green); color: #fff; }
 @media (max-width: 900px) { .hero-switcher { bottom: 84px; left: 8px; right: 8px; justify-content: center; } .hero-switcher__label { display: none; } }
+
+/* Main button on the plain green page heroes (404, application sent, role filled): white so it stands out */
+.page-hero .btn-green { background: #fff; color: var(--green-900); border-color: #fff; }
+.page-hero .btn-green:hover { background: var(--green-50, #eef7f1); }
+
+/* Hire: "Why clients work with us" grid, three across on wide screens */
+.why-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0; }
+@media (max-width: 900px) { .why-grid { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 600px) { .why-grid { grid-template-columns: 1fr; } .why-grid > div { padding: 28px 24px !important; } }
