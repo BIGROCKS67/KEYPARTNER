@@ -183,6 +183,7 @@ const knownFor = [
 
 export function Home() {
   const isMobile = useIsMobile()
+  const { jobs } = useJobs()
 
   useEffect(() => {
     const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches
@@ -321,24 +322,28 @@ export function Home() {
             <div className="section-divider white" data-reveal />
             <p className="eyebrow excel-eyebrow" data-reveal>Specialisms</p>
             <h2 className="section-title excel-title" data-reveal>Where We Excel</h2>
-            <div className="excel-grid">
+            <ul className="excel-list">
               {pillars.map(p => {
+                const live = jobs.filter(j => j.discipline === p.title).length
                 return (
-                  <div key={p.slug} className="excel-card" data-reveal>
-                    <h3 className="excel-card__title">{p.title}</h3>
-                    <p className="excel-card__body">{p.short}</p>
-                    {p.tags && p.tags.length > 0 && (
-                      <div className="excel-card__tags">
-                        {p.tags.map(t => <span key={t} className="excel-tag">{t}</span>)}
-                      </div>
-                    )}
-                    <Link to="/contact" className="spec-link excel-link">
-                      Get in touch <ArrowRight size={14} />
-                    </Link>
-                  </div>
+                  <li key={p.slug} className="excel-row" data-reveal>
+                    <h3 className="excel-row__title">{p.title}</h3>
+                    <div className="excel-row__text">
+                      <p>{p.short}</p>
+                      {p.tags?.length > 0 && <p className="excel-row__roles">{p.tags.join(' · ')}</p>}
+                    </div>
+                    <div className="excel-row__links">
+                      {live > 0 && (
+                        <Link to="/jobs" className="excel-row__live">
+                          <span className="tnum">{live}</span> live {live === 1 ? 'role' : 'roles'}
+                        </Link>
+                      )}
+                      <Link to="/hire" className="excel-row__hire">Hire in {p.title}</Link>
+                    </div>
+                  </li>
                 )
               })}
-            </div>
+            </ul>
           </div>
         </section>
       </div>

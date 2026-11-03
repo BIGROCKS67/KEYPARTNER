@@ -1805,7 +1805,7 @@ button:focus-visible {
   margin-bottom: 48px;
 }
 .footer-logo { margin-bottom: 12px; }
-.footer-logo img { height: 44px; opacity: 0.9; }
+.footer-logo img { height: 44px; width: auto; opacity: 0.9; }
 .footer-tagline { font-size: 0.9rem; line-height: 1.6; max-width: 260px; }
 .footer-col h4 { font-size: 0.8rem; letter-spacing: 0.1em; text-transform: uppercase; font-weight: 700; color: rgba(255,255,255,0.35); margin-bottom: 16px; }
 .footer-col ul { display: flex; flex-direction: column; gap: 10px; }
@@ -3059,3 +3059,26 @@ input:focus-visible, select:focus-visible, textarea:focus-visible { outline: 2px
 .coverage-arc { stroke-dashoffset: 0; animation: none; }
 .coverage-plane { filter: drop-shadow(0 1px 2px rgba(0,0,0,0.35)); }
 @media (prefers-reduced-motion: reduce) { .coverage-pulse-ring { animation: none; } }
+
+/* Where we excel: a ruled list over the video instead of three boxes */
+.excel-list { list-style: none; padding: 0; margin-top: 48px; border-top: 1px solid rgba(255,255,255,0.28); }
+.excel-row {
+  display: grid; grid-template-columns: minmax(180px, 1fr) minmax(0, 2fr) auto;
+  gap: 16px 48px; align-items: baseline;
+  padding: 32px 0; border-bottom: 1px solid rgba(255,255,255,0.16);
+}
+.excel-row__title {
+  font-family: var(--font-display); font-size: clamp(1.8rem, 3vw, 2.6rem);
+  font-weight: 700; letter-spacing: -0.04em; line-height: 1; color: #fff;
+}
+.excel-row__text p { color: rgba(255,255,255,0.8); font-size: 1rem; line-height: 1.65; max-width: 52ch; }
+.excel-row__text .excel-row__roles { margin-top: 10px; font-size: 0.88rem; color: var(--green-300); }
+.excel-row__links { display: flex; flex-direction: column; align-items: flex-end; gap: 8px; white-space: nowrap; }
+.excel-row__live, .excel-row__hire { font-size: 0.9rem; font-weight: 700; text-decoration: underline; text-underline-offset: 4px; text-decoration-thickness: 1px; }
+.excel-row__live { color: #fff; }
+.excel-row__hire { color: var(--green-300); }
+.excel-row__live:hover, .excel-row__hire:hover { text-decoration-thickness: 2px; color: #fff; }
+@media (max-width: 900px) {
+  .excel-row { grid-template-columns: 1fr; gap: 12px; padding: 26px 0; }
+  .excel-row__links { flex-direction: row; align-items: center; gap: 20px; }
+}
