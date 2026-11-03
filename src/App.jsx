@@ -12,6 +12,7 @@ import { Job } from './pages/Job'
 import { Privacy } from './pages/Privacy'
 import { Applied } from './pages/Applied'
 import { NotFound } from './pages/NotFound'
+import { BandSwitcher } from './components/BandSwitcher'
 
 const Admin = lazy(() => import('./pages/Admin').then(m => ({ default: m.Admin })))
 
@@ -38,6 +39,7 @@ export default function App() {
               </Routes>
             </main>
             <Footer />
+            <BandSwitcher />
           </>
         } />
       </Routes>

@@ -3126,14 +3126,9 @@ input:focus-visible, select:focus-visible, textarea:focus-visible { outline: 2px
   color: rgba(232,247,238,0.35);
 }
 
-/* A soft light that follows the mouse on the closing green sections */
+/* Green bands hold BandArt (pattern + spotlight glow) under the content */
 .glow-band { position: relative; overflow: hidden; }
 .glow-band > .container { position: relative; z-index: 1; }
-.glow-band::before {
-  content: ''; position: absolute; inset: 0; pointer-events: none; z-index: 0;
-  opacity: var(--spot-on, 0);
-  background: radial-gradient(circle 420px at var(--spot-x, -999px) var(--spot-y, -999px), rgba(120,220,160,0.13), transparent 70%);
-}
 
 /* Local times on the hire page */
 .world-times {
@@ -3148,3 +3143,60 @@ input:focus-visible, select:focus-visible, textarea:focus-visible { outline: 2px
   color: var(--brand-white); font-variant-numeric: tabular-nums; letter-spacing: -0.02em;
 }
 @media (max-width: 640px) { .world-times { grid-template-columns: repeat(2, 1fr); row-gap: 20px; } }
+
+/* ════════════════════════════════════════
+   Green band backgrounds (dots / radar / colour shift / words)
+   No data-band attribute means the default, dots.
+   ════════════════════════════════════════ */
+
+.band-art { position: absolute; inset: 0; z-index: 0; pointer-events: none; overflow: hidden; }
+.band-art > * { display: none; }
+
+/* Dots: a fine grid; the dots near the light brighten */
+.band-dots {
+  position: absolute; inset: 0;
+  background-image: radial-gradient(circle, rgba(255,255,255,0.10) 1px, transparent 1.6px);
+  background-size: 22px 22px; background-position: center;
+}
+.band-dots--lit {
+  background-image: radial-gradient(circle, rgba(170,240,200,0.9) 1.3px, transparent 1.9px);
+  opacity: var(--spot-on, 0);
+  -webkit-mask-image: radial-gradient(circle 230px at var(--spot-x, -999px) var(--spot-y, -999px), #000 0%, rgba(0,0,0,0.25) 55%, transparent 100%);
+          mask-image: radial-gradient(circle 230px at var(--spot-x, -999px) var(--spot-y, -999px), #000 0%, rgba(0,0,0,0.25) 55%, transparent 100%);
+}
+:root:not([data-band]) .band-dots, :root[data-band='dots'] .band-dots { display: block; }
+
+/* Radar: rings from the bottom right corner, one slow pulse outwards */
+.band-rings { position: absolute; inset: 0; width: 100%; height: 100%; }
+.band-rings circle { fill: none; stroke: rgba(255,255,255,0.09); stroke-width: 1; vector-effect: non-scaling-stroke; }
+.band-rings .band-rings__pulse {
+  stroke: rgba(150,230,185,0.5); transform-origin: 1000px 1000px;
+  animation: bandPulse 7s cubic-bezier(.3,.6,.4,1) infinite;
+}
+@keyframes bandPulse { from { transform: scale(0.1); opacity: 1; } to { transform: scale(1.05); opacity: 0; } }
+:root[data-band='rings'] .band-rings { display: block; }
+
+/* Colour shift: the band arrives a brighter green and settles darker as it comes into view */
+.band-shift { position: absolute; inset: 0; background: #2f8a57; transition: opacity 1.4s cubic-bezier(.2,.7,.2,1); }
+.band-shift.is-in { opacity: 0; }
+:root[data-band='shift'] .band-shift { display: block; }
+
+/* Words: only in this mode */
+:root:not([data-band='words']) .hero-words--band { display: none; }
+
+@media (prefers-reduced-motion: reduce) {
+  .band-rings .band-rings__pulse { animation: none; opacity: 0; }
+  .band-shift { transition: none; opacity: 0; }
+}
+
+/* Preview-only switcher */
+.hero-switcher {
+  position: fixed; left: 16px; bottom: 16px; z-index: 200;
+  display: flex; align-items: center; gap: 4px; padding: 6px;
+  background: rgba(255,255,255,0.96); border: 1px solid var(--border); border-radius: 999px;
+  box-shadow: 0 10px 30px rgba(10,46,26,0.2); font-size: 0.8rem;
+}
+.hero-switcher__label { padding: 0 8px 0 10px; font-weight: 700; color: var(--text-muted); }
+.hero-switcher button { padding: 8px 12px; border-radius: 999px; font-weight: 700; color: var(--green-900); }
+.hero-switcher button[aria-pressed='true'] { background: var(--brand-green); color: #fff; }
+@media (max-width: 900px) { .hero-switcher { bottom: 84px; left: 8px; right: 8px; justify-content: center; } .hero-switcher__label { display: none; } }

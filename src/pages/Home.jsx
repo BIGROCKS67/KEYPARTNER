@@ -11,6 +11,7 @@ import { useJobs } from '../data/jobs-context'
 import { shortLocation, formatDate } from '../lib/jobs'
 import { HeroWords } from '../components/HeroWords'
 import { HeroSpotlight } from '../components/HeroSpotlight'
+import { BandArt } from '../components/BandArt'
 import { CountUp } from '../components/CountUp'
 import { SkeletonLine } from '../components/Skeleton'
 
@@ -256,9 +257,9 @@ export function Home() {
 
       {/* ── 3. VIDEO BREAK ── */}
       <div className="stack-card" style={{zIndex: 3}}>
-        <section className="video-break" aria-label="Our approach">
+        <section className="video-break glow-band" aria-label="Our approach">
           <HeroWords words={APPROACH_WORDS} rows={1} live={false} className="hero-words--band" />
-          <HeroSpotlight wander />
+          <BandArt />
           <div className="container video-break__content">
             <h2 className="video-break__heading" data-reveal>
               Recruitment done<br />the <em>right way.</em>
@@ -379,7 +380,7 @@ export function Home() {
       {/* ── CTA / CONTACT ── */}
       <div className="stack-card" style={{zIndex: 9}} id="contact">
         <section className="contact-strip glow-band">
-          <HeroSpotlight />
+          <BandArt />
           <div className="container contact-strip__grid">
             <div className="contact-strip__col">
               <p className="eyebrow contact-eyebrow">Hiring?</p>
