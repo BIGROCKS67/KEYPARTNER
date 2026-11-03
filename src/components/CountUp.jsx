@@ -16,7 +16,11 @@ export function CountUp({ value, delay = 0, duration = 1600 }) {
     const [, pre, num, post] = match
     const target = Number(num.replace(/,/g, ''))
     const grouped = num.includes(',')
-    const write = (n) => { out.current.textContent = `${pre}${grouped ? n.toLocaleString('en-GB') : n}${post}` }
+    const write = (n) => {
+      // The span is gone once the page has navigated away
+      if (!out.current) return
+      out.current.textContent = `${pre}${grouped ? n.toLocaleString('en-GB') : n}${post}`
+    }
     let frame = 0
     let timer = 0
     write(0)
