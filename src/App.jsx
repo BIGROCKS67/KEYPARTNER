@@ -4,7 +4,6 @@ import { LenisProvider } from './components/LenisProvider'
 import { Nav } from './components/Nav'
 import { Footer } from './components/Footer'
 import { Head } from './components/Head'
-import { HeroSwitcher } from './components/HeroSwitcher'
 import { Home } from './pages/Home'
 import { Jobs } from './pages/Jobs'
 import { Hire } from './pages/Hire'
@@ -39,7 +38,6 @@ export default function App() {
               </Routes>
             </main>
             <Footer />
-            <HeroSwitcher />
           </>
         } />
       </Routes>

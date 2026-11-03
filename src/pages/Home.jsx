@@ -9,7 +9,7 @@ import { CoverageMap } from '../components/CoverageMap'
 import { pillars } from '../data/content'
 import { useJobs } from '../data/jobs-context'
 import { shortLocation, formatDate } from '../lib/jobs'
-import { HeroArt } from '../components/HeroArt'
+import { HeroWords } from '../components/HeroWords'
 import { HeroSpotlight } from '../components/HeroSpotlight'
 import { CountUp } from '../components/CountUp'
 import { SkeletonLine } from '../components/Skeleton'
@@ -200,7 +200,7 @@ export function Home() {
     <>
       {/* ── 1. HERO ── */}
       <section className="hero hero--dark hero--map">
-        <HeroArt />
+        <HeroWords />
         <HeroSpotlight wander />
 
         <div className="hero-dark-grain" aria-hidden />
