@@ -2935,3 +2935,52 @@ input:focus-visible, select:focus-visible, textarea:focus-visible { outline: 2px
 .jobs-listings-section .jobs-empty a { color: var(--brand-green); }
 .jobs-listings-section .jobs-empty .jobs-filter-reset { min-height: 0; padding: 4px 10px; margin: 0 4px; }
 .jobs-results-count { margin: -16px 0 20px; font-size: 0.85rem; color: var(--text-muted); }
+
+/* ════════════════════════════════════════
+   Spruce-up, November 2026 (nudged towards burnssheehan.co.uk)
+   ════════════════════════════════════════ */
+
+/* Hero spotlight: a soft light follows the mouse and lifts the dark tint
+   over the video beneath it (HeroSpotlight.jsx sets the variables). */
+.has-spotlight .hero-video-bg__overlay {
+  -webkit-mask-image: radial-gradient(circle calc(340px * var(--spot-on, 0)) at var(--spot-x, -999px) var(--spot-y, -999px), rgba(0,0,0,0.35) 0%, rgba(0,0,0,0.7) 45%, #000 100%);
+          mask-image: radial-gradient(circle calc(340px * var(--spot-on, 0)) at var(--spot-x, -999px) var(--spot-y, -999px), rgba(0,0,0,0.35) 0%, rgba(0,0,0,0.7) 45%, #000 100%);
+}
+.hero-spotlight {
+  position: absolute; inset: 0; z-index: 1; pointer-events: none;
+  opacity: var(--spot-on, 0);
+  background: radial-gradient(circle 420px at var(--spot-x, -999px) var(--spot-y, -999px), rgba(93,198,138,0.16), rgba(93,198,138,0.05) 40%, transparent 70%);
+}
+
+/* Home hero buttons */
+.hero-actions--home { margin-top: 32px; }
+.btn-hero-pill {
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 15px 28px; border-radius: var(--radius-pill);
+  font-size: 0.9rem; font-weight: 700; letter-spacing: -0.01em;
+  color: #fff; background: transparent;
+  border: 1.5px solid rgba(255,255,255,0.55);
+  transition: background-color 0.2s var(--ease-out), border-color 0.2s, color 0.2s, transform 0.2s;
+}
+.btn-hero-pill:hover { background: #fff; border-color: #fff; color: var(--green-900); }
+
+/* Hero stats: big clean numbers on a thin rule (no glass tiles) */
+.hero-dark-stats { gap: 28px; margin-top: 56px; }
+.hero-dark-stat {
+  min-height: 0; padding: 18px 0 0;
+  background: none; border: none; border-radius: 0;
+  border-top: 1px solid rgba(255,255,255,0.28);
+  -webkit-backdrop-filter: none; backdrop-filter: none;
+}
+.hero-dark-stat:hover { background: none; transform: none; }
+.hero-dark-stat__num {
+  font-size: clamp(2.4rem, 3.6vw, 3.4rem);
+  font-weight: 300; letter-spacing: -0.05em;
+  font-variant-numeric: tabular-nums;
+  color: #fff;
+}
+.hero-dark-stat__label { font-weight: 500; color: rgba(255,255,255,0.75); margin-top: 12px; }
+@media (max-width: 768px) {
+  .hero-dark-stats { grid-template-columns: repeat(2, 1fr); gap: 20px 18px; margin-top: 40px; }
+  .hero-dark-stat__num { font-size: 2.3rem; }
+}

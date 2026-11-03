@@ -37,6 +37,11 @@ Matt and Dan preferred the original design, so this branch (`polish-nov-2026`) k
 - Registered office and company details added to the footer.
 - Unused pages and leftover files removed.
 
+**Spruce-up after Matt's feedback (nudged towards burnssheehan.co.uk)**
+- Hero spotlight: on desktop, a soft light follows the mouse across the dark heroes and brightens the video under it. Off on touch screens and for reduced motion.
+- Home hero now has two buttons: "Submit a vacancy" and "View live roles".
+- Hero stats are big clean numbers on a thin line, replacing the blurred glass tiles.
+
 ## Before going live
 
 1. Matt checks the preview and the CONFIRM list below.

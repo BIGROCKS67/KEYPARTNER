@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import { useParams, Link } from 'react-router-dom'
 import { gsap } from 'gsap'
+import { HeroSpotlight } from '../components/HeroSpotlight'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import { MapPin, Briefcase, Calendar, ArrowLeft, Mail, Check, Banknote, Share2, Phone, ArrowRight } from 'lucide-react'
 import { useJobs } from '../data/jobs-context'
@@ -129,6 +130,7 @@ export function Job() {
       <section className="job-page-hero-banner">
         <HeroVideo src={JOB_HERO_VIDEO} />
         <div className="hero-dark-grain" aria-hidden />
+        <HeroSpotlight />
 
         <div className="container job-page-banner-content">
           <Link to="/jobs" className="job-page-back hero-ani-1">

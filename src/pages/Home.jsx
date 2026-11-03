@@ -10,6 +10,7 @@ import { pillars } from '../data/content'
 import { useJobs } from '../data/jobs-context'
 import { shortLocation, formatDate } from '../lib/jobs'
 import { HeroVideo } from '../components/HeroVideo'
+import { HeroSpotlight } from '../components/HeroSpotlight'
 import { SkeletonLine } from '../components/Skeleton'
 import { useIsMobile } from '../hooks/useIsMobile'
 
@@ -211,6 +212,7 @@ export function Home() {
       {/* ── 1. HERO ── */}
       <section className="hero hero--dark">
         <HeroVideo key={isMobile ? 'hero-mob' : 'hero-desk'} sources={isMobile ? [HERO_VIDEO_MOBILE] : [HERO_VIDEO, HERO_VIDEO_FALLBACK]} />
+        <HeroSpotlight />
 
         <div className="hero-dark-grain" aria-hidden />
 
@@ -224,6 +226,11 @@ export function Home() {
           <p className="hero-dark-intro hero-ani-3">
             We partner with our clients on a retained or exclusive basis, delivering consistently high-quality outcomes:
           </p>
+
+          <div className="hero-actions hero-actions--home hero-ani-4">
+            <Link to="/hire" className="btn btn-hero-primary">Submit a vacancy <ArrowRight size={16} aria-hidden /></Link>
+            <Link to="/jobs" className="btn btn-hero-pill">View live roles</Link>
+          </div>
 
           <ul className="hero-dark-stats hero-ani-4" aria-label="Key results">
             <li className="hero-dark-stat">

@@ -3,6 +3,7 @@ import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import { ArrowRight, MapPin, Calendar, Briefcase, Mail, Check, Banknote, Search, X } from 'lucide-react'
 import { Link } from 'react-router-dom'
+import { HeroSpotlight } from '../components/HeroSpotlight'
 import { useJobs } from '../data/jobs-context'
 import { formatDate as fmtDate, plainText } from '../lib/jobs'
 import { JobCardSkeleton } from '../components/Skeleton'
@@ -105,6 +106,7 @@ export function Jobs() {
           <div className="hero-video-bg__overlay" />
         </div>
         <div className="hero-dark-grain" aria-hidden />
+        <HeroSpotlight />
 
         <div className="container hero-dark-content">
           <p className="eyebrow hero-dark-eyebrow hero-ani-1">Current Opportunities</p>
