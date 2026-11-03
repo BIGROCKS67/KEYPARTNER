@@ -48,6 +48,10 @@ Matt and Dan preferred the original design, so this branch (`polish-nov-2026`) k
 - The green sections below the hero also carry real proof, following what the strongest recruitment sites do (Aspen Search, Burns Sheehan, Compass Carter Osborne): one client's own words under "Recruitment done the right way" (the hospitality MD's "same day… filled within 5 days"), a "Talk to Matt" close on the home and hire pages with his photo, his number set large and UK time, a direct call line on the jobs page, and live local times for Milton Keynes, Dubai, Sydney and Auckland on the hire page. Dot grids, glows, rings and word marquees were tried and dropped as generic.
 - Three other hero designs (a role card stack, a duotone Matt portrait, a UK map of live roles) were tried and left out. They are in the git history at commit b7553fd if wanted later.
 
+## FormSubmit outage (3 Nov 2026)
+
+On go-live day FormSubmit (formsubmit.co) was down: every request timed out with Cloudflare error 522, so applications were lost and the activation email could not be sent. The form now checks FormSubmit answers within 8 seconds before posting; if not, it keeps the person on the page with a prefilled email to info@ourkeypartnership.co.uk (they attach their CV) and Matt's number. If FormSubmit keeps failing, move applications to a service we control (for example a Supabase table and storage bucket shown in `/admin`, with an email alert).
+
 ## Before going live
 
 1. Matt checks the preview and the CONFIRM list below.
