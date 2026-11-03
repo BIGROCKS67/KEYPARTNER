@@ -14,6 +14,12 @@ Keep these **identical** everywhere (site, Google, Bing, Apple, LinkedIn, direct
 
 ---
 
+## Photos (3 Nov 2026)
+
+- Existing owner photos: the brass office sign, a green "A business built on relationships" banner, and the head-mark logo (one logo upload was rejected by Google earlier). No cover photo set; Maps shows a street view of the front.
+- **Uploaded:** Matt's portrait (`public/matt.jpg`), pending Google review. It's the only real photo of him in the project; the site's other media is stock video, which can't go on the profile.
+- **Still wanted from Matt:** him at his desk, the office door at 76 High Street, inside the office, him with a client or candidate. Then set one as the cover photo.
+
 ## Site live and Search Console (3 Nov 2026, Jack's OK)
 
 - `polish-nov-2026` pushed to `main` (d014d54). GitHub Action built it with all 5 live jobs; Pages deployed. Checked live: every page 200 (404 page returns 404), new titles, robots, sitemap (10 URLs), verification file, no console errors, hero video and jobs showing.
