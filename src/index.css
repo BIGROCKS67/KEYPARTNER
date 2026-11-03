@@ -3109,3 +3109,42 @@ input:focus-visible, select:focus-visible, textarea:focus-visible { outline: 2px
 /* Headhunt: text sits over the words, so give it a soft dark backing */
 .hero:has(.hero-words) .hero-dark-content { text-shadow: 0 2px 30px rgba(10,46,26,0.95), 0 0 2px rgba(10,46,26,0.6); }
 
+
+/* ════════════════════════════════════════
+   Quieter touches for the other green bands
+   ════════════════════════════════════════ */
+
+/* One faint line of words behind "Recruitment done the right way" */
+.hero-words--band {
+  justify-content: flex-start; padding: clamp(84px, 9vw, 110px) 0 0;
+  font-size: clamp(2.6rem, 7vw, 6rem);
+}
+.hero-words--band .hero-words__row { animation-duration: 120s; }
+.hero-words--band.hero-words--lit {
+  -webkit-mask-image: radial-gradient(circle 260px at var(--spot-x, -999px) var(--spot-y, -999px), #000 0%, rgba(0,0,0,0.3) 50%, transparent 100%);
+          mask-image: radial-gradient(circle 260px at var(--spot-x, -999px) var(--spot-y, -999px), #000 0%, rgba(0,0,0,0.3) 50%, transparent 100%);
+  color: rgba(232,247,238,0.35);
+}
+
+/* A soft light that follows the mouse on the closing green sections */
+.glow-band { position: relative; overflow: hidden; }
+.glow-band > .container { position: relative; z-index: 1; }
+.glow-band::before {
+  content: ''; position: absolute; inset: 0; pointer-events: none; z-index: 0;
+  opacity: var(--spot-on, 0);
+  background: radial-gradient(circle 420px at var(--spot-x, -999px) var(--spot-y, -999px), rgba(120,220,160,0.13), transparent 70%);
+}
+
+/* Local times on the hire page */
+.world-times {
+  list-style: none; margin: clamp(28px, 4vw, 40px) 0 0; padding: 20px 0 0;
+  border-top: 1px solid rgba(255,255,255,0.18);
+  display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px;
+}
+.world-times li { display: flex; flex-direction: column; gap: 4px; }
+.world-times__place { font-size: 0.75rem; letter-spacing: 0.08em; text-transform: uppercase; color: rgba(255,255,255,0.6); }
+.world-times__time {
+  font-family: var(--font-display); font-weight: 700; font-size: clamp(1.3rem, 2.4vw, 1.8rem);
+  color: var(--brand-white); font-variant-numeric: tabular-nums; letter-spacing: -0.02em;
+}
+@media (max-width: 640px) { .world-times { grid-template-columns: repeat(2, 1fr); row-gap: 20px; } }

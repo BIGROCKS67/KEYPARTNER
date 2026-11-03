@@ -45,7 +45,7 @@ Matt and Dan preferred the original design, so this branch (`polish-nov-2026`) k
 
 **No stock videos (3 November 2026)**
 - Every Mixkit video and Unsplash photo is gone. The home, jobs and hire heroes use the Headhunt design: the skills Matt recruits for and his live role titles set as faint type, found by a spotlight that follows the mouse (or drifts on its own on phones). Live role titles come from Supabase, so they change as roles are added.
-- The other sections that had video are solid brand green.
+- The other sections that had video are solid brand green, each with one quiet touch: a faint line of words behind "Recruitment done the right way" that the spotlight picks out, a soft light that follows the mouse on the closing green sections, and live local times for Milton Keynes, Dubai, Sydney and Auckland on the hire page.
 - Three other hero designs (a role card stack, a duotone Matt portrait, a UK map of live roles) were tried and left out. They are in the git history at commit b7553fd if wanted later.
 
 ## Before going live

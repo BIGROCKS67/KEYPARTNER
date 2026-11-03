@@ -198,7 +198,8 @@ export function Jobs() {
       </section>
 
       {/* ── BOTTOM CTA ── */}
-      <section className="jobs-cta-section">
+      <section className="jobs-cta-section glow-band">
+        <HeroSpotlight />
         <div className="container jobs-cta-content">
           <p className="eyebrow jobs-cta-eyebrow" data-reveal>Don't see your role?</p>
           <h2 className="jobs-cta-title" data-reveal>

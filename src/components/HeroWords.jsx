@@ -13,14 +13,13 @@ const WORDS = [
   'Front End', 'Back End', 'Scrum Master', 'Product Owner', 'Head of Data', 'IT Support', 'ETL',
 ]
 
-const ROWS = 9
-
-export function HeroWords() {
+// `words` and `rows` let a quieter version run in other dark bands.
+export function HeroWords({ words = WORDS, rows: rowCount = 9, live = true, className = '' }) {
   const { jobs } = useJobs()
   const rows = useMemo(() => {
-    const titles = jobs.map(j => j.title)
-    const pool = [...WORDS]
-    return Array.from({ length: ROWS }, (_, r) => {
+    const titles = live ? jobs.map(j => j.title) : []
+    const pool = [...words]
+    return Array.from({ length: rowCount }, (_, r) => {
       const items = []
       for (let i = 0; i < 14; i++) {
         // A live role title every few words, the rest from the skills list
@@ -29,10 +28,10 @@ export function HeroWords() {
       }
       return items
     })
-  }, [jobs])
+  }, [jobs, words, rowCount, live])
 
   const layer = (lit) => (
-    <div className={`hero-words${lit ? ' hero-words--lit' : ''}`} aria-hidden>
+    <div className={`hero-words${lit ? ' hero-words--lit' : ''} ${className}`.trim()} aria-hidden>
       {rows.map((items, r) => (
         <div key={r} className={`hero-words__row${r % 2 ? ' hero-words__row--rev' : ''}`}>
           {items.map((w, i) => (

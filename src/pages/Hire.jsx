@@ -6,6 +6,7 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import { ArrowRight, CheckCircle2, Users, Search, Star, Clock, BarChart2, Handshake } from 'lucide-react'
 import { Testimonials } from '../components/Testimonials'
 import { CountUp } from '../components/CountUp'
+import { WorldTimes } from '../components/WorldTimes'
 
 gsap.registerPlugin(ScrollTrigger)
 
@@ -92,6 +93,7 @@ export function Hire() {
               Our clients span the UK and internationally, including the UAE, Australia and New Zealand. We work wherever the right hires need to be made.
             </p>
           </div>
+          <WorldTimes />
         </div>
       </section>
 
@@ -216,7 +218,8 @@ export function Hire() {
       <Testimonials />
 
       {/* ── LET'S TALK ── */}
-      <section style={{ padding: 'var(--section-pad) 0', background: 'var(--brand-green)' }}>
+      <section className="glow-band" style={{ padding: 'var(--section-pad) 0', background: 'var(--brand-green)' }}>
+        <HeroSpotlight />
         <div className="container" style={{ textAlign: 'center', maxWidth: 600, margin: '0 auto' }}>
           <p className="eyebrow" style={{ color: 'var(--green-300)' }} data-reveal>Let's Talk</p>
           <h2 style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(2rem, 4vw, 3rem)', fontWeight: 800, color: 'var(--brand-white)', letterSpacing: '-0.03em', lineHeight: 1.1, margin: '16px 0 20px' }} data-reveal>
