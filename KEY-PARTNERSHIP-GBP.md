@@ -25,7 +25,7 @@ Keep these **identical** everywhere (site, Google, Bing, Apple, LinkedIn, direct
 - `polish-nov-2026` pushed to `main` (d014d54). GitHub Action built it with all 5 live jobs; Pages deployed. Checked live: every page 200 (404 page returns 404), new titles, robots, sitemap (10 URLs), verification file, no console errors, hero video and jobs showing.
 - **Search Console:** property `https://ourkeypartnership.co.uk/` added under rockelljack@gmail.com, auto-verified by the HTML file. **Never delete `public/google4b6729940671f1e8.html`.** The property already had an old sitemap entry from 5 Oct 2025 ("Couldn't fetch", 7,665 discovered pages from the old site's catch-all page); `sitemap.xml` resubmitted today. Home page indexing requested (priority crawl queue).
 - **Bing Webmaster Tools:** imported from Search Console under the same account (read-only link), sitemap imported 3 Nov 2026. Bing also feeds ChatGPT search and Copilot.
-- **FormSubmit:** not activated yet. Send a test application from a live job page; Matt clicks the activation email at info@ourkeypartnership.co.uk.
+- **Applications:** FormSubmit was down on launch day (error 522); replaced the same day with apply-by-email (prefilled email to Matt, copy-address button, phone). Nothing to activate.
 
 ## Done on the profile (3 Nov 2026, Jack's OK)
 
@@ -57,7 +57,7 @@ Keep these **identical** everywhere (site, Google, Bing, Apple, LinkedIn, direct
 | # | Step | Who |
 |---|---|---|
 | 1 | Matt approves the preview; push `polish-nov-2026` to `main` | Jack says go, Claude pushes |
-| 2 | Send a test application so Matt can activate the form service | Jack, then Matt clicks the email |
+| 2 | ~~Activate the form service~~ (replaced by apply-by-email, 3 Nov) | Done |
 | 3 | Search Console: verify with the HTML file, submit `sitemap.xml`, request indexing of the home page | Claude, Jack signed in |
 | 4 | Bing Webmaster Tools: import from Search Console | Claude, Jack signed in |
 | 5 | Matt adds Jack as **Manager** on the profile | Done 3 Nov |
