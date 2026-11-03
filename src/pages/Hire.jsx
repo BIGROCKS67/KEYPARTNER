@@ -4,6 +4,7 @@ import { HeroSpotlight } from '../components/HeroSpotlight'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import { ArrowRight, CheckCircle2, Users, Search, Star, Clock, BarChart2, Handshake } from 'lucide-react'
 import { Testimonials } from '../components/Testimonials'
+import { CountUp } from '../components/CountUp'
 
 gsap.registerPlugin(ScrollTrigger)
 
@@ -121,8 +122,8 @@ export function Hire() {
                 { icon: Handshake, title: 'Proper representation', body: 'We represent your business correctly in the market, as if we were part of your team.' },
               ].map((item, i) => (
                 <div key={i} style={{ display: 'flex', gap: 20, padding: '24px 0', borderBottom: '1px solid var(--border)', alignItems: 'flex-start' }}>
-                  <div style={{ width: 36, height: 36, minWidth: 36, background: 'var(--green-100)', borderRadius: 8, display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'var(--brand-green)', marginTop: 2 }}>
-                    <item.icon size={16} />
+                  <div style={{ minWidth: 20, color: 'var(--brand-green)', marginTop: 3 }}>
+                    <item.icon size={18} aria-hidden />
                   </div>
                   <div>
                     <p style={{ fontWeight: 700, marginBottom: 4 }}>{item.title}</p>
@@ -142,7 +143,7 @@ export function Hire() {
             <div className="section-divider" style={{ margin: '0 auto 24px' }} />
             <h2 className="section-title">What You Can Expect</h2>
           </div>
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 24 }}>
+          <div className="expect-grid">
             {[
               { icon: Users, title: '3 candidates per role', body: 'Three of the best-suited people, so there is no long list to filter through.' },
               { icon: Clock, title: '7-day CV delivery SLA', body: 'Qualified, engaged candidates within the first week.' },
@@ -150,12 +151,9 @@ export function Hire() {
               { icon: Handshake, title: 'On-site time with clients', body: 'We spend time understanding your teams, culture and environment.' },
               { icon: BarChart2, title: 'Market insight', body: 'Annual salary benchmarking to support hiring decisions.' },
             ].map(item => (
-              <div key={item.title} className="card" data-reveal style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
-                <div style={{ width: 44, height: 44, background: 'var(--green-100)', borderRadius: 10, display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'var(--brand-green)' }}>
-                  <item.icon size={20} />
-                </div>
-                <h3 style={{ fontSize: '1rem', fontWeight: 700 }}>{item.title}</h3>
-                <p style={{ fontSize: '0.9rem', color: 'var(--text-muted)', lineHeight: 1.65 }}>{item.body}</p>
+              <div key={item.title} className="expect-item" data-reveal>
+                <h3>{item.title}</h3>
+                <p>{item.body}</p>
               </div>
             ))}
           </div>
@@ -187,7 +185,7 @@ export function Hire() {
             </div>
           </div>
           <div style={{ marginTop: 32, padding: '32px 40px', background: 'var(--brand-green)', borderRadius: 'var(--radius-lg)', display: 'flex', alignItems: 'center', gap: 32, flexWrap: 'wrap' }} data-reveal>
-            <p style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(2rem, 4vw, 3rem)', fontWeight: 800, color: 'var(--green-300)', letterSpacing: '-0.04em', lineHeight: 1, whiteSpace: 'nowrap' }}>£30,000+</p>
+            <p style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(2rem, 4vw, 3rem)', fontWeight: 800, color: 'var(--green-300)', letterSpacing: '-0.04em', lineHeight: 1, whiteSpace: 'nowrap' }}><CountUp value="£30,000+" /></p>
             <p style={{ color: 'rgba(255,255,255,0.82)', lineHeight: 1.6, fontSize: '1rem' }}>
               Saved for one client last year compared to a traditional per-placement model. Our fee structure is built to work with you long-term.
             </p>
@@ -211,7 +209,6 @@ export function Hire() {
               { num: '05', title: 'Long-term thinking', body: 'We build partnerships, not one-off transactions.' },
             ].map((item, i) => (
               <div key={i} style={{ padding: '36px 32px', borderBottom: '1px solid var(--border)', borderRight: '1px solid var(--border)' }} data-reveal>
-                <p style={{ fontFamily: 'var(--font-display)', fontSize: '2.2rem', fontWeight: 800, color: 'var(--green-100)', lineHeight: 1, marginBottom: 16, letterSpacing: '-0.04em' }}>{item.num}</p>
                 <h3 style={{ fontWeight: 700, fontSize: '1rem', marginBottom: 8 }}>{item.title}</h3>
                 <p style={{ fontSize: '0.88rem', color: 'var(--text-muted)', lineHeight: 1.65 }}>{item.body}</p>
               </div>

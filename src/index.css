@@ -2984,3 +2984,62 @@ input:focus-visible, select:focus-visible, textarea:focus-visible { outline: 2px
   .hero-dark-stats { grid-template-columns: repeat(2, 1fr); gap: 20px 18px; margin-top: 40px; }
   .hero-dark-stat__num { font-size: 2.3rem; }
 }
+
+/* Spruce-up, round 2 */
+
+/* Count-up figures: a hidden copy holds the width */
+.count-up { position: relative; display: inline-block; }
+.count-up__sizer { visibility: hidden; }
+.count-up__value { position: absolute; left: 0; top: 0; }
+
+/* Spotlight also on the large video bands further down the home page */
+.has-spotlight .video-break__overlay,
+.has-spotlight .contact-video-bg__overlay {
+  -webkit-mask-image: radial-gradient(circle calc(380px * var(--spot-on, 0)) at var(--spot-x, -999px) var(--spot-y, -999px), rgba(0,0,0,0.35) 0%, rgba(0,0,0,0.7) 45%, #000 100%);
+          mask-image: radial-gradient(circle calc(380px * var(--spot-on, 0)) at var(--spot-x, -999px) var(--spot-y, -999px), rgba(0,0,0,0.35) 0%, rgba(0,0,0,0.7) 45%, #000 100%);
+}
+
+/* What we're known for: open columns on a rule, like the hero stats */
+.known-for-grid { gap: 40px; }
+.known-for-card {
+  padding: 28px 0 0; gap: 14px;
+  background: none; border: none; border-radius: 0;
+  border-top: 2px solid var(--brand-green);
+}
+.known-for-card:hover { box-shadow: none; transform: none; border-color: var(--brand-green); }
+.kf-title { font-size: 1.4rem; line-height: 1.2; }
+.kf-body { color: var(--text-secondary); font-weight: 400; }
+
+/* Where we excel: no frosted glass, clean panels with a top rule */
+.excel-card {
+  background: rgba(4,24,14,0.55);
+  border: 1px solid rgba(255,255,255,0.08);
+  border-top: 2px solid var(--green-300);
+  border-radius: var(--radius);
+  -webkit-backdrop-filter: none; backdrop-filter: none;
+}
+.excel-card:hover { background: rgba(4,24,14,0.7); border-color: rgba(255,255,255,0.12); border-top-color: var(--green-300); transform: none; box-shadow: none; }
+.excel-card__title { font-weight: 700; }
+.excel-card__body { font-weight: 400; color: rgba(255,255,255,0.75); }
+
+/* Reviews: solid cards, larger quote mark */
+.testimonial-card {
+  background: rgba(4,24,14,0.5);
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: var(--radius);
+  -webkit-backdrop-filter: none; backdrop-filter: none;
+}
+.testimonial-quote { font-size: 3.4rem; color: var(--green-300); line-height: 0.6; margin-bottom: 0; }
+.testimonial-text { font-weight: 400; color: rgba(255,255,255,0.9); }
+
+@media (max-width: 900px) {
+  .known-for-grid { gap: 32px; }
+}
+
+/* Hire: what you can expect, as open ruled columns */
+.expect-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 36px 40px; }
+.expect-item { border-top: 2px solid var(--brand-green); padding-top: 22px; }
+.expect-item h3 { font-family: var(--font-display); font-size: 1.15rem; font-weight: 800; letter-spacing: -0.02em; color: var(--text-primary); margin-bottom: 8px; }
+.expect-item p { font-size: 0.95rem; color: var(--text-secondary); line-height: 1.65; }
+@media (max-width: 900px) { .expect-grid { grid-template-columns: 1fr 1fr; } }
+@media (max-width: 560px) { .expect-grid { grid-template-columns: 1fr; gap: 28px; } }

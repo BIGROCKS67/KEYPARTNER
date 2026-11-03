@@ -40,7 +40,8 @@ Matt and Dan preferred the original design, so this branch (`polish-nov-2026`) k
 **Spruce-up after Matt's feedback (nudged towards burnssheehan.co.uk)**
 - Hero spotlight: on desktop, a soft light follows the mouse across the dark heroes and brightens the video under it. Off on touch screens and for reduced motion.
 - Home hero now has two buttons: "Submit a vacancy" and "View live roles".
-- Hero stats are big clean numbers on a thin line, replacing the blurred glass tiles.
+- Hero stats are big clean numbers on a thin line, replacing the blurred glass tiles. They count up from zero when the page opens (the £30,000+ on the hire page does too).
+- The same clean, ruled look carried down the site: "What we're known for" and "What you can expect" are open columns (no icon boxes or 01/02/03), the specialism and review cards lose the frosted glass, and the mouse spotlight also lights the two big video bands lower on the home page.
 
 ## Before going live
 

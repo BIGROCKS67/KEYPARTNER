@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom'
 import useEmblaCarousel from 'embla-carousel-react'
 import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
-import { ArrowRight, ArrowDown, Cpu, TrendingUp, Database, MapPin, Clock, Briefcase, Heart, Users, Award, ChevronLeft, ChevronRight } from 'lucide-react'
+import { ArrowRight, ArrowDown, MapPin, Clock, Briefcase, ChevronLeft, ChevronRight } from 'lucide-react'
 import { Testimonials } from '../components/Testimonials'
 import { CoverageMap } from '../components/CoverageMap'
 import { pillars } from '../data/content'
@@ -11,6 +11,7 @@ import { useJobs } from '../data/jobs-context'
 import { shortLocation, formatDate } from '../lib/jobs'
 import { HeroVideo } from '../components/HeroVideo'
 import { HeroSpotlight } from '../components/HeroSpotlight'
+import { CountUp } from '../components/CountUp'
 import { SkeletonLine } from '../components/Skeleton'
 import { useIsMobile } from '../hooks/useIsMobile'
 
@@ -163,26 +164,18 @@ function JobsCarousel() {
 
 const knownFor = [
   {
-    num: '01',
     title: 'Relationships, Not Transactions',
     body: 'We work as partners, not suppliers. That means honest conversations, clear expectations, and a focus on long-term fit, not quick placements.',
-    Icon: Heart,
   },
   {
-    num: '02',
     title: 'A Select Client Portfolio',
     body: 'We intentionally keep our client base small. It allows us to properly understand your business: how you operate, how your teams work, and what "good" really looks like. We don\'t just fill roles. We represent you in the market.',
-    Icon: Users,
   },
   {
-    num: '03',
     title: 'Quality Over Quantity. Every Single Time.',
     body: 'We don\'t rely on job boards or inbound applicants. We proactively identify and approach the talent other recruiters simply cannot reach. Fewer CVs. Better candidates.',
-    Icon: Award,
   },
 ]
-
-const pillarIcons = { technology: Cpu, commercial: TrendingUp, 'data-ai': Database }
 
 export function Home() {
   const isMobile = useIsMobile()
@@ -234,23 +227,23 @@ export function Home() {
 
           <ul className="hero-dark-stats hero-ani-4" aria-label="Key results">
             <li className="hero-dark-stat">
-              <span className="hero-dark-stat__num">95%</span>
+              <span className="hero-dark-stat__num"><CountUp value="95%" delay={900} /></span>
               <span className="hero-dark-stat__label">Offer Acceptance Rate</span>
             </li>
             <li className="hero-dark-stat">
-              <span className="hero-dark-stat__num">90%</span>
+              <span className="hero-dark-stat__num"><CountUp value="90%" delay={1020} /></span>
               <span className="hero-dark-stat__label">12-Month Retention</span>
             </li>
             <li className="hero-dark-stat">
-              <span className="hero-dark-stat__num">80%</span>
+              <span className="hero-dark-stat__num"><CountUp value="80%" delay={1140} /></span>
               <span className="hero-dark-stat__label">Repeat Client Partnerships</span>
             </li>
             <li className="hero-dark-stat">
-              <span className="hero-dark-stat__num">500+</span>
+              <span className="hero-dark-stat__num"><CountUp value="500+" delay={1260} /></span>
               <span className="hero-dark-stat__label">Roles Delivered</span>
             </li>
             <li className="hero-dark-stat">
-              <span className="hero-dark-stat__num">5+</span>
+              <span className="hero-dark-stat__num"><CountUp value="5+" delay={1380} /></span>
               <span className="hero-dark-stat__label">Years in Business</span>
             </li>
           </ul>
@@ -265,6 +258,7 @@ export function Home() {
       {/* ── 3. VIDEO BREAK ── */}
       <div className="stack-card" style={{zIndex: 3}}>
         <section className="video-break" aria-label="Our approach">
+          <HeroSpotlight />
           <div className="video-break__media">
             <video autoPlay muted loop playsInline preload="none" className="video-break__vid">
               <source src={VIDEO_BREAK_SRC} type="video/mp4" />
@@ -301,8 +295,6 @@ export function Home() {
             <div className="known-for-grid">
               {knownFor.map((item, i) => (
                 <div key={i} className="known-for-card" data-reveal>
-                  <div className="kf-num">{item.num}</div>
-                  <div className="kf-icon-wrap"><item.Icon size={22} /></div>
                   <h3 className="kf-title">{item.title}</h3>
                   <p className="kf-body">{item.body}</p>
                 </div>
@@ -327,10 +319,8 @@ export function Home() {
             <h2 className="section-title excel-title" data-reveal>Where We Excel</h2>
             <div className="excel-grid">
               {pillars.map(p => {
-                const Icon = pillarIcons[p.slug] || Cpu
                 return (
                   <div key={p.slug} className="excel-card" data-reveal>
-                    <div className="excel-card__icon"><Icon size={28} /></div>
                     <h3 className="excel-card__title">{p.title}</h3>
                     <p className="excel-card__body">{p.short}</p>
                     {p.tags && p.tags.length > 0 && (
@@ -398,6 +388,7 @@ export function Home() {
       {/* ── CTA / CONTACT ── */}
       <div className="stack-card" style={{zIndex: 9}} id="contact">
         <section className="contact-strip">
+          <HeroSpotlight />
           <div className="contact-video-bg" aria-hidden>
             <video autoPlay muted loop playsInline preload="none" className="contact-video-bg__vid">
               <source src={CONTACT_VIDEO_SRC} type="video/mp4" />
