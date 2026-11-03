@@ -2,7 +2,7 @@
 
 3 November 2026. Live site: https://ourkeypartnership.co.uk. Preview: https://key-partnership-preview.vercel.app (every page sends `noindex`).
 
-Matt and Dan preferred the original design, so this branch (`polish-nov-2026`) keeps it, stock videos included, and adds the upgrades below. The ledger-style redesign Jack showed first is kept on branch `redesign-nov-2026` and is not used. Both branches are local only, **nothing pushed**. Pushing `polish-nov-2026` to `main` makes it live (the GitHub Action builds into `docs/`).
+Matt and Dan preferred the original design, so this branch (`polish-nov-2026`) keeps it, stock videos included, and adds the upgrades below. The ledger-style redesign Jack showed first is kept on branch `redesign-nov-2026` and is not used. **Live since 3 Nov 2026:** `polish-nov-2026` was pushed to `main` and the GitHub Action builds it into `docs/`. `redesign-nov-2026` stays local.
 
 ## What changed
 

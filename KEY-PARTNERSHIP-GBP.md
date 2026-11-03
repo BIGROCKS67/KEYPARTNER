@@ -14,6 +14,13 @@ Keep these **identical** everywhere (site, Google, Bing, Apple, LinkedIn, direct
 
 ---
 
+## Site live and Search Console (3 Nov 2026, Jack's OK)
+
+- `polish-nov-2026` pushed to `main` (d014d54). GitHub Action built it with all 5 live jobs; Pages deployed. Checked live: every page 200 (404 page returns 404), new titles, robots, sitemap (10 URLs), verification file, no console errors, hero video and jobs showing.
+- **Search Console:** property `https://ourkeypartnership.co.uk/` added under rockelljack@gmail.com, auto-verified by the HTML file. **Never delete `public/google4b6729940671f1e8.html`.** The property already had an old sitemap entry from 5 Oct 2025 ("Couldn't fetch", 7,665 discovered pages from the old site's catch-all page); `sitemap.xml` resubmitted today. Home page indexing requested (priority crawl queue).
+- **Bing Webmaster Tools:** not done yet, needs Jack to sign in.
+- **FormSubmit:** not activated yet. Send a test application from a live job page; Matt clicks the activation email at info@ourkeypartnership.co.uk.
+
 ## Done on the profile (3 Nov 2026, Jack's OK)
 
 - **Categories:** added Employment consultant and Executive search firm (Recruiter stays primary). Live. The UK list has **no** "Employment agency" category.
