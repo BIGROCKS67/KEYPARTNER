@@ -1,13 +1,15 @@
 import { useEffect } from 'react'
 import { gsap } from 'gsap'
 import { HeroSpotlight } from '../components/HeroSpotlight'
-import { HeroWords } from '../components/HeroWords'
+import { HeroVideo } from '../components/HeroVideo'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import { ArrowRight, CheckCircle2, Users, Search, Star, Clock, BarChart2, Handshake } from 'lucide-react'
 import { Testimonials } from '../components/Testimonials'
 import { CountUp } from '../components/CountUp'
 import { WorldTimes } from '../components/WorldTimes'
 import { TalkToMatt } from '../components/TalkToMatt'
+
+const HIRE_HERO_VIDEO = 'https://assets.mixkit.co/videos/49470/49470-720.mp4'
 
 gsap.registerPlugin(ScrollTrigger)
 
@@ -27,10 +29,10 @@ export function Hire() {
   return (
     <>
       {/* ── HERO ── */}
-      <section className="hero hero--dark hero--map">
-        <HeroWords />
+      <section className="hero hero--dark">
+        <HeroVideo src={HIRE_HERO_VIDEO} />
         <div className="hero-dark-grain" aria-hidden />
-        <HeroSpotlight wander />
+        <HeroSpotlight />
         <div className="container hero-dark-content">
           <p className="eyebrow hero-dark-eyebrow hero-ani-1">For Our Clients</p>
           <h1 className="hero-dark-title hero-ani-2">

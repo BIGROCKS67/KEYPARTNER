@@ -4,10 +4,21 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import { ArrowRight, MapPin, Calendar, Briefcase, Mail, Check, Banknote, Search, X } from 'lucide-react'
 import { Link } from 'react-router-dom'
 import { HeroSpotlight } from '../components/HeroSpotlight'
-import { HeroWords } from '../components/HeroWords'
+import { useIsMobile } from '../hooks/useIsMobile'
 import { HeroVideo } from '../components/HeroVideo'
 
 const JOBS_CTA_VIDEO = 'https://assets.mixkit.co/videos/49470/49470-720.mp4'
+// Hero crossfades between three clips, as on Matt's original site
+const JOBS_HERO_VIDEOS_DESKTOP = [
+  'https://assets.mixkit.co/videos/6779/6779-720.mp4',
+  'https://assets.mixkit.co/videos/5434/5434-720.mp4',
+  'https://assets.mixkit.co/videos/48114/48114-720.mp4',
+]
+const JOBS_HERO_VIDEOS_MOBILE = [
+  'https://assets.mixkit.co/videos/36958/36958-720.mp4',
+  'https://assets.mixkit.co/videos/5434/5434-720.mp4',
+  'https://assets.mixkit.co/videos/48114/48114-720.mp4',
+]
 import { useJobs } from '../data/jobs-context'
 import { formatDate as fmtDate, plainText } from '../lib/jobs'
 import { JobCardSkeleton } from '../components/Skeleton'
@@ -16,6 +27,14 @@ gsap.registerPlugin(ScrollTrigger)
 
 
 export function Jobs() {
+  const isMobile = useIsMobile()
+  const JOBS_HERO_VIDEOS = isMobile ? JOBS_HERO_VIDEOS_MOBILE : JOBS_HERO_VIDEOS_DESKTOP
+  const [activeVid, setActiveVid] = useState(0)
+  useEffect(() => {
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return
+    const id = setInterval(() => setActiveVid(i => (i + 1) % JOBS_HERO_VIDEOS.length), 8000)
+    return () => clearInterval(id)
+  }, [JOBS_HERO_VIDEOS.length])
   const [search, setSearch] = useState('')
   const [filterLocation, setFilterLocation] = useState('')
   const [filterType, setFilterType] = useState('')
@@ -67,10 +86,27 @@ export function Jobs() {
   return (
     <>
       {/* ── HERO ── */}
-      <section className="hero hero--dark hero--map">
-        <HeroWords />
+      <section className="hero hero--dark">
+        <div className="hero-video-bg" aria-hidden>
+          {JOBS_HERO_VIDEOS.map((src, i) => (
+            <video
+              key={src}
+              autoPlay muted loop playsInline preload={i === 0 ? 'auto' : 'none'}
+              className="hero-video-bg__vid"
+              style={{
+                opacity: i === activeVid ? 1 : 0,
+                transition: 'opacity 1.5s ease-in-out',
+                position: i === 0 ? 'relative' : 'absolute',
+                inset: i === 0 ? undefined : 0,
+              }}
+            >
+              <source src={src} type="video/mp4" />
+            </video>
+          ))}
+          <div className="hero-video-bg__overlay" />
+        </div>
         <div className="hero-dark-grain" aria-hidden />
-        <HeroSpotlight wander />
+        <HeroSpotlight />
 
         <div className="container hero-dark-content">
           <p className="eyebrow hero-dark-eyebrow hero-ani-1">Current Opportunities</p>

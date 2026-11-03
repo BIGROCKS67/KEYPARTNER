@@ -43,9 +43,8 @@ Matt and Dan preferred the original design, so this branch (`polish-nov-2026`) k
 - Hero stats are big clean numbers on a thin line, replacing the blurred glass tiles. They count up from zero when the page opens (the £30,000+ on the hire page does too).
 - The same clean, ruled look carried down the site: "What we're known for" and "What you can expect" are open columns (no icon boxes or 01/02/03), the specialism and review cards lose the frosted glass, and the mouse spotlight also lights the two big video bands lower on the home page.
 
-**No stock videos (3 November 2026)**
-- Every Mixkit video and Unsplash photo is gone. The home, jobs and hire heroes use the Headhunt design: the skills Matt recruits for and his live role titles set as faint type, found by a spotlight that follows the mouse (or drifts on its own on phones). Live role titles come from Supabase, so they change as roles are added.
-- The Mixkit videos are back behind the lower sections (the "right way" band, specialisms, the map, the home contact close and the jobs page close); the heroes keep the Headhunt design.
+**Hero and section backgrounds (3 November 2026)**
+- After trying several replacements (a role-word "Headhunt" hero, a live roles map, a role card stack, a Matt portrait, and dots, rings and colour-shift bands), the original Mixkit videos are back everywhere they were: the home, jobs and hire heroes and the lower home and jobs sections. The alternatives are in the git history (commits b7553fd and 77542be) if wanted later.
 - The green sections below the hero also carry real proof, following what the strongest recruitment sites do (Aspen Search, Burns Sheehan, Compass Carter Osborne): one client's own words under "Recruitment done the right way" (the hospitality MD's "same day… filled within 5 days"), a "Talk to Matt" close on the home and hire pages with his photo, his number set large and UK time, a direct call line on the jobs page, and live local times for Milton Keynes, Dubai, Sydney and Auckland on the hire page. Dot grids, glows, rings and word marquees were tried and dropped as generic.
 - Three other hero designs (a role card stack, a duotone Matt portrait, a UK map of live roles) were tried and left out. They are in the git history at commit b7553fd if wanted later.
 

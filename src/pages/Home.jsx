@@ -9,7 +9,7 @@ import { CoverageMap } from '../components/CoverageMap'
 import { pillars } from '../data/content'
 import { useJobs } from '../data/jobs-context'
 import { shortLocation, formatDate } from '../lib/jobs'
-import { HeroWords } from '../components/HeroWords'
+import { useIsMobile } from '../hooks/useIsMobile'
 import { HeroSpotlight } from '../components/HeroSpotlight'
 import { TalkToMatt } from '../components/TalkToMatt'
 import { HeroVideo } from '../components/HeroVideo'
@@ -22,7 +22,10 @@ gsap.registerPlugin(ScrollTrigger)
 
 const CYCLE_WORDS = ['Relationships', 'Trust', 'Experience', 'Success']
 
-// Mixkit stock footage behind the lower green sections (Matt likes them)
+// Mixkit stock footage, as on Matt's original site
+const HERO_VIDEO = 'https://assets.mixkit.co/videos/49288/49288-720.mp4'
+const HERO_VIDEO_FALLBACK = 'https://assets.mixkit.co/videos/5499/5499-720.mp4'
+const HERO_VIDEO_MOBILE = 'https://assets.mixkit.co/videos/49288/49288-720.mp4'
 const VIDEO_BREAK_SRC = 'https://assets.mixkit.co/videos/46078/46078-720.mp4'
 const EXCEL_VIDEO_SRC = 'https://assets.mixkit.co/videos/11001/11001-720.mp4'
 const CONTACT_VIDEO_SRC = 'https://assets.mixkit.co/videos/15795/15795-720.mp4'
@@ -185,6 +188,7 @@ const knownFor = [
 ]
 
 export function Home() {
+  const isMobile = useIsMobile()
   const { jobs } = useJobs()
 
   useEffect(() => {
@@ -210,9 +214,9 @@ export function Home() {
   return (
     <>
       {/* ── 1. HERO ── */}
-      <section className="hero hero--dark hero--map">
-        <HeroWords />
-        <HeroSpotlight wander />
+      <section className="hero hero--dark">
+        <HeroVideo key={isMobile ? 'hero-mob' : 'hero-desk'} sources={isMobile ? [HERO_VIDEO_MOBILE] : [HERO_VIDEO, HERO_VIDEO_FALLBACK]} />
+        <HeroSpotlight />
 
         <div className="hero-dark-grain" aria-hidden />
 

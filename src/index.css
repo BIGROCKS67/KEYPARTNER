@@ -3077,31 +3077,6 @@ input:focus-visible, select:focus-visible, textarea:focus-visible { outline: 2px
   .excel-row__links { flex-direction: row; align-items: center; gap: 20px; }
 }
 
-/* ════════════════════════════════════════
-   Headhunt hero: skills found by the spotlight
-   ════════════════════════════════════════ */
-
-.hero-words {
-  position: absolute; inset: 0; z-index: 0; pointer-events: none; overflow: hidden;
-  display: flex; flex-direction: column; justify-content: space-around; padding: 70px 0 20px;
-  font-family: var(--font-display); font-weight: 700; letter-spacing: -0.03em; line-height: 1;
-  font-size: clamp(1.6rem, 3.2vw, 3rem); color: rgba(255,255,255,0.03); white-space: nowrap;
-}
-.hero-words__row { display: flex; gap: 0.9em; margin-left: -6%; animation: wordsDrift 90s linear infinite alternate; }
-.hero-words__row--rev { animation-direction: alternate-reverse; transform: translateX(-12%); }
-.hero-words__row span.is-live { color: rgba(93,198,138,0.08); }
-.hero-words--lit { color: rgba(232,247,238,0.75); opacity: 0; z-index: 1; }
-.hero-words--lit .hero-words__row span.is-live { color: #5dc68a; }
-.has-spotlight .hero-words--lit {
-  opacity: var(--spot-on, 0);
-  -webkit-mask-image: radial-gradient(circle 190px at var(--spot-x, -999px) var(--spot-y, -999px), #000 0%, rgba(0,0,0,0.35) 50%, transparent 100%);
-          mask-image: radial-gradient(circle 190px at var(--spot-x, -999px) var(--spot-y, -999px), #000 0%, rgba(0,0,0,0.35) 50%, transparent 100%);
-}
-@keyframes wordsDrift { from { transform: translateX(0); } to { transform: translateX(-14%); } }
-@media (prefers-reduced-motion: reduce) { .hero-words__row { animation: none; } }
-
-/* Headhunt: text sits over the words, so give it a soft dark backing */
-.hero:has(.hero-words) .hero-dark-content { text-shadow: 0 2px 30px rgba(10,46,26,0.95), 0 0 2px rgba(10,46,26,0.6); }
 
 
 /* Local times on the hire page */
