@@ -15,7 +15,7 @@ Matt and Dan preferred the original design, so this branch (`polish-nov-2026`) k
 
 **Job page**
 - Adverts pasted from Word are cleaned up: no stray fonts, typed bullets become real lists, shouty headings become sentence case.
-- An on-page apply form with CV upload replaces the mailto link. It shows errors next to fields and a summary at the top, and leads to a confirmation page.
+- Apply by email: a prefilled email to Matt with the role and reference in the subject, a copy-address button and his phone number.
 - Hero buttons: apply and share. Matt's photo and phone in the sidebar card, plus a reference number.
 - Related roles, a proper "role filled" page, and a sticky Apply / Call bar on phones.
 
@@ -48,21 +48,20 @@ Matt and Dan preferred the original design, so this branch (`polish-nov-2026`) k
 - The green sections below the hero also carry real proof, following what the strongest recruitment sites do (Aspen Search, Burns Sheehan, Compass Carter Osborne): one client's own words under "Recruitment done the right way" (the hospitality MD's "same day… filled within 5 days"), a "Talk to Matt" close on the home and hire pages with his photo, his number set large and UK time, a direct call line on the jobs page, and live local times for Milton Keynes, Dubai, Sydney and Auckland on the hire page. Dot grids, glows, rings and word marquees were tried and dropped as generic.
 - Three other hero designs (a role card stack, a duotone Matt portrait, a UK map of live roles) were tried and left out. They are in the git history at commit b7553fd if wanted later.
 
-## FormSubmit outage (3 Nov 2026)
+## Applications by email (3 Nov 2026)
 
-On go-live day FormSubmit (formsubmit.co) was down: every request timed out with Cloudflare error 522, so applications were lost and the activation email could not be sent. The form now checks FormSubmit answers within 8 seconds before posting; if not, it keeps the person on the page with a prefilled email to info@ourkeypartnership.co.uk (they attach their CV) and Matt's number. If FormSubmit keeps failing, move applications to a service we control (for example a Supabase table and storage bucket shown in `/admin`, with an email alert).
+On go-live day FormSubmit (the free service the apply form posted to) was down with Cloudflare error 522, so applications were lost. At Jack's call the form is gone: each job page now has "Email my CV to Matt" (opens an email to info@ourkeypartnership.co.uk with the role and reference in the subject), a "Copy email address" button for webmail users, and Matt's phone number. No third-party service, nothing to activate. The `/applied` page is removed.
 
 ## Before going live
 
 1. Matt checks the preview and the CONFIRM list below.
 2. Push `polish-nov-2026` to `main`. Check the Action passes (it uses the existing Supabase secrets).
-3. **Straight after it is live:** send one test application from a job page. FormSubmit emails an activation link to info@ourkeypartnership.co.uk, and Matt must click it. Until then, applications are not delivered. Send a second test and check it arrives with the CV attached and not in spam.
 4. When Jack wants: Search Console and Bing (submit `sitemap.xml`), Google Business Profile.
 
 ## CONFIRM list for Matt
 
 1. Privacy notice draft: CV retention (written as up to 2 years), his email provider, lawful bases.
-2. Response time on the apply form and confirmation page: "within 24 hours" (taken from the old job page).
+2. Response time on the job page: "within 24 hours" (taken from the old job page).
 3. Job adverts don't say permanent or contract (the law asks agencies to). Adding an "Employment type" field to the admin needs a new Supabase column.
 4. Google job markup names Key Partnership as the hiring organisation for confidential clients.
 5. The stats (95%, 90%, 80%, 500+) and the £30,000 saving are unchanged from his site. Keep a note of where they come from.

@@ -8,7 +8,7 @@ import { useJobs } from '../data/jobs-context'
 import { hasSupabase, loadSupabase } from '../lib/supabase-lazy'
 import { cleanDescription, formatDate, isoDay, jobPath, jobRef, normaliseJob, shortLocation } from '../lib/jobs'
 import { EMAIL, PHONE_DISPLAY, PHONE_TEL, SITE_URL } from '../lib/site'
-import { ApplyForm } from '../components/ApplyForm'
+import { EmailApply } from '../components/EmailApply'
 import { MapEmbed } from '../components/MapEmbed'
 import { SkeletonLine } from '../components/Skeleton'
 
@@ -177,8 +177,8 @@ export function Job() {
             <div className="job-apply-section" id="apply" data-reveal>
               <div className="section-divider" />
               <h2 className="section-title" style={{ marginBottom: 12 }}>Apply for this role</h2>
-              <p className="job-apply-section__intro">Send your CV and we'll be in touch within 24 hours. It takes about a minute.</p>
-              <ApplyForm job={job} />
+              <p className="job-apply-section__intro">Matt will be in touch within 24 hours.</p>
+              <EmailApply job={job} />
             </div>
 
             <p className="job-legal">

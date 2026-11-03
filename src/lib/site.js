@@ -28,9 +28,3 @@ export const FOUNDER = {
 }
 
 export const COMPANY_LINKEDIN = 'https://linkedin.com/company/key-partnership-recruitment'
-
-// FormSubmit relays form posts (with attachments) to the inbox.
-// The first submission sends an activation email to EMAIL that must be confirmed.
-export const FORM_ACTION = `https://formsubmit.co/${EMAIL}`
-
-export const CV_MAX_MB = 5

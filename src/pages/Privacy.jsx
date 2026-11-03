@@ -31,7 +31,6 @@ export function Privacy() {
 
           <h2>Who receives it</h2>
           <ul>
-            <li>FormSubmit (formsubmit.co) passes form entries and attachments to our email inbox.</li>
             <li>Our email provider stores the messages.</li>
             <li>GitHub hosts this website. Supabase stores the job adverts shown on it, so your browser connects to Supabase when a page loads; it does not hold your application.</li>
             <li>The background videos are served by Mixkit and the coverage map outline by jsDelivr, so your browser connects to them to load those files. Neither receives anything you type.</li>

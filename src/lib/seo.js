@@ -140,9 +140,6 @@ export function headFor(pathname, { jobs = [], job = null } = {}) {
   if (path === '/privacy') {
     return { ...base, title: 'Privacy notice | Key Partnership Recruitment', description: 'How Key Partnership Recruitment Ltd uses the details and CVs you send us.' }
   }
-  if (path === '/applied' || path === '/brief-received') {
-    return { ...base, title: 'Thank you | Key Partnership Recruitment', description: 'Your details have been sent to Matt Stimpson.', robots: 'noindex, follow' }
-  }
   return { ...base, title: 'Page not found | Key Partnership Recruitment', description: 'This page does not exist.', robots: 'noindex, follow', canonical: null }
 }
 

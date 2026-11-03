@@ -2825,46 +2825,6 @@ input:focus-visible, select:focus-visible, textarea:focus-visible { outline: 2px
 .job-desc-rendered li { text-wrap: pretty; }
 
 /* Forms (apply) */
-.enquiry { display: grid; gap: 20px; margin-top: 20px; }
-.enquiry__row { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
-@media (max-width: 640px) { .enquiry__row { grid-template-columns: 1fr; } }
-.field { display: grid; gap: 6px; align-content: start; }
-.field label { font-size: 0.85rem; font-weight: 700; color: var(--green-900); }
-.field__hint { font-size: 0.8rem; color: var(--text-muted); }
-.field__error { font-size: 0.85rem; font-weight: 700; color: #b42318; }
-.field input:not([type='file']), .field select, .field textarea {
-  width: 100%; min-height: 48px; padding: 12px 14px; font: inherit; font-size: max(16px, 0.95rem);
-  color: var(--text-primary); background: var(--brand-white);
-  border: 1.5px solid var(--border); border-radius: var(--radius);
-  transition: border-color 0.15s, box-shadow 0.15s;
-}
-.field input:not([type='file']):hover, .field textarea:hover { border-color: var(--green-300); }
-.field input:not([type='file']):focus, .field textarea:focus {
-  border-color: var(--brand-green); box-shadow: 0 0 0 4px rgba(38,138,80,0.14); outline: none;
-}
-.field textarea { field-sizing: content; min-height: 110px; max-height: 320px; resize: vertical; }
-.field input[type='file'] {
-  font: inherit; font-size: 0.9rem; color: var(--text-secondary);
-  padding: 10px; border: 1.5px dashed var(--border); border-radius: var(--radius); background: var(--brand-white);
-}
-.field input[type='file']::file-selector-button {
-  font: inherit; font-weight: 700; font-size: 0.85rem; margin-right: 12px; padding: 9px 16px; cursor: pointer;
-  border: none; border-radius: var(--radius-pill); background: var(--green-100); color: var(--brand-green);
-}
-.field--error input, .field--error textarea { border-color: #b42318 !important; }
-.field--error { padding-left: 14px; border-left: 3px solid #b42318; }
-.error-summary { padding: 18px 20px; border: 2px solid #b42318; border-radius: var(--radius); background: #fff; }
-.error-summary h3 { font-size: 1rem; font-weight: 800; color: var(--green-900); margin-bottom: 6px; }
-.error-summary ul { padding-left: 18px; list-style: disc; }
-.error-summary a { color: #b42318; font-weight: 700; text-decoration: underline; }
-.error-summary:focus { outline: 2px solid var(--green-900); outline-offset: 2px; }
-.enquiry__notice { font-size: 0.8rem; color: var(--text-muted); line-height: 1.6; }
-.enquiry__notice a { color: var(--brand-green); text-decoration: underline; }
-.enquiry__send { display: flex; flex-wrap: wrap; align-items: center; gap: 12px 20px; }
-.enquiry__submit[disabled] { opacity: 0.75; cursor: progress; transform: none; }
-.enquiry__alt { font-size: 0.85rem; color: var(--text-muted); }
-.enquiry__alt a { color: var(--brand-green); font-weight: 700; }
-.hp { position: absolute; left: -9999px; width: 1px; height: 1px; overflow: hidden; }
 
 /* Sticky apply bar on phones (job pages only) */
 .mobile-apply-bar { display: none; }
@@ -3159,6 +3119,16 @@ input:focus-visible, select:focus-visible, textarea:focus-visible { outline: 2px
 /* Contact content sits above the background video */
 .contact-strip .talk { z-index: 1; }
 
-/* Shown when FormSubmit doesn't answer */
-.form-down p { margin: 8px 0 0; }
-.form-down a.btn { display: inline-flex; margin-top: 4px; color: #fff; text-decoration: none; }
+
+/* Job page: apply by email */
+.email-apply { display: grid; gap: 18px; margin-top: 20px; }
+.email-apply__steps { margin: 0; padding-left: 1.3em; display: grid; gap: 8px; color: var(--text-secondary); line-height: 1.6; }
+.email-apply__address { color: var(--brand-green); font-weight: 700; text-decoration: underline; text-underline-offset: 3px; overflow-wrap: anywhere; }
+.email-apply__steps strong { font-variant-numeric: tabular-nums; color: var(--green-900); }
+.email-apply__actions { display: flex; flex-wrap: wrap; gap: 12px; }
+.email-apply__alt { font-size: 0.9rem; color: var(--text-muted); }
+.email-apply__alt a { color: var(--brand-green); font-weight: 700; }
+.email-apply__notice { font-size: 0.8rem; color: var(--text-muted); line-height: 1.6; }
+.email-apply__notice a { color: var(--brand-green); text-decoration: underline; }
+.email-apply__copy { background: transparent; color: var(--green-900); border: 1.5px solid var(--brand-green); }
+.email-apply__copy:hover { background: var(--brand-green); color: #fff; }

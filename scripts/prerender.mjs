@@ -70,7 +70,6 @@ const routes = [
   ['/hire', 'hire.html'],
   ['/contact', 'contact.html'],
   ['/privacy', 'privacy.html'],
-  ['/applied', 'applied.html'],
   ...jobs.map(j => [ssr.jobPath(j), `${ssr.jobPath(j).slice(1)}.html`, j]),
 ]
 
@@ -105,7 +104,6 @@ write('robots.txt', `# Search engines and AI search assistants are welcome.
 User-agent: *
 Allow: /
 Disallow: /admin
-Disallow: /applied
 
 Sitemap: ${SITE}/sitemap.xml
 `)

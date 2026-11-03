@@ -10,7 +10,6 @@ import { Hire } from './pages/Hire'
 import { Contact } from './pages/Contact'
 import { Job } from './pages/Job'
 import { Privacy } from './pages/Privacy'
-import { Applied } from './pages/Applied'
 import { NotFound } from './pages/NotFound'
 
 const Admin = lazy(() => import('./pages/Admin').then(m => ({ default: m.Admin })))
@@ -33,7 +32,6 @@ export default function App() {
                 <Route path="/hire"     element={<Hire />} />
                 <Route path="/contact"  element={<Contact />} />
                 <Route path="/privacy"  element={<Privacy />} />
-                <Route path="/applied"  element={<Applied />} />
                 <Route path="*"         element={<NotFound />} />
               </Routes>
             </main>
