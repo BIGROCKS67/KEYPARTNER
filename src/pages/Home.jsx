@@ -29,9 +29,9 @@ const CYCLE_WORDS = ['Relationships', 'Trust', 'Experience', 'Success']
 
 function CyclingText() {
   const [wordIdx, setWordIdx] = useState(0)
-  // Starts with the first word already written, so the headline arrives
-  // whole while it fades in; cycling begins once it has settled.
-  const [displayed, setDisplayed] = useState(CYCLE_WORDS[0])
+  // Typing waits until the headline has faded in (hero-ani-2 starts at
+  // 0.3s), so the first word is typed in view rather than while hidden.
+  const [displayed, setDisplayed] = useState('')
   const [phase, setPhase] = useState('intro')
 
   useEffect(() => {
@@ -40,7 +40,7 @@ function CyclingText() {
     const word = CYCLE_WORDS[wordIdx]
     let t
     if (phase === 'intro') {
-      t = setTimeout(() => setPhase('deleting'), 3200)
+      t = setTimeout(() => setPhase('typing'), 650)
     } else if (phase === 'typing') {
       if (displayed.length < word.length) {
         t = setTimeout(() => setDisplayed(word.slice(0, displayed.length + 1)), 80)
