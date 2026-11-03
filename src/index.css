@@ -3155,29 +3155,29 @@ input:focus-visible, select:focus-visible, textarea:focus-visible { outline: 2px
 /* Dots: a fine grid; the dots near the light brighten */
 .band-dots {
   position: absolute; inset: 0;
-  background-image: radial-gradient(circle, rgba(255,255,255,0.10) 1px, transparent 1.6px);
+  background-image: radial-gradient(circle, rgba(255,255,255,0.16) 1.1px, transparent 1.7px);
   background-size: 22px 22px; background-position: center;
 }
 .band-dots--lit {
   background-image: radial-gradient(circle, rgba(170,240,200,0.9) 1.3px, transparent 1.9px);
   opacity: var(--spot-on, 0);
-  -webkit-mask-image: radial-gradient(circle 230px at var(--spot-x, -999px) var(--spot-y, -999px), #000 0%, rgba(0,0,0,0.25) 55%, transparent 100%);
-          mask-image: radial-gradient(circle 230px at var(--spot-x, -999px) var(--spot-y, -999px), #000 0%, rgba(0,0,0,0.25) 55%, transparent 100%);
+  -webkit-mask-image: radial-gradient(circle 300px at var(--spot-x, -999px) var(--spot-y, -999px), #000 0%, rgba(0,0,0,0.25) 55%, transparent 100%);
+          mask-image: radial-gradient(circle 300px at var(--spot-x, -999px) var(--spot-y, -999px), #000 0%, rgba(0,0,0,0.25) 55%, transparent 100%);
 }
 :root:not([data-band]) .band-dots, :root[data-band='dots'] .band-dots { display: block; }
 
 /* Radar: rings from the bottom right corner, one slow pulse outwards */
 .band-rings { position: absolute; inset: 0; width: 100%; height: 100%; }
-.band-rings circle { fill: none; stroke: rgba(255,255,255,0.09); stroke-width: 1; vector-effect: non-scaling-stroke; }
+.band-rings circle { fill: none; stroke: rgba(255,255,255,0.14); stroke-width: 1; vector-effect: non-scaling-stroke; }
 .band-rings .band-rings__pulse {
-  stroke: rgba(150,230,185,0.5); transform-origin: 1000px 1000px;
-  animation: bandPulse 7s cubic-bezier(.3,.6,.4,1) infinite;
+  stroke: rgba(150,230,185,0.75); stroke-width: 1.5; transform-origin: 1000px 1000px;
+  animation: bandPulse 5s cubic-bezier(.3,.6,.4,1) infinite;
 }
 @keyframes bandPulse { from { transform: scale(0.1); opacity: 1; } to { transform: scale(1.05); opacity: 0; } }
 :root[data-band='rings'] .band-rings { display: block; }
 
 /* Colour shift: the band arrives a brighter green and settles darker as it comes into view */
-.band-shift { position: absolute; inset: 0; background: #2f8a57; transition: opacity 1.4s cubic-bezier(.2,.7,.2,1); }
+.band-shift { position: absolute; inset: 0; background: #3c9a64; transition: opacity 1.8s cubic-bezier(.2,.7,.2,1); }
 .band-shift.is-in { opacity: 0; }
 :root[data-band='shift'] .band-shift { display: block; }
 

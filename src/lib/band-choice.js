@@ -25,6 +25,7 @@ export function readBand() {
 // the prerendered HTML (no attribute) shows the default.
 export function setBand(value) {
   document.documentElement.dataset.band = value
+  showBand()
   try { localStorage.setItem(KEY, value) } catch { /* private mode */ }
   const url = new URL(window.location.href)
   url.searchParams.set('band', value)
@@ -33,4 +34,25 @@ export function setBand(value) {
 
 export function useApplyBand() {
   useEffect(() => { document.documentElement.dataset.band = readBand() }, [])
+}
+
+// Preview helper: bring a green band into view so the change can be seen,
+// and replay the colour shift.
+function showBand() {
+  const bands = [...document.querySelectorAll('.glow-band')]
+  if (!bands.length) return
+  const inView = bands.find(b => {
+    const r = b.getBoundingClientRect()
+    return r.top < window.innerHeight * 0.8 && r.bottom > window.innerHeight * 0.2
+  })
+  if (!inView) {
+    const next = bands.find(b => b.getBoundingClientRect().top > 0) || bands[bands.length - 1]
+    // Lenis runs the page scroll, so go through it when it is there
+    if (window.__kpLenis) window.__kpLenis.scrollTo(next, { offset: -80, duration: 1.2 })
+    else window.scrollTo({ top: next.getBoundingClientRect().top + window.scrollY - 80, behavior: 'smooth' })
+  }
+  document.querySelectorAll('.band-shift').forEach(el => {
+    el.classList.remove('is-in')
+    setTimeout(() => el.classList.add('is-in'), 900)
+  })
 }
