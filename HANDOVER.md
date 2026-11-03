@@ -43,6 +43,11 @@ Matt and Dan preferred the original design, so this branch (`polish-nov-2026`) k
 - Hero stats are big clean numbers on a thin line, replacing the blurred glass tiles. They count up from zero when the page opens (the £30,000+ on the hire page does too).
 - The same clean, ruled look carried down the site: "What we're known for" and "What you can expect" are open columns (no icon boxes or 01/02/03), the specialism and review cards lose the frosted glass, and the mouse spotlight also lights the two big video bands lower on the home page.
 
+**No stock videos (3 November 2026)**
+- Every Mixkit video and Unsplash photo is gone. The home, jobs and hire heroes show a dotted map of the UK instead. A line draws from the Stony Stratford office to the town of each live role in turn, labelled with the role and salary. It reads from the live jobs, so it changes as Matt adds roles. A town not in the list in `src/components/HeroMap.jsx` still shows on the site, just without a line.
+- The dots light up under the mouse spotlight. The other sections that had video are now solid brand green.
+- The UK dot data is made by `scripts/make-uk-dots.mjs` from the world-atlas outline.
+
 ## Before going live
 
 1. Matt checks the preview and the CONFIRM list below.

@@ -4,40 +4,18 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import { ArrowRight, MapPin, Calendar, Briefcase, Mail, Check, Banknote, Search, X } from 'lucide-react'
 import { Link } from 'react-router-dom'
 import { HeroSpotlight } from '../components/HeroSpotlight'
+import { HeroMap } from '../components/HeroMap'
 import { useJobs } from '../data/jobs-context'
 import { formatDate as fmtDate, plainText } from '../lib/jobs'
 import { JobCardSkeleton } from '../components/Skeleton'
-import { useIsMobile } from '../hooks/useIsMobile'
 
 gsap.registerPlugin(ScrollTrigger)
 
-const JOBS_HERO_VIDEOS_DESKTOP = [
-  'https://assets.mixkit.co/videos/6779/6779-720.mp4',
-  'https://assets.mixkit.co/videos/5434/5434-720.mp4',
-  'https://assets.mixkit.co/videos/48114/48114-720.mp4',
-]
-const JOBS_HERO_VIDEOS_MOBILE = [
-  'https://assets.mixkit.co/videos/36958/36958-720.mp4',
-  'https://assets.mixkit.co/videos/5434/5434-720.mp4',
-  'https://assets.mixkit.co/videos/48114/48114-720.mp4',
-]
-// Interviewer listening to applicant — perfect for "submit your CV" CTA
-const JOBS_CTA_VIDEO  = 'https://assets.mixkit.co/videos/49470/49470-720.mp4'
-// Modern open-plan office — subtle texture behind listings
-const JOBS_LISTINGS_IMG = 'https://images.unsplash.com/photo-1497366216548-37526070297c?w=1600&q=80'
 
 export function Jobs() {
-  const isMobile = useIsMobile()
-  const JOBS_HERO_VIDEOS = isMobile ? JOBS_HERO_VIDEOS_MOBILE : JOBS_HERO_VIDEOS_DESKTOP
-  const [activeVid, setActiveVid] = useState(0)
   const [search, setSearch] = useState('')
   const [filterLocation, setFilterLocation] = useState('')
   const [filterType, setFilterType] = useState('')
-
-  useEffect(() => {
-    const id = setInterval(() => setActiveVid(i => (i + 1) % JOBS_HERO_VIDEOS.length), 8000)
-    return () => clearInterval(id)
-  }, [JOBS_HERO_VIDEOS.length])
 
   const { jobs: displayJobs, fresh } = useJobs()
 
@@ -86,25 +64,8 @@ export function Jobs() {
   return (
     <>
       {/* ── HERO ── */}
-      <section className="hero hero--dark">
-        <div className="hero-video-bg" aria-hidden>
-          {JOBS_HERO_VIDEOS.map((src, i) => (
-            <video
-              key={src}
-              autoPlay muted loop playsInline preload={i === 0 ? 'auto' : 'none'}
-              className="hero-video-bg__vid"
-              style={{
-                opacity: i === activeVid ? 1 : 0,
-                transition: 'opacity 1.5s ease-in-out',
-                position: i === 0 ? 'relative' : 'absolute',
-                inset: i === 0 ? undefined : 0,
-              }}
-            >
-              <source src={src} type="video/mp4" />
-            </video>
-          ))}
-          <div className="hero-video-bg__overlay" />
-        </div>
+      <section className="hero hero--dark hero--map">
+        <HeroMap />
         <div className="hero-dark-grain" aria-hidden />
         <HeroSpotlight />
 
@@ -128,7 +89,6 @@ export function Jobs() {
       <section
         className="jobs-listings-section"
         id="listings"
-        style={{ backgroundImage: `url(${JOBS_LISTINGS_IMG})` }}
       >
         <div className="jobs-listings-overlay" aria-hidden />
         <div className="container jobs-listings-inner">
@@ -239,12 +199,6 @@ export function Jobs() {
 
       {/* ── BOTTOM CTA ── */}
       <section className="jobs-cta-section">
-        <div className="jobs-cta-video-bg" aria-hidden>
-          <video autoPlay muted loop playsInline preload="none" className="jobs-cta-vid">
-            <source src={JOBS_CTA_VIDEO} type="video/mp4" />
-          </video>
-          <div className="jobs-cta-overlay" />
-        </div>
         <div className="container jobs-cta-content">
           <p className="eyebrow jobs-cta-eyebrow" data-reveal>Don't see your role?</p>
           <h2 className="jobs-cta-title" data-reveal>

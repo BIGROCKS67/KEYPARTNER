@@ -11,11 +11,8 @@ import { EMAIL, PHONE_DISPLAY, PHONE_TEL, SITE_URL } from '../lib/site'
 import { ApplyForm } from '../components/ApplyForm'
 import { MapEmbed } from '../components/MapEmbed'
 import { SkeletonLine } from '../components/Skeleton'
-import { HeroVideo } from '../components/HeroVideo'
 
 gsap.registerPlugin(ScrollTrigger)
-
-const JOB_HERO_VIDEO = 'https://assets.mixkit.co/videos/6779/6779-720.mp4'
 
 function ShareButton({ job }) {
   const [copied, setCopied] = useState(false)
@@ -128,7 +125,6 @@ export function Job() {
     <>
       {/* ── HERO ── */}
       <section className="job-page-hero-banner">
-        <HeroVideo src={JOB_HERO_VIDEO} />
         <div className="hero-dark-grain" aria-hidden />
         <HeroSpotlight />
 

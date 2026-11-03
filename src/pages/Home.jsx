@@ -9,21 +9,13 @@ import { CoverageMap } from '../components/CoverageMap'
 import { pillars } from '../data/content'
 import { useJobs } from '../data/jobs-context'
 import { shortLocation, formatDate } from '../lib/jobs'
-import { HeroVideo } from '../components/HeroVideo'
+import { HeroMap } from '../components/HeroMap'
 import { HeroSpotlight } from '../components/HeroSpotlight'
 import { CountUp } from '../components/CountUp'
 import { SkeletonLine } from '../components/Skeleton'
-import { useIsMobile } from '../hooks/useIsMobile'
 
 gsap.registerPlugin(ScrollTrigger)
 
-const HERO_VIDEO = 'https://assets.mixkit.co/videos/49288/49288-720.mp4'
-const HERO_VIDEO_FALLBACK = 'https://assets.mixkit.co/videos/5499/5499-720.mp4'
-const HERO_VIDEO_MOBILE = 'https://assets.mixkit.co/videos/49288/49288-720.mp4'
-const VIDEO_BREAK_SRC = 'https://assets.mixkit.co/videos/46078/46078-720.mp4'
-const EXCEL_VIDEO_SRC = 'https://assets.mixkit.co/videos/11001/11001-720.mp4'
-const CONTACT_VIDEO_SRC = 'https://assets.mixkit.co/videos/15795/15795-720.mp4'
-const KNOWN_FOR_IMG = 'https://images.unsplash.com/photo-1521791136064-7986c2920216?w=1600&q=80'
 
 const CYCLE_WORDS = ['Relationships', 'Trust', 'Experience', 'Success']
 
@@ -182,7 +174,6 @@ const knownFor = [
 ]
 
 export function Home() {
-  const isMobile = useIsMobile()
   const { jobs } = useJobs()
 
   useEffect(() => {
@@ -208,8 +199,8 @@ export function Home() {
   return (
     <>
       {/* ── 1. HERO ── */}
-      <section className="hero hero--dark">
-        <HeroVideo key={isMobile ? 'hero-mob' : 'hero-desk'} sources={isMobile ? [HERO_VIDEO_MOBILE] : [HERO_VIDEO, HERO_VIDEO_FALLBACK]} />
+      <section className="hero hero--dark hero--map">
+        <HeroMap />
         <HeroSpotlight />
 
         <div className="hero-dark-grain" aria-hidden />
@@ -264,12 +255,6 @@ export function Home() {
       <div className="stack-card" style={{zIndex: 3}}>
         <section className="video-break" aria-label="Our approach">
           <HeroSpotlight />
-          <div className="video-break__media">
-            <video autoPlay muted loop playsInline preload="none" className="video-break__vid">
-              <source src={VIDEO_BREAK_SRC} type="video/mp4" />
-            </video>
-            <div className="video-break__overlay" aria-hidden />
-          </div>
           <div className="container video-break__content">
             <h2 className="video-break__heading" data-reveal>
               Recruitment done<br />the <em>right way.</em>
@@ -286,8 +271,7 @@ export function Home() {
 
       {/* ── 4. WHAT WE'RE KNOWN FOR ── */}
       <div className="stack-card" style={{zIndex: 4}}>
-        <section className="known-for-section" style={{backgroundImage: `url(${KNOWN_FOR_IMG})`}}>
-          <div className="known-for-bg-overlay" aria-hidden />
+        <section className="known-for-section">
           <div className="container">
             <div className="section-header">
               <div className="section-divider" data-reveal />
@@ -312,12 +296,6 @@ export function Home() {
       {/* ── 5. WHERE WE EXCEL ── */}
       <div className="stack-card" style={{zIndex: 5}}>
         <section className="excel-section">
-          <div className="excel-video-bg" aria-hidden>
-            <video autoPlay muted loop playsInline preload="none" className="excel-video-bg__vid">
-              <source src={EXCEL_VIDEO_SRC} type="video/mp4" />
-            </video>
-            <div className="excel-video-bg__overlay" />
-          </div>
           <div className="container">
             <div className="section-divider white" data-reveal />
             <p className="eyebrow excel-eyebrow" data-reveal>Specialisms</p>
@@ -398,12 +376,6 @@ export function Home() {
       <div className="stack-card" style={{zIndex: 9}} id="contact">
         <section className="contact-strip">
           <HeroSpotlight />
-          <div className="contact-video-bg" aria-hidden>
-            <video autoPlay muted loop playsInline preload="none" className="contact-video-bg__vid">
-              <source src={CONTACT_VIDEO_SRC} type="video/mp4" />
-            </video>
-            <div className="contact-video-bg__overlay" />
-          </div>
           <div className="container contact-strip__grid">
             <div className="contact-strip__col">
               <p className="eyebrow contact-eyebrow">Hiring?</p>
