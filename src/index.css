@@ -3139,3 +3139,102 @@ input:focus-visible, select:focus-visible, textarea:focus-visible { outline: 2px
   .hero-map__svg { right: -18%; height: 78%; opacity: 0.55; transform: translateY(-50%); }
   .hero-map__label, .hero-map__ping { display: none; }
 }
+
+/* ════════════════════════════════════════
+   Hero options (switchable on the preview)
+   ════════════════════════════════════════ */
+
+/* 1. Headhunt: faint skills, found by the spotlight */
+.hero-words {
+  position: absolute; inset: 0; z-index: 0; pointer-events: none; overflow: hidden;
+  display: flex; flex-direction: column; justify-content: space-around; padding: 70px 0 20px;
+  font-family: var(--font-display); font-weight: 700; letter-spacing: -0.03em; line-height: 1;
+  font-size: clamp(1.6rem, 3.2vw, 3rem); color: rgba(255,255,255,0.03); white-space: nowrap;
+}
+.hero-words__row { display: flex; gap: 0.9em; margin-left: -6%; animation: wordsDrift 90s linear infinite alternate; }
+.hero-words__row--rev { animation-direction: alternate-reverse; transform: translateX(-12%); }
+.hero-words__row span.is-live { color: rgba(93,198,138,0.08); }
+.hero-words--lit { color: rgba(232,247,238,0.75); opacity: 0; z-index: 1; }
+.hero-words--lit .hero-words__row span.is-live { color: #5dc68a; }
+.has-spotlight .hero-words--lit {
+  opacity: var(--spot-on, 0);
+  -webkit-mask-image: radial-gradient(circle 190px at var(--spot-x, -999px) var(--spot-y, -999px), #000 0%, rgba(0,0,0,0.35) 50%, transparent 100%);
+          mask-image: radial-gradient(circle 190px at var(--spot-x, -999px) var(--spot-y, -999px), #000 0%, rgba(0,0,0,0.35) 50%, transparent 100%);
+}
+@keyframes wordsDrift { from { transform: translateX(0); } to { transform: translateX(-14%); } }
+@media (prefers-reduced-motion: reduce) { .hero-words__row { animation: none; } }
+
+/* 2. Live roles: a stack of role cards beside the text */
+.hero-deck {
+  position: absolute; z-index: 2; top: 50%; transform: translateY(-42%);
+  right: max(24px, calc((100vw - 1180px) / 2)); width: min(380px, 32vw);
+}
+.hero-deck__head { display: flex; align-items: center; gap: 8px; font-size: 0.8rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--green-300); margin-bottom: 16px; }
+.hero-deck__dot { width: 8px; height: 8px; border-radius: 50%; background: #5dc68a; box-shadow: 0 0 0 0 rgba(93,198,138,0.6); animation: deckDot 2s ease-out infinite; }
+@keyframes deckDot { 70% { box-shadow: 0 0 0 10px rgba(93,198,138,0); } 100% { box-shadow: 0 0 0 0 rgba(93,198,138,0); } }
+.hero-deck__stack { position: relative; height: 250px; }
+.hero-deck__card {
+  position: absolute; inset: 0 0 auto 0; height: 220px;
+  display: flex; flex-direction: column; gap: 8px; padding: 24px 26px;
+  background: #fff; color: var(--text-primary); border-radius: var(--radius-lg);
+  box-shadow: 0 1px 2px rgba(0,0,0,0.2), 0 24px 48px rgba(0,0,0,0.28);
+  transform: translateY(calc(var(--i) * 14px)) scale(calc(1 - var(--i) * 0.05));
+  opacity: calc(1 - var(--i) * 0.28);
+  z-index: calc(10 - var(--i));
+  transition: transform 0.6s var(--ease-out), opacity 0.6s var(--ease-out);
+  animation: deckIn 0.6s var(--ease-out);
+}
+.hero-deck__card:hover { transform: translateY(-4px); }
+@keyframes deckIn { from { transform: translateY(-28px) scale(1.02); opacity: 0; } }
+.hero-deck__badge { align-self: flex-start; display: inline-flex; align-items: center; gap: 6px; font-size: 0.72rem; font-weight: 700; color: var(--brand-green); background: var(--green-100); padding: 4px 10px; border-radius: 999px; }
+.hero-deck__title { font-family: var(--font-display); font-size: 1.35rem; font-weight: 800; letter-spacing: -0.03em; line-height: 1.15; }
+.hero-deck__meta { display: inline-flex; align-items: center; gap: 6px; font-size: 0.88rem; color: var(--text-muted); }
+.hero-deck__salary { font-weight: 700; color: var(--brand-green); }
+.hero-deck__cta { margin-top: auto; display: inline-flex; align-items: center; gap: 6px; font-size: 0.85rem; font-weight: 700; color: var(--green-900); }
+.hero-deck__all { display: inline-block; margin-top: 8px; color: #fff; font-weight: 700; font-size: 0.9rem; text-decoration: underline; text-underline-offset: 4px; }
+@media (prefers-reduced-motion: reduce) { .hero-deck__card { animation: none; transition: none; } .hero-deck__dot { animation: none; } }
+@media (max-width: 1100px) { .hero-deck { display: none; } }
+
+/* 3. Matt: duotone portrait, real colour under the spotlight */
+.hero-matt {
+  position: absolute; z-index: 1; top: 50%; transform: translateY(-46%);
+  right: max(24px, calc((100vw - 1180px) / 2)); width: min(400px, 30vw); margin: 0;
+}
+.hero-matt__frame { position: relative; aspect-ratio: 807 / 1024; border-radius: var(--radius-lg); overflow: hidden; background: var(--green-800); }
+.hero-matt__img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+.hero-matt__img:not(.hero-matt__img--lit) { filter: grayscale(1) contrast(1.1) brightness(0.9); mix-blend-mode: luminosity; opacity: 0.85; }
+.hero-matt__frame::after { content: ''; position: absolute; inset: 0; background: linear-gradient(180deg, rgba(10,46,26,0) 50%, rgba(10,46,26,0.6) 100%); pointer-events: none; }
+.hero-matt__img--lit { opacity: 0; }
+.has-spotlight .hero-matt__img--lit {
+  opacity: var(--spot-on, 0);
+  -webkit-mask-image: radial-gradient(circle 170px at calc(var(--spot-x, -999px) - var(--fx, 0px)) calc(var(--spot-y, -999px) - var(--fy, 0px)), #000 0%, rgba(0,0,0,0.5) 50%, transparent 100%);
+          mask-image: radial-gradient(circle 170px at calc(var(--spot-x, -999px) - var(--fx, 0px)) calc(var(--spot-y, -999px) - var(--fy, 0px)), #000 0%, rgba(0,0,0,0.5) 50%, transparent 100%);
+}
+.hero-matt__card {
+  position: absolute; left: -28px; bottom: 28px; z-index: 2; max-width: 280px;
+  background: #fff; color: var(--text-primary); border-radius: var(--radius); padding: 16px 18px;
+  box-shadow: 0 20px 40px rgba(0,0,0,0.3); display: grid; gap: 4px;
+}
+.hero-matt__card strong { font-family: var(--font-display); font-size: 1.05rem; font-weight: 800; letter-spacing: -0.02em; }
+.hero-matt__card span { font-size: 0.82rem; color: var(--text-muted); line-height: 1.45; }
+@media (max-width: 1100px) { .hero-matt { display: none; } }
+
+/* Split options: keep the text clear of the card or photo */
+.hero:has(.hero-deck, .hero-matt) .hero-dark-content { max-width: min(600px, 100%); }
+@media (min-width: 1101px) {
+  .hero:has(.hero-deck, .hero-matt) .hero-dark-title { font-size: clamp(2.6rem, 4.4vw, 4.3rem); }
+}
+/* Headhunt: text sits over the words, so give it a soft dark backing */
+.hero:has(.hero-words) .hero-dark-content { text-shadow: 0 2px 30px rgba(10,46,26,0.95), 0 0 2px rgba(10,46,26,0.6); }
+
+/* Preview-only switcher */
+.hero-switcher {
+  position: fixed; left: 16px; bottom: 16px; z-index: 200;
+  display: flex; align-items: center; gap: 4px; padding: 6px;
+  background: rgba(255,255,255,0.96); border: 1px solid var(--border); border-radius: 999px;
+  box-shadow: 0 10px 30px rgba(10,46,26,0.2); font-size: 0.8rem;
+}
+.hero-switcher__label { padding: 0 8px 0 10px; font-weight: 700; color: var(--text-muted); }
+.hero-switcher button { padding: 8px 12px; border-radius: 999px; font-weight: 700; color: var(--green-900); }
+.hero-switcher button[aria-pressed='true'] { background: var(--brand-green); color: #fff; }
+@media (max-width: 900px) { .hero-switcher { bottom: 84px; left: 8px; right: 8px; justify-content: center; } .hero-switcher__label { display: none; } }

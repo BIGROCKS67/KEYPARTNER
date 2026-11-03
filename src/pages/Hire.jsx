@@ -1,7 +1,7 @@
 import { useEffect } from 'react'
 import { gsap } from 'gsap'
 import { HeroSpotlight } from '../components/HeroSpotlight'
-import { HeroMap } from '../components/HeroMap'
+import { HeroArt } from '../components/HeroArt'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import { ArrowRight, CheckCircle2, Users, Search, Star, Clock, BarChart2, Handshake } from 'lucide-react'
 import { Testimonials } from '../components/Testimonials'
@@ -26,9 +26,9 @@ export function Hire() {
     <>
       {/* ── HERO ── */}
       <section className="hero hero--dark hero--map">
-        <HeroMap />
+        <HeroArt />
         <div className="hero-dark-grain" aria-hidden />
-        <HeroSpotlight />
+        <HeroSpotlight wander />
         <div className="container hero-dark-content">
           <p className="eyebrow hero-dark-eyebrow hero-ani-1">For Our Clients</p>
           <h1 className="hero-dark-title hero-ani-2">

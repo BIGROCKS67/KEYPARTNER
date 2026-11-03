@@ -48,6 +48,15 @@ Matt and Dan preferred the original design, so this branch (`polish-nov-2026`) k
 - The dots light up under the mouse spotlight. The other sections that had video are now solid brand green.
 - The UK dot data is made by `scripts/make-uk-dots.mjs` from the world-atlas outline.
 
+**Hero options (preview only)**
+On any address other than ourkeypartnership.co.uk, a "Hero style" switcher sits bottom left, offering four options:
+- Headhunt: faint skills and live role titles that a spotlight finds. This is the default.
+- Live roles: a stack of role cards.
+- Matt: a duotone portrait that turns full colour under the spotlight.
+- Map: the UK map with lines to each role's town.
+
+Links like `/?hero=matt` open a given option. Once Matt picks one, set `DEFAULT_HERO` in `src/lib/hero-choice.js` and delete the others. The live domain never shows the switcher.
+
 ## Before going live
 
 1. Matt checks the preview and the CONFIRM list below.
