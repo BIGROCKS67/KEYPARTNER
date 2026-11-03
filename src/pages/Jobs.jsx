@@ -149,7 +149,7 @@ export function Jobs() {
                   className="jobs-filter-input"
                 />
                 {search && (
-                  <button className="jobs-filter-clear" onClick={() => setSearch('')} aria-label="Clear search">
+                  <button type="button" className="jobs-filter-clear" onClick={() => setSearch('')} aria-label="Clear search">
                     <X size={13} />
                   </button>
                 )}
@@ -173,17 +173,23 @@ export function Jobs() {
                 {types.map(t => <option key={t} value={t}>{t}</option>)}
               </select>
               {hasFilters && (
-                <button className="jobs-filter-reset" onClick={() => { setSearch(''); setFilterLocation(''); setFilterType('') }}>
+                <button type="button" className="jobs-filter-reset" onClick={() => { setSearch(''); setFilterLocation(''); setFilterType('') }}>
                   Clear filters
                 </button>
               )}
             </div>
           )}
 
+          {hasFilters && (
+            <p className="jobs-results-count" role="status">
+              Showing {filteredJobs.length} of {displayJobs.length} {displayJobs.length === 1 ? 'role' : 'roles'}
+            </p>
+          )}
+
           <div className="jobs-list">
             {filteredJobs.length === 0 && displayJobs.length > 0 && (
               <div className="jobs-empty" data-reveal>
-                <p>No roles match your filters. <button className="jobs-filter-reset" onClick={() => { setSearch(''); setFilterLocation(''); setFilterType('') }}>clear filters</button> to see all.</p>
+                <p>No roles match your filters. <button type="button" className="jobs-filter-reset" onClick={() => { setSearch(''); setFilterLocation(''); setFilterType('') }}>clear filters</button> to see all.</p>
               </div>
             )}
             {displayJobs.length === 0 && !fresh && [0, 1, 2].map(i => <JobCardSkeleton key={i} />)}

@@ -2894,3 +2894,44 @@ input:focus-visible, select:focus-visible, textarea:focus-visible { outline: 2px
 .prose-block ul { list-style: disc; padding-left: 20px; }
 .prose-block li { margin-bottom: 6px; }
 .prose-block a { color: var(--brand-green); text-decoration: underline; }
+
+/* Jobs search and filters: the listings section is light, so these were
+   white-on-white (present but invisible). Restyled for the light surface. */
+.jobs-listings-section .jobs-filter-bar {
+  background: var(--brand-white);
+  border: 1px solid var(--border);
+  box-shadow: 0 1px 2px rgba(10,46,26,0.04), 0 8px 24px rgba(10,46,26,0.06);
+}
+.jobs-listings-section .jobs-filter-search-icon { color: var(--text-muted); }
+.jobs-listings-section .jobs-filter-input,
+.jobs-listings-section .jobs-filter-select {
+  min-height: 46px;
+  background-color: var(--surface-muted);
+  border: 1.5px solid var(--border);
+  color: var(--text-primary);
+  font-size: max(16px, 0.92rem);
+}
+.jobs-listings-section .jobs-filter-input::placeholder { color: var(--text-muted); }
+.jobs-listings-section .jobs-filter-input:hover,
+.jobs-listings-section .jobs-filter-select:hover { border-color: var(--green-300); }
+.jobs-listings-section .jobs-filter-input:focus,
+.jobs-listings-section .jobs-filter-select:focus {
+  background-color: var(--brand-white);
+  border-color: var(--brand-green);
+  box-shadow: 0 0 0 4px rgba(38,138,80,0.14);
+}
+.jobs-listings-section .jobs-filter-input::-webkit-search-cancel-button { display: none; }
+.jobs-listings-section .jobs-filter-select {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%231a5c36' stroke-width='2.5'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");
+}
+.jobs-listings-section .jobs-filter-select option { background: #fff; color: var(--text-primary); }
+.jobs-listings-section .jobs-filter-clear { color: var(--text-muted); }
+.jobs-listings-section .jobs-filter-clear:hover { color: var(--brand-green); }
+.jobs-listings-section .jobs-filter-reset {
+  min-height: 46px; border: 1.5px solid var(--border); color: var(--brand-green); font-weight: 700;
+}
+.jobs-listings-section .jobs-filter-reset:hover { border-color: var(--brand-green); color: var(--green-900); }
+.jobs-listings-section .jobs-empty { color: var(--text-secondary); }
+.jobs-listings-section .jobs-empty a { color: var(--brand-green); }
+.jobs-listings-section .jobs-empty .jobs-filter-reset { min-height: 0; padding: 4px 10px; margin: 0 4px; }
+.jobs-results-count { margin: -16px 0 20px; font-size: 0.85rem; color: var(--text-muted); }
